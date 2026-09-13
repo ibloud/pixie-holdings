@@ -1,0 +1,24 @@
+{
+  "lexicon": 1,
+  "id": "xyz.ibloud.pixie.holdingDecision",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "A creator-approved public receipt for a synthetic PIXIE Holdings game decision.",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["holding", "action", "summary", "scenario", "createdAt"],
+        "properties": {
+          "holding": { "type": "string", "maxLength": 80 },
+          "action": { "type": "string", "maxLength": 80 },
+          "summary": { "type": "string", "maxLength": 500 },
+          "scenario": { "type": "string", "knownValues": ["synthetic"] },
+          "createdAt": { "type": "string", "format": "datetime" },
+          "sourceUrl": { "type": "string", "format": "uri" },
+          "supersedes": { "type": "string", "format": "at-uri" }
+        }
+      }
+    }
+  }
+}
