@@ -33,3 +33,7 @@
   browser permission, visible recording state, stop/discard/private download, and
   optional browser-dependent speech commands. Capture, transcription, upload, and
   publication remain separate approvals.
+- Published the verified prototype to the existing public repository
+  `ibloud/pixie-holdings`. Confirmed all 48 tracked paths resolve from `main`,
+  including the MIT license, source, tests, capture documentation, AT Lexicon,
+  media adapters, and Obsidian vault contract.
