@@ -1,0 +1,32 @@
+{
+  "plugin": "devpost-hackathon",
+  "version": 2,
+  "hackathon": {
+    "slug": "amazonappdev2026",
+    "name": "Build, Ship, Shape: Amazon Developer Hackathon",
+    "url": "https://amazonappdev2026.devpost.com/",
+    "selected": true,
+    "source": "known"
+  },
+  "project": {
+    "name": "PIXIE Holdings",
+    "summary": "An accessibility-first portfolio economics game with an Alexa-compatible MCP interface, creator-controlled Obsidian memory, and consent-gated AT Protocol receipts.",
+    "ai_usage": "Alexa-compatible MCP tools explain synthetic portfolio tradeoffs and preview reversible file-stewardship actions.",
+    "codex_usage": "Codex assisted implementation, testing, documentation, and accessibility checks under the creator's direction."
+  },
+  "current_stage": "resources",
+  "completed_stages": ["start-hackathon", "review", "resources"],
+  "rules_acknowledged": true,
+  "learning": {
+    "status": "in-progress",
+    "current_step": "build",
+    "completed_steps": ["scope", "prd", "spec", "checklist"],
+    "plan_file": "docs/hackathon-build/spec.md",
+    "checklist_file": "docs/hackathon-build/checklist.md"
+  },
+  "submission": {
+    "draft_file": "devpost-submission.md",
+    "status": "not-started"
+  },
+  "next_command": "build-project"
+}
