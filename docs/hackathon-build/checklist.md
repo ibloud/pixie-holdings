@@ -22,7 +22,7 @@ Mode: autonomous
   - Verify: full screen requires a direct user gesture and Escape/windowed mode restores the page
 - [x] Add consent-gated creator camera, microphone, and vocal-command capture
   - Verify: capture begins only after selected browser permission; recording is visibly indicated; stop, discard, and private download work; no upload or publication occurs
-- [ ] Publish new public GitHub repository
+- [x] Publish new public GitHub repository
   - Verify: repository URL resolves, license is visible, and source is complete
 - [ ] Configure public subdomain and production MCP hosting
   - Verify: HTTPS endpoints resolve and live MCP call succeeds
