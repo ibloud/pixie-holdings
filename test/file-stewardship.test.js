@@ -1,0 +1,15 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { previewFileAction } from "../src/file-stewardship.js";
+
+test("file action preserves the original filename and creates rollback", () => {
+  const result = previewFileAction({ sourcePath: "00 Inbox/creator-sketch.png", destinationFolder: "90 Attachments", reason: "Preserve project evidence" });
+  assert.equal(result.originalFilename, "creator-sketch.png");
+  assert.equal(result.destinationPath, "90 Attachments/creator-sketch.png");
+  assert.equal(result.applied, false);
+  assert.equal(result.rollbackAction.destinationPath, "00 Inbox/creator-sketch.png");
+});
+
+test("file action rejects destinations outside the vault contract", () => {
+  assert.throws(() => previewFileAction({ sourcePath: "00 Inbox/note.md", destinationFolder: "../Public" }), /approved vault folder/);
+});
