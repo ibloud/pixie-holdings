@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An accessibility-first portfolio economics game from Loptr Lab.">
+  <title>PIXIE Holdings — Can growth preserve people?</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#game">Skip to the game</a>
+  <header class="site-header">
+    <a class="brand" href="https://loptrlab.com/">Loptr Lab</a>
+    <nav aria-label="Project navigation">
+      <a href="#game">Play</a><a href="#capture">Capture</a><a href="#architecture">Architecture</a><a href="#vault">Vault</a><a href="#production">Production</a><a href="#status-board">Build</a><a href="#ecosystem">Ecosystem</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Development prototype · synthetic economics</p>
+      <h1>Can your portfolio grow without making people pay the hidden cost?</h1>
+      <p class="lede">Alexa+ is the voice. AT Protocol is the portable body. Obsidian is the creator-controlled memory. PIXIE makes the system ask before it acts.</p>
+      <div class="actions experience-actions" aria-label="Choose an experience">
+        <button id="fullscreen" type="button">Open full-screen workspace</button>
+        <button id="windowed" class="secondary" type="button">Use windowed workspace</button>
+        <a class="button secondary-link" href="#game">Continue in this page</a>
+      </div>
+      <p class="mode-note">Full screen is optional and starts only when you ask. Press Escape or choose “Use windowed workspace” to leave it.</p>
+    </section>
+
+    <section id="capture" class="content-section" aria-labelledby="capture-title">
+      <p class="eyebrow">Creator capture · off by default</p>
+      <h2 id="capture-title">Your camera and microphone answer to you</h2>
+      <p class="lede">Choose what PIXIE may use for this session. The browser asks permission only after your selection. Recordings remain in this page until you download or discard them.</p>
+      <fieldset class="capture-permissions">
+        <legend>Choose capture sources</legend>
+        <label><input id="use-microphone" type="checkbox" checked> Microphone</label>
+        <label><input id="use-camera" type="checkbox"> Camera</label>
+      </fieldset>
+      <div class="actions">
+        <button id="enable-capture" type="button">Request selected access</button>
+        <button id="start-recording" type="button" disabled>Start recording</button>
+        <button id="stop-recording" class="secondary" type="button" disabled>Stop</button>
+        <button id="discard-recording" class="secondary" type="button" disabled>Discard</button>
+      </div>
+      <div class="capture-status" role="status" aria-live="polite">
+        <strong id="capture-state">Camera off · microphone off · not recording</strong>
+        <span id="capture-time" aria-label="Recording duration"></span>
+      </div>
+      <video id="capture-preview" controls playsinline hidden></video>
+      <div class="actions">
+        <a id="download-recording" class="button" hidden download>Download private recording</a>
+        <button id="voice-controls" class="secondary" type="button">Enable vocal commands</button>
+      </div>
+      <p id="voice-support" class="mode-note">Vocal commands are optional and browser-dependent. Supported commands: “start recording,” “stop recording,” “discard recording,” and “mute microphone.”</p>
+      <p class="boundary">No passive listening, server upload, face recognition, emotion or health inference, transcription, or publication occurs here. Download, transcription, Audio.com handoff, and AT Protocol publication are separate future actions.</p>
+    </section>
+
+    <section id="game" class="game" aria-labelledby="game-title">
+      <div>
+        <p class="eyebrow">Quarter 1</p>
+        <h2 id="game-title">Steward three holdings</h2>
+        <p>Every figure is fictional. Select an allocation, review PIXIE's preview, then approve or cancel.</p>
+      </div>
+      <div class="ledger" aria-label="Portfolio ledgers" id="ledger"></div>
+      <div id="holdings" class="holdings"></div>
+      <section id="preview" class="preview" hidden aria-labelledby="preview-title">
+        <p class="eyebrow">PIXIE preview · nothing has happened yet</p>
+        <h3 id="preview-title">Review this allocation</h3>
+        <p id="preview-copy"></p>
+        <dl id="preview-deltas"></dl>
+        <div class="actions">
+          <button id="approve" type="button">Approve allocation</button>
+          <button id="cancel" class="secondary" type="button">Cancel</button>
+        </div>
+      </section>
+      <section class="result" aria-labelledby="result-title">
+        <h3 id="result-title">Portfolio interpretation</h3>
+        <p id="outcome">No allocation has been approved. The portfolio remains entirely under your control.</p>
+        <div class="actions">
+          <button id="receipt" class="secondary" type="button" disabled>Preview public receipt</button>
+          <button id="export" class="secondary" type="button">Export private session</button>
+          <button id="restart" class="secondary" type="button">Restart</button>
+        </div>
+        <pre id="receipt-output" hidden tabindex="0"></pre>
+      </section>
+      <p id="status" class="sr-only" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="architecture" class="content-section">
+      <p class="eyebrow">The inversion</p>
+      <h2>A body without corporate possession</h2>
+      <div class="four-up">
+        <article><h3>Voice</h3><p>Alexa+ provides conversation through an open MCP interface.</p></article>
+        <article><h3>Steward</h3><p>PIXIE explains uncertainty and waits for explicit approval.</p></article>
+        <article><h3>Body</h3><p>AT Protocol can carry deliberately public identity and provenance.</p></article>
+        <article><h3>Memory</h3><p>Narrative Provenance keeps the private archive in the creator's Obsidian vault.</p></article>
+      </div>
+    </section>
+
+    <section id="vault" class="content-section">
+      <p class="eyebrow">Creator-controlled memory</p>
+      <h2>A vault the creator can still understand without PIXIE</h2>
+      <p class="lede">Ordinary Markdown and unchanged attachments remain usable in Obsidian, Finder, Files, or any text editor. PIXIE previews a move and its rollback before touching the archive.</p>
+      <ol class="steps">
+        <li><strong>Capture:</strong> originals arrive in <code>00 Inbox</code>.</li>
+        <li><strong>Classify:</strong> fact, creator statement, third-party claim, interpretation, inference, or unresolved.</li>
+        <li><strong>Preview:</strong> show the original path, destination, reason, collision risk, and rollback.</li>
+        <li><strong>Approve:</strong> move only after the creator agrees; keep the receipt in <code>30 Decisions</code>.</li>
+        <li><strong>Publish separately:</strong> an AT Protocol receipt requires another explicit decision.</li>
+      </ol>
+    </section>
+
+    <section id="production" class="content-section">
+      <p class="eyebrow">Creator production pipeline</p>
+      <h2>The DAW is a source—not a disposable upload step</h2>
+      <p class="lede">PIXIE preserves the Loptr Lab DAW session, source recordings, stems, mixes, masters, captions, artwork, credits, and release manifests as related but distinct assets.</p>
+      <div class="four-up">
+        <article><h3>Create</h3><p>Loptr Lab DAW, video editor, writing, design, task, and production tools keep their editable originals.</p></article>
+        <article><h3>Review</h3><p>PIXIE previews filenames, rights, versions, captions, destinations, and rollback before handoff.</p></article>
+        <article><h3>Play</h3><p>A standards-based HTML5 audio/video package works natively and can be enhanced by Plyr with WebVTT captions.</p></article>
+        <article><h3>Share</h3><p>An approved master receives an Audio.com metadata handoff; upload and Public/Unlisted visibility remain creator decisions.</p></article>
+      </div>
+      <p class="boundary">Aether OS is a possible browser host to test later. No native Aether integration, security guarantee, or partnership is claimed. Audio.com upload is manual or requires a future documented/approved API.</p>
+    </section>
+
+    <section id="status-board" class="content-section">
+      <p class="eyebrow">Hackathon development status</p>
+      <h2>What is built, what remains, and what it costs</h2>
+      <div class="status-grid">
+        <article><strong>Built</strong><span>Game loop, consent preview, MCP tools, AT receipt preview, Obsidian vault, production contracts, and local creator capture</span></article>
+        <article><strong>Next</strong><span>Public repository, HTTPS deployment, Alexa+ review, accessibility testing, demo video</span></article>
+        <article><strong>Boundary</strong><span>No health inference, location tracking, food ordering, real finance, or silent file actions</span></article>
+      </div>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Estimated remaining development costs">
+        <table>
+          <caption>Planning estimates; donated founder time is still economic value</caption>
+          <thead><tr><th>Work</th><th>Hours</th><th>Cash range</th><th>Moves PIXIE forward</th></tr></thead>
+          <tbody>
+            <tr><td>Production deployment and Alexa+ MCP validation</td><td>18–30</td><td>$0–$300</td><td>Turns the local proof into a judgeable voice workflow</td></tr>
+            <tr><td>Obsidian adapter and reversible file-action test</td><td>20–35</td><td>$0–$500</td><td>Demonstrates the original file-stewardship thesis</td></tr>
+            <tr><td>Accessibility review and paid co-design</td><td>12–20</td><td>$600–$1,800</td><td>Tests whether control and cognitive load work for people</td></tr>
+            <tr><td>Demo, captions, submission, and promotion</td><td>15–25</td><td>$0–$400</td><td>Makes the ecosystem legible in under three minutes</td></tr>
+          </tbody>
+          <tfoot><tr><th>Total remaining</th><th>65–110</th><th>$600–$3,000</th><th>Prototype—not full clinical, ordering, or production platform</th></tr></tfoot>
+        </table>
+      </div>
+      <p class="boundary">At a planning value of $75 per development hour, remaining labor represents $4,875–$8,250 before cash expenses. A prize accelerates accessibility testing, hosting, and compensated co-design; it does not erase the labor already contributed. Prize eligibility and amounts remain governed by the official hackathon rules.</p>
+    </section>
+
+    <section id="ecosystem" class="content-section">
+      <p class="eyebrow">One practice · separate authorities</p>
+      <h2>Explore the ecosystem</h2>
+      <ul class="link-list">
+        <li><a href="https://github.com/Loptr-Lab/veiled-dominion-engine">Veiled Dominion</a> — power becomes mastery through restraint.</li>
+        <li><a href="https://github.com/ibloud/inpatient-corridors-review">Break the Grid</a> — systems can manufacture crisis.</li>
+        <li><a href="https://github.com/ibloud/pixie-device-stewardship">PIXIE Device Stewardship</a> — the person describes intent; the system handles machinery.</li>
+        <li><a href="https://github.com/ibloud/narrative-provenance">Narrative Provenance</a> — local authorship, rights, consent, and evidence memory.</li>
+        <li><a href="https://github.com/ibloud/made-sick">Made Sick</a> — voluntary creator care and economic agency.</li>
+      </ul>
+      <p class="boundary">This is an independent Loptr Lab prototype. No affiliation with or endorsement by Amazon, Bluesky, Obsidian, the Financial Times, artists, or referenced fictional franchises is implied.</p>
+    </section>
+  </main>
+  <aside class="pixie-presence" aria-label="PIXIE status"><strong>PIXIE</strong><span id="mode-label">Page mode · asks before acting</span></aside>
+  <footer>Designed by Dominique Devereaux · Accessibility is infrastructure.</footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
