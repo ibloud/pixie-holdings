@@ -28,3 +28,5 @@ Mode: autonomous
   - Verify: HTTPS endpoints resolve and live MCP call succeeds
 - [ ] Conduct participant accessibility review
   - Verify: iPad, keyboard, zoom, reduced-motion, and screen-reader observations recorded
+- [x] Add privacy-bounded Loptr Lab training pathway
+  - Verify: routing covers relevant ecosystem doors; job-loss support is optional; sensitive answers remain local and are excluded from PDS previews
