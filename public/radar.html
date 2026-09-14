@@ -1230,5 +1230,83 @@ document.querySelectorAll('.window').forEach(w => {
 });
 </script>
 
+  <script>
+  // Window Management
+  function openWin(id) {
+    document.querySelectorAll('.window').forEach(w => w.classList.remove('focused'));
+    const win = document.getElementById('win-' + id);
+    if (win) {
+      win.style.display = 'flex';
+      win.classList.add('focused');
+    }
+  }
+
+  function closeWin(id) {
+    const win = document.getElementById(id);
+    if (win) win.style.display = 'none';
+  }
+
+  // GTA Radar Canvas Rendering
+  const canvas = document.getElementById('rc');
+  const ctx = canvas.getContext('2d');
+  
+  // Ecosystem Nodes matching your desk icons
+  const nodes = [
+    { x: 149, y: 120, color: '#ffadd6', label: 'Loptr Lab', access: 'admin' },
+    { x: 80,  y: 170, color: '#b2ffe8', label: 'Radar', access: 'insider' },
+    { x: 210, y: 80,  color: '#e0b0ff', label: 'Holdings', access: 'member' }
+  ];
+
+  let angle = 0;
+
+  function drawRadar() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    
+    // Draw radar rings
+    ctx.strokeStyle = 'rgba(240,234,255,0.06)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, 90, 0, Math.PI * 2);
+    ctx.arc(centerX, centerY, 45, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Draw network links
+    ctx.strokeStyle = 'rgba(127,255,212,0.18)';
+    ctx.beginPath();
+    ctx.moveTo(nodes[0].x, nodes[0].y);
+    ctx.lineTo(nodes[1].x, nodes[1].y);
+    ctx.moveTo(nodes[0].x, nodes[0].y);
+    ctx.lineTo(nodes[2].x, nodes[2].y);
+    ctx.stroke();
+
+    // Draw nodes
+    nodes.forEach(n => {
+      ctx.fillStyle = n.color;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, 4, 0, Math.PI * 2);
+      ctx.fill();
+      
+      ctx.fillStyle = 'rgba(240,234,255,0.42)';
+      ctx.font = '9px "JetBrains Mono", monospace';
+      ctx.fillText(n.label, n.x + 8, n.y + 3);
+    });
+
+    // Draw sweeping scanner line
+    ctx.strokeStyle = 'rgba(127,255,212,0.4)';
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(centerX + Math.cos(angle) * 90, centerY + Math.sin(angle) * 90);
+    ctx.stroke();
+    
+    angle += 0.02;
+    requestAnimationFrame(drawRadar);
+  }
+  
+  // Initialize map when radar window opens
+  drawRadar();
+</script>
+
 </body>
 </html>
