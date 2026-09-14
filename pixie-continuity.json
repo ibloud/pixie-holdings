@@ -3,6 +3,7 @@
   "did": "did:plc:ibloudpixiecontinuity01",
   "atp_endpoint": "https://bsky.social",
   "repositories": [
+    { "name": "pixie-device-stewardship", "tier": 0, "status": "active", "path": "/pixie" },
     { "name": "pixie-holdings", "tier": 0, "status": "active", "path": "/holdings" },
     { "name": "made-sick", "tier": 0, "status": "active", "path": "/made-sick" },
     { "name": "duet-engine-architecture", "tier": 2, "status": "staged", "path": "/duet" },
