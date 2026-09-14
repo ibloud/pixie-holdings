@@ -2,23 +2,135 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>LOPTR LABS // RADAR SITEMAP</title>
+  <title>PIP-BOY // GLITCH GHOST RADAR</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #030712; color: #00ff66; font-family: monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; }
-    .radar-frame { position: relative; width: 700px; height: 700px; border: 1px solid rgba(0, 255, 102, 0.3); border-radius: 50%; background: radial-gradient(circle, #06121e 0%, #020617 100%); box-shadow: inset 0 0 50px #000, 0 0 30px rgba(0, 255, 102, 0.1); }
-    .ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px dashed rgba(0, 255, 102, 0.15); border-radius: 50%; pointer-events: none; }
-    .ring-1 { width: 25%; height: 25%; }
-    .ring-2 { width: 50%; height: 50%; }
-    .ring-3 { width: 75%; height: 75%; }
-    .crosshair-v { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(0,255,102,0.1); pointer-events: none; }
-    .crosshair-h { position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(0,255,102,0.1); pointer-events: none; }
-    .sweep { position: absolute; width: 50%; height: 50%; top: 0; left: 50%; transform-origin: bottom left; background: conic-gradient(from 180deg at 0% 100%, rgba(0, 255, 102, 0.2) 0deg, transparent 60deg); animation: rotate 6s linear infinite; pointer-events: none; border-bottom: 1px solid #00ff66; }
+    body {
+      background: #020617;
+      color: #00ff66;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    /* CRT Scanline Effect */
+    body::after {
+      content: " ";
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      z-index: 20;
+      background-size: 100% 3px, 6px 100%;
+      pointer-events: none;
+    }
+
+    .radar-frame {
+      position: relative;
+      width: 650px;
+      height: 650px;
+      border: 2px solid #00ff66;
+      border-radius: 50%;
+      background: radial-gradient(circle, #051923 0%, #00050d 100%);
+      box-shadow: inset 0 0 40px #000, 0 0 25px rgba(0, 255, 102, 0.25);
+    }
+
+    .ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px dashed rgba(0, 255, 102, 0.2);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .ring-1 { width: 30%; height: 30%; }
+    .ring-2 { width: 60%; height: 60%; }
+    .ring-3 { width: 85%; height: 85%; }
+
+    .cross-v { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(0, 255, 102, 0.15); pointer-events: none; }
+    .cross-h { position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(0, 255, 102, 0.15); pointer-events: none; }
+
+    .sweep {
+      position: absolute;
+      width: 50%; height: 50%;
+      top: 0; left: 50%;
+      transform-origin: bottom left;
+      background: conic-gradient(from 180deg at 0% 100%, rgba(0, 255, 102, 0.3) 0deg, transparent 50deg);
+      animation: rotate 5s linear infinite;
+      pointer-events: none;
+      border-bottom: 1px solid #00ff66;
+    }
     @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    .blip { position: absolute; width: 8px; height: 8px; background: #00ff66; border-radius: 50%; transform: translate(-50%, -50%); cursor: pointer; box-shadow: 0 0 10px #00ff66; }
-    .blip:hover { background: #fff; box-shadow: 0 0 15px #fff; z-index: 10; }
-    .blip-label { position: absolute; left: 12px; top: -4px; font-size: 11px; color: #a7f3d0; opacity: 0.7; pointer-events: none; white-space: nowrap; text-shadow: 0 0 4px #000; }
-    .center-node { position: absolute; top: 50%; left: 50%; width: 10px; height: 10px; background: #ff0055; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 12px #ff0055; }
+
+    /* Glitch Ghost Node */
+    .ghost-node {
+      position: absolute;
+      width: 16px;
+      height: 18px;
+      background: #00ff66;
+      border-radius: 8px 8px 0 0;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      box-shadow: 0 0 8px #00ff66;
+      animation: float 2s ease-in-out infinite alternate, glitch 1.5s steps(2) infinite;
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 75% 85%, 50% 100%, 25% 85%, 0% 100%);
+    }
+    .ghost-node::before, .ghost-node::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      width: 3px; height: 3px;
+      background: #020617;
+      border-radius: 50%;
+    }
+    .ghost-node::before { left: 3px; }
+    .ghost-node::after { right: 3px; }
+
+    .ghost-node:hover {
+      background: #ff0055;
+      box-shadow: 0 0 15px #ff0055;
+      transform: translate(-50%, -50%) scale(1.5);
+      z-index: 30;
+    }
+
+    .label {
+      position: absolute;
+      left: 20px;
+      top: -2px;
+      font-size: 10px;
+      color: #00ff66;
+      white-space: nowrap;
+      text-shadow: 0 0 4px #000;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      from { transform: translate(-50%, -50%) translateY(0px); }
+      to { transform: translate(-50%, -50%) translateY(-4px); }
+    }
+    @keyframes glitch {
+      0% { filter: hue-rotate(0deg); }
+      50% { filter: hue-rotate(90deg) skewX(5deg); }
+      100% { filter: hue-rotate(0deg); }
+    }
+
+    .center-pacman {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 16px; height: 16px;
+      background: #ffff00;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 12px #ffff00;
+      clip-path: polygon(100% 0, 0 0, 0 100%, 100% 100%, 50% 50%);
+      animation: chomp 0.5s ease-in-out infinite alternate;
+    }
+    @keyframes chomp {
+      0% { clip-path: polygon(100% 0, 0 0, 0 100%, 100% 100%, 50% 50%); }
+      100% { clip-path: polygon(100% 25%, 0 0, 0 100%, 100% 75%, 50% 50%); }
+    }
   </style>
 </head>
 <body>
@@ -26,43 +138,43 @@
     <div class="ring ring-1"></div>
     <div class="ring ring-2"></div>
     <div class="ring ring-3"></div>
-    <div class="crosshair-v"></div>
-    <div class="crosshair-h"></div>
+    <div class="cross-v"></div>
+    <div class="cross-h"></div>
     <div class="sweep"></div>
-    <div class="center-node" title="Gaia Core Anchor"></div>
+    <div class="center-pacman" title="GAIA CORE"></div>
   </div>
 
   <script>
-    async function loadRadar() {
+    async function initRadar() {
       const res = await fetch('https://api.github.com/users/ibloud/repos?per_page=100');
       const repos = await res.json();
-      const container = document.getElementById('radar');
-      
+      const radar = document.getElementById('radar');
+
       repos.forEach((repo, i) => {
         const angle = (i / repos.length) * 2 * Math.PI;
-        const dist = 80 + Math.random() * 220;
-        const x = 350 + dist * Math.cos(angle);
-        const y = 350 + dist * Math.sin(angle);
-        
-        const a = document.createElement('a');
-        a.href = repo.html_url;
-        a.target = '_blank';
-        
-        const blip = document.createElement('div');
-        blip.className = 'blip';
-        blip.style.left = `${x}px`;
-        blip.style.top = `${y}px`;
-        
+        const radius = 70 + Math.random() * 200;
+        const x = 325 + radius * Math.cos(angle);
+        const y = 325 + radius * Math.sin(angle);
+
+        const link = document.createElement('a');
+        link.href = repo.html_url;
+        link.target = '_blank';
+
+        const ghost = document.createElement('div');
+        ghost.className = 'ghost-node';
+        ghost.style.left = `${x}px`;
+        ghost.style.top = `${y}px`;
+
         const label = document.createElement('span');
-        label.className = 'blip-label';
+        label.className = 'label';
         label.textContent = repo.name;
-        
-        blip.appendChild(label);
-        a.appendChild(blip);
-        container.appendChild(a);
+
+        ghost.appendChild(label);
+        link.appendChild(ghost);
+        radar.appendChild(link);
       });
     }
-    loadRadar();
+    initRadar();
   </script>
 </body>
 </html>
