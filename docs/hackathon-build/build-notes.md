@@ -37,3 +37,8 @@
   `ibloud/pixie-holdings`. Confirmed all 48 tracked paths resolve from `main`,
   including the MIT license, source, tests, capture documentation, AT Lexicon,
   media adapters, and Obsidian vault contract.
+- Dominique expanded the public doorway into an interest-and-capacity training
+  pathway with optional job-loss acknowledgment. The working deployment uses
+  deterministic routing, device-local answers, immediate deletion, verified
+  support links, and a PDS-record preview that excludes layoff and counseling
+  information. A real PDS write remains gated on OAuth and Lexicon review.
