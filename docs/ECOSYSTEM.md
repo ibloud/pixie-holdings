@@ -14,3 +14,7 @@ PIXIE Holdings is a demonstration layer, not a replacement for the projects it r
 | AT Protocol | Portable public identity and approved evidence | Carries records; does not adjudicate ownership, legality, or consent |
 
 The playable company and holdings are original satirical constructs. References to fictional corporations or well-known AI antagonists explain the genre; they are not part of the product.
+
+PIXIE is the continuous guide across these projects. Her local role changes with the
+surface, while her identity, consent promises, and authority boundary follow the
+[PIXIE continuity contract](PIXIE-CONTINUITY.md).
