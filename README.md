@@ -50,6 +50,12 @@ Tools:
 
 The receipt tool creates a preview only. It does not publish, spend, order, diagnose, or transmit private information.
 
+## Training pathway
+
+The [Loptr Lab training pathway](docs/TRAINING-PATHWAY.md) routes visitors by
+creative interest and present capacity. Job-loss context remains device-local
+and is never included in the public PDS-record preview.
+
 ## Rights boundary
 
 The playable prototype uses original Loptr Lab names and mechanics. Umbrella Corporation, Wayne Enterprises, V.I.K.I., the Red Queen, Pennywise, *IT*, Resident Evil, artists, platforms, and publications may be discussed as commentary or inspiration but are not included as characters, branding, endorsements, or licensed properties.
