@@ -29,8 +29,11 @@ Captured media remains in browser memory until the creator downloads or discards
 ## Deployment
 
 - Public interface: `holdings.loptrlab.com`
-- MCP: container deployment with HTTPS at `api.holdings.loptrlab.com/mcp`
-- Current build remains portable to AWS App Runner
+- Current public deployment: `https://pixie-holdings.ibloud-ivxx.chatgpt.site`
+- MCP: HTTPS at `/api/mcp` on the same origin
+- Custom domain is registered and remains pending until its DNS records validate
+- The Docker build remains portable to AWS App Runner, but the prototype uses a
+  managed Worker deployment so no unconfigured AWS account is implied
 
 ## Verification
 
