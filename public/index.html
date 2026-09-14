@@ -188,5 +188,90 @@
   <aside class="pixie-presence" aria-label="PIXIE status"><strong>PIXIE</strong><span id="mode-label">Page mode · asks before acting</span></aside>
   <footer>Designed by Dominique Devereaux · Accessibility is infrastructure.</footer>
   <script type="module" src="app.js"></script>
+  <!-- PIP-BOY TERMINAL DRAWER -->
+<div id="pip-drawer" class="pip-drawer">
+  <div class="pip-header">
+    <span class="pip-title">SYS_RADAR // PIP-BOY OS v4.7.6</span>
+    <button id="pip-close" class="pip-close-btn">[ ESC / CLOSE ]</button>
+  </div>
+  <div class="pip-body">
+    <iframe src="/radar.html" class="pip-frame"></iframe>
+  </div>
+</div>
+
+<style>
+  .pip-drawer {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 85vw;
+    max-width: 900px;
+    height: 100vh;
+    background: #030712;
+    border-left: 2px solid #00ff66;
+    box-shadow: -10px 0 30px rgba(0, 255, 102, 0.2);
+    z-index: 9999;
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    font-family: monospace;
+  }
+  .pip-drawer.open {
+    right: 0;
+  }
+  .pip-header {
+    background: #06121e;
+    padding: 12px 20px;
+    border-bottom: 1px solid #00ff66;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #00ff66;
+    letter-spacing: 2px;
+  }
+  .pip-close-btn {
+    background: transparent;
+    border: 1px solid #00ff66;
+    color: #00ff66;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-family: monospace;
+  }
+  .pip-close-btn:hover {
+    background: #00ff66;
+    color: #030712;
+  }
+  .pip-body {
+    flex: 1;
+    background: #000;
+  }
+  .pip-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const pixieBadge = document.querySelector('.pixie-badge') || document.querySelector('[class*="pixie"]');
+    const drawer = document.getElementById('pip-drawer');
+    const closeBtn = document.getElementById('pip-close');
+
+    if (pixieBadge) {
+      pixieBadge.style.cursor = 'pointer';
+      pixieBadge.addEventListener('click', () => {
+        drawer.classList.add('open');
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        drawer.classList.remove('open');
+      });
+    }
+  });
+</script>
+  
 </body>
 </html>
