@@ -30,3 +30,5 @@ Mode: autonomous
   - Verify: iPad, keyboard, zoom, reduced-motion, and screen-reader observations recorded
 - [x] Add privacy-bounded Loptr Lab training pathway
   - Verify: routing covers relevant ecosystem doors; job-loss support is optional; sensitive answers remain local and are excluded from PDS previews
+- [x] Establish versioned PIXIE continuity across ecosystem surfaces
+  - Verify: Holdings identifies PIXIE's local role; canonical human and machine-readable status routes expose shared promises; sensitive answers cannot change authority
