@@ -1,0 +1,15 @@
+{
+  "$schema": "https://pixieos.local/schemas/continuity.json",
+  "did": "did:plc:ibloudpixiecontinuity01",
+  "atp_endpoint": "https://bsky.social",
+  "repositories": [
+    { "name": "pixie-holdings", "tier": 0, "status": "active", "path": "/holdings" },
+    { "name": "made-sick", "tier": 0, "status": "active", "path": "/made-sick" },
+    { "name": "duet-engine-architecture", "tier": 2, "status": "staged", "path": "/duet" },
+    { "name": "narrative-provenance", "tier": 1, "status": "private", "path": "/provenance" }
+  ],
+  "consent_policy": {
+    "rollback_receipts": true,
+    "silent_inference": false
+  }
+}
