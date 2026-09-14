@@ -1,0 +1,25 @@
+{
+  "lexicon": 1,
+  "id": "xyz.ibloud.pixie.learningPath",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["interest", "capacity", "createdAt"],
+        "properties": {
+          "interest": {
+            "type": "string",
+            "knownValues": ["story", "game", "media", "business", "systems"]
+          },
+          "capacity": {
+            "type": "string",
+            "knownValues": ["explore", "small", "build", "connect"]
+          },
+          "createdAt": { "type": "string", "format": "datetime" }
+        }
+      }
+    }
+  }
+}
