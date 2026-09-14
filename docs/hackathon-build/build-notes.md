@@ -45,3 +45,9 @@
 - Deployed a public HTTPS build with a verified health response and successful
   MCP initialization at `/api/mcp`. Registered `holdings.loptrlab.com`;
   activation remains pending external DNS validation.
+- Dominique established PIXIE as the constant across the Loptr Lab sitemap. Added a
+  versioned continuity contract: each project may give PIXIE a local role, but her
+  identity, consent language, privacy boundary, and authority remain stable. The live
+  site exposes a human-readable status page and machine-readable manifest. Made Sick
+  is mapped as her story and creator-care surface; this documentation does not claim
+  that the Made Sick deployment has already consumed the new manifest.
