@@ -188,16 +188,26 @@
   <aside class="pixie-presence" aria-label="PIXIE status"><strong>PIXIE</strong><span id="mode-label">Page mode · asks before acting</span></aside>
   <footer>Designed by Dominique Devereaux · Accessibility is infrastructure.</footer>
   <script type="module" src="app.js"></script>
-  <!-- PIP-BOY TERMINAL DRAWER -->
-<div id="pip-drawer" class="pip-drawer">
-  <div class="pip-header">
-    <span class="pip-title">SYS_RADAR // PIP-BOY OS v4.7.6</span>
-    <button id="pip-close" class="pip-close-btn">[ ESC / CLOSE ]</button>
+  
+  <!-- OS LAUNCHER OVERLAY (Replaces Pip-Boy Drawer) -->
+<div id="os-overlay" style="display:none; position:fixed; inset:0; z-index:9999; background:#08080f;">
+  <div style="display:flex; justify-content:flex-end; background:#0b0b14; padding:8px 16px; border-bottom:1px solid rgba(255,110,180,0.22);">
+    <button onclick="document.getElementById('os-overlay').style.display='none'" style="background:transparent; border:1px solid rgba(255,110,180,0.22); color:#ffadd6; padding:4px 12px; font-family:monospace; cursor:pointer; font-size:12px;">[ CLOSE OS ]</button>
   </div>
-  <div class="pip-body">
-    <iframe src="/radar.html" class="pip-frame"></iframe>
-  </div>
+  <iframe src="/radar.html" style="width:100%; height:calc(100% - 37px); border:none; background:transparent;"></iframe>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const pixieBadge = document.querySelector('.pixie-presence');
+    if (pixieBadge) {
+      pixieBadge.style.cursor = 'pointer';
+      pixieBadge.addEventListener('click', () => {
+        document.getElementById('os-overlay').style.display = 'block';
+      });
+    }
+  });
+</script>
 
 <style>
   .pip-drawer {
