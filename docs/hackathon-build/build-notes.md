@@ -42,3 +42,6 @@
   deterministic routing, device-local answers, immediate deletion, verified
   support links, and a PDS-record preview that excludes layoff and counseling
   information. A real PDS write remains gated on OAuth and Lexicon review.
+- Deployed a public HTTPS build with a verified health response and successful
+  MCP initialization at `/api/mcp`. Registered `holdings.loptrlab.com`;
+  activation remains pending external DNS validation.
