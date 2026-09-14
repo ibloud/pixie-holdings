@@ -1,6 +1,6 @@
 {
   "$schema": "https://pixieos.local/schemas/continuity.json",
-  "did": "did:plc:ibloudpixiecontinuity01",
+  "did": "did:plc:b5uem672ci23lqrcz6j6bs2c",
   "atp_endpoint": "https://bsky.social",
   "repositories": [
     { "name": "pixie-device-stewardship", "tier": 0, "status": "active", "path": "/pixie" },
