@@ -18,34 +18,26 @@ const frame=document.getElementById('pixie-core');
 function tuneRadar(){
   try{
     const doc=frame.contentDocument;
-    if(!doc) return;
+    if(!doc) throw new Error('PIXIE OS core document unavailable');
     const style=doc.createElement('style');
     style.textContent=`
-      :root{
-        --bg:#080b09;--desk:#0c110e;--win:#111712;--win2:#171d18;
-        --pink:#d98aa9;--pink2:#efb4c8;--pink3:rgba(217,138,169,.07);--pink-glow:rgba(217,138,169,.14);
-        --lav:#a9a0c2;--lav2:#c9c2d8;--lav3:rgba(169,160,194,.07);
-        --mint:#b7d48a;--mint2:#d2e3ae;--mint3:rgba(183,212,138,.07);
-        --yellow:#d5c47a;--red:#d46b6b;
-        --white:#e7e8df;--muted:rgba(231,232,223,.55);--dimmer:rgba(231,232,223,.24);
-        --border:rgba(217,138,169,.20);--lborder:rgba(169,160,194,.18);--mborder:rgba(183,212,138,.20);
-      }
-      .desktop{background:var(--desk)}
-      .wallpaper{opacity:.62;filter:saturate(.68)}
-      .icon-grid{filter:saturate(.78)}
-      .window{border-color:rgba(183,212,138,.16)}
-      .w-pink.focused{border-color:rgba(217,138,169,.36);box-shadow:0 10px 48px rgba(217,138,169,.06)}
-      .w-lav.focused{border-color:rgba(169,160,194,.34);box-shadow:0 10px 48px rgba(169,160,194,.05)}
-      .w-mint.focused{border-color:rgba(183,212,138,.34);box-shadow:0 10px 48px rgba(183,212,138,.05)}
-      .w-yellow.focused{border-color:rgba(213,196,122,.34);box-shadow:0 10px 48px rgba(213,196,122,.04)}
-      .wd-close{background:#c87878}.wd-min{background:#c7b66f}.wd-max{background:#8fb17b}
-      #rc{filter:saturate(.78)}
-      .radar-tt{border-left-color:var(--mint)}
+      :root{--bg:#080b09;--desk:#0c110e;--win:#111712;--win2:#171d18;--pink:#d98aa9;--pink2:#efb4c8;--pink3:rgba(217,138,169,.07);--pink-glow:rgba(217,138,169,.14);--lav:#a9a0c2;--lav2:#c9c2d8;--lav3:rgba(169,160,194,.07);--mint:#b7d48a;--mint2:#d2e3ae;--mint3:rgba(183,212,138,.07);--yellow:#d5c47a;--red:#d46b6b;--white:#e7e8df;--muted:rgba(231,232,223,.55);--dimmer:rgba(231,232,223,.24);--border:rgba(217,138,169,.20);--lborder:rgba(169,160,194,.18);--mborder:rgba(183,212,138,.20)}
+      .desktop{background:var(--desk)} .wallpaper{opacity:.62;filter:saturate(.68)} .icon-grid{filter:saturate(.78)} .window{border-color:rgba(183,212,138,.16)}
+      .w-pink.focused{border-color:rgba(217,138,169,.36);box-shadow:0 10px 48px rgba(217,138,169,.06)} .w-lav.focused{border-color:rgba(169,160,194,.34);box-shadow:0 10px 48px rgba(169,160,194,.05)} .w-mint.focused{border-color:rgba(183,212,138,.34);box-shadow:0 10px 48px rgba(183,212,138,.05)} .w-yellow.focused{border-color:rgba(213,196,122,.34);box-shadow:0 10px 48px rgba(213,196,122,.04)}
+      .wd-close{background:#c87878}.wd-min{background:#c7b66f}.wd-max{background:#8fb17b} #rc{filter:saturate(.78)} .radar-tt{border-left-color:var(--mint)}
+      .desk-icon:focus-visible,.door-card:focus-visible,.tree-node:focus-visible,.wdot:focus-visible,.access-pill:focus-visible{outline:1px solid var(--pink);outline-offset:2px}
     `;
     doc.head.appendChild(style);
-  }catch(e){}
+    const script=doc.createElement('script');
+    script.src='radar-enhancements.js';
+    script.async=false;
+    doc.body.appendChild(script);
+  }catch(e){
+    console.error('[PIXIE OS] Unable to tune radar core:',e);
+  }
 }
 frame.addEventListener('load',tuneRadar);
+if(frame.contentDocument && frame.contentDocument.readyState!=='loading') tuneRadar();
 </script>
 </body>
 </html>
