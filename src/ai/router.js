@@ -1,6 +1,6 @@
-import { listDeviceCapabilities, listHoldings, previewAllocation, previewDevice } from "../pixie/core.js";
+import { listDeviceCapabilities, listFileCapabilities, listHoldings, previewAllocation, previewDevice } from "../pixie/core.js";
 
-const PREVIEW_COMMANDS = new Set(["evaluate_allocation", "preview_device"]);
+const PREVIEW_COMMANDS = new Set(["evaluate_allocation", "preview_device", "preview_file"]);
 
 export function buildAgentCatalog() {
   return listHoldings().holdings.map(({ id, name, purpose, actions }) => ({
@@ -15,7 +15,8 @@ export function buildAgentContext() {
   return JSON.stringify({
     rule: "Choose only identifiers present in this catalog. Do not invent identifiers or consequences.",
     holdings: buildAgentCatalog(),
-    deviceCapabilities: listDeviceCapabilities()
+    deviceCapabilities: listDeviceCapabilities(),
+    fileCapabilities: listFileCapabilities()
   });
 }
 
