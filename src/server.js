@@ -5,7 +5,7 @@ import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 import { askGemini } from "./ai/gemini.js";
 import { buildAgentContext, routeAgentResult } from "./ai/router.js";
-import { listHoldings, prepareMedia, prepareReceipt, previewAllocation, previewFile } from "./pixie/core.js";
+import { listHoldings, listDeviceCapabilities, prepareMedia, prepareReceipt, previewAllocation, previewDevice, previewFile } from "./pixie/core.js";
 
 export const MCP_PROTOCOL_VERSION = "2025-11-25";
 const root = fileURLToPath(new URL("../public/", import.meta.url));
@@ -20,7 +20,9 @@ export const toolDefinitions = [
   { name: "preview_file_action", description: "Preview a reversible move inside an Obsidian vault without changing any file.", inputSchema: { type: "object", required: ["sourcePath", "destinationFolder"], properties: { sourcePath: { type: "string" }, destinationFolder: { type: "string" }, reason: { type: "string" } }, additionalProperties: false } },
   { name: "list_holdings", description: "List the synthetic Loptr Lab holdings and available allocation choices.", inputSchema: { type: "object", properties: {}, additionalProperties: false } },
   { name: "evaluate_allocation", description: "Preview the ledger consequences of one fictional portfolio allocation.", inputSchema: { type: "object", required: ["holdingId", "actionId"], properties: { holdingId: { type: "string" }, actionId: { type: "string" }, ledger: { type: "object" } }, additionalProperties: false } },
-  { name: "prepare_public_receipt", description: "Prepare, but do not publish, an AT Protocol-compatible receipt for an approved synthetic decision.", inputSchema: { type: "object", required: ["holding", "action", "summary"], properties: { holding: { type: "string" }, action: { type: "string" }, summary: { type: "string" }, sourceUrl: { type: "string" } }, additionalProperties: false } }
+  { name: "prepare_public_receipt", description: "Prepare, but do not publish, an AT Protocol-compatible receipt for an approved synthetic decision.", inputSchema: { type: "object", required: ["holding", "action", "summary"], properties: { holding: { type: "string" }, action: { type: "string" }, summary: { type: "string" }, sourceUrl: { type: "string" } }, additionalProperties: false } },
+  { name: "list_device_capabilities", description: "List the device-independence lifecycle choices and governance boundary.", inputSchema: { type: "object", properties: {}, additionalProperties: false } },
+  { name: "preview_device", description: "Assess an existing device's capabilities and lifecycle options without choosing replacement, transfer, wiping, repair, or recycling.", inputSchema: { type: "object", required: ["id", "kind"], properties: { id: { type: "string" }, kind: { type: "string" }, ownerRef: { type: "string" }, ageYears: { type: "number" }, capabilities: { type: "array", items: { type: "string" } }, accessibility: { type: "array", items: { type: "string" } }, softwareCompatibility: { type: "array", items: { type: "string" } }, repairability: { type: "string" }, batteryCondition: { type: "string" }, localData: { type: "boolean" }, role: { type: "string" } }, additionalProperties: false } }
 ];
 
 function jsonRpcResult(id, result) { return { jsonrpc: "2.0", id, result }; }
@@ -28,7 +30,7 @@ function jsonRpcError(id, code, message) { return { jsonrpc: "2.0", id: id ?? nu
 
 export async function handleMcp(message) {
   const { id, method, params = {} } = message ?? {};
-  if (method === "initialize") return jsonRpcResult(id, { protocolVersion: MCP_PROTOCOL_VERSION, capabilities: { tools: { listChanged: false } }, serverInfo: { name: "pixie-holdings", version: "0.1.0" }, instructions: "PIXIE Core is authoritative for governed actions. All figures are synthetic. Preview consequences and receipts; require explicit consent before consequential execution or publication." });
+  if (method === "initialize") return jsonRpcResult(id, { protocolVersion: MCP_PROTOCOL_VERSION, capabilities: { tools: { listChanged: false } }, serverInfo: { name: "pixie-holdings", version: "0.1.0" }, instructions: "PIXIE Core is authoritative for governed actions. All figures are synthetic. Preview consequences and receipts; require explicit consent before consequential execution or publication. Device lifecycle assessments do not choose replacement or disposal outcomes." });
   if (method === "notifications/initialized") return null;
   if (method === "tools/list") return jsonRpcResult(id, { tools: toolDefinitions });
   if (method === "tools/call") {
@@ -41,6 +43,8 @@ export async function handleMcp(message) {
       else if (name === "preview_file_action") structuredContent = previewFile(args);
       else if (name === "prepare_media_package") structuredContent = prepareMedia(args);
       else if (name === "prepare_public_receipt") structuredContent = prepareReceipt(args);
+      else if (name === "list_device_capabilities") structuredContent = listDeviceCapabilities();
+      else if (name === "preview_device") structuredContent = previewDevice(args);
       else return jsonRpcError(id, -32602, `Unknown tool: ${name}`);
       return jsonRpcResult(id, { content: [{ type: "text", text: JSON.stringify(structuredContent) }], structuredContent, isError: false });
     } catch (error) {
