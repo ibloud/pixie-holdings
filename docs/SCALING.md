@@ -8,7 +8,7 @@ PIXIE Core owns synthetic state, consequences, consent requirements, file stewar
 
 A change is considered ready for integration when:
 
-1. `npm test` passes on Node.js 20.
+1. `npm test` passes on Node.js 22 or newer.
 2. GitHub Actions reports the test workflow green for the pull request.
 3. New governed behavior has deterministic Core tests.
 4. AI behavior has fallback coverage and never bypasses Core validation.
