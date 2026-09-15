@@ -5,7 +5,7 @@ import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 import { askGemini } from "./ai/gemini.js";
 import { buildAgentContext, routeAgentResult } from "./ai/router.js";
-import { listHoldings, listDeviceCapabilities, prepareMedia, prepareReceipt, previewAllocation, previewDevice, previewFile } from "./pixie/core.js";
+import { listHoldings, listDeviceCapabilities, listFileCapabilities, prepareMedia, prepareReceipt, previewAllocation, previewDevice, previewFile } from "./pixie/core.js";
 
 export const MCP_PROTOCOL_VERSION = "2025-11-25";
 const root = fileURLToPath(new URL("../public/", import.meta.url));
@@ -18,6 +18,7 @@ const agentBuckets = new Map();
 export const toolDefinitions = [
   { name: "prepare_media_package", description: "Prepare a consent-bounded DAW or media handoff for Plyr and Audio.com without uploading files.", inputSchema: { type: "object", required: ["title", "assetKind", "filename"], properties: { title: { type: "string" }, assetKind: { type: "string" }, filename: { type: "string" }, mediaUrl: { type: "string" }, mimeType: { type: "string" }, visibility: { type: "string" }, description: { type: "string" }, license: { type: "string" }, rightsStatus: { type: "string" }, sourceProject: { type: "string" }, audioComUrl: { type: "string" }, tags: { type: "array", items: { type: "string" } }, captions: { type: "array", items: { type: "object" } } }, additionalProperties: false } },
   { name: "preview_file_action", description: "Preview a reversible move inside an Obsidian vault without changing any file.", inputSchema: { type: "object", required: ["sourcePath", "destinationFolder"], properties: { sourcePath: { type: "string" }, destinationFolder: { type: "string" }, reason: { type: "string" } }, additionalProperties: false } },
+  { name: "list_file_capabilities", description: "List the semantic file roots and non-executing governance boundary.", inputSchema: { type: "object", properties: {}, additionalProperties: false } },
   { name: "list_holdings", description: "List the synthetic Loptr Lab holdings and available allocation choices.", inputSchema: { type: "object", properties: {}, additionalProperties: false } },
   { name: "evaluate_allocation", description: "Preview the ledger consequences of one fictional portfolio allocation.", inputSchema: { type: "object", required: ["holdingId", "actionId"], properties: { holdingId: { type: "string" }, actionId: { type: "string" }, ledger: { type: "object" } }, additionalProperties: false } },
   { name: "prepare_public_receipt", description: "Prepare, but do not publish, an AT Protocol-compatible receipt for an approved synthetic decision.", inputSchema: { type: "object", required: ["holding", "action", "summary"], properties: { holding: { type: "string" }, action: { type: "string" }, summary: { type: "string" }, sourceUrl: { type: "string" } }, additionalProperties: false } },
@@ -30,7 +31,7 @@ function jsonRpcError(id, code, message) { return { jsonrpc: "2.0", id: id ?? nu
 
 export async function handleMcp(message) {
   const { id, method, params = {} } = message ?? {};
-  if (method === "initialize") return jsonRpcResult(id, { protocolVersion: MCP_PROTOCOL_VERSION, capabilities: { tools: { listChanged: false } }, serverInfo: { name: "pixie-holdings", version: "0.1.0" }, instructions: "PIXIE Core is authoritative for governed actions. All figures are synthetic. Preview consequences and receipts; require explicit consent before consequential execution or publication. Device lifecycle assessments do not choose replacement or disposal outcomes." });
+  if (method === "initialize") return jsonRpcResult(id, { protocolVersion: MCP_PROTOCOL_VERSION, capabilities: { tools: { listChanged: false } }, serverInfo: { name: "pixie-holdings", version: "0.1.0" }, instructions: "PIXIE Core is authoritative for governed actions. All figures are synthetic. Preview consequences and receipts; require explicit consent before consequential execution or publication. Device lifecycle assessments and file operations are non-executing." });
   if (method === "notifications/initialized") return null;
   if (method === "tools/list") return jsonRpcResult(id, { tools: toolDefinitions });
   if (method === "tools/call") {
@@ -41,6 +42,7 @@ export async function handleMcp(message) {
       if (name === "list_holdings") structuredContent = listHoldings();
       else if (name === "evaluate_allocation") structuredContent = previewAllocation({ ledger: args.ledger, holdingId: args.holdingId, actionId: args.actionId });
       else if (name === "preview_file_action") structuredContent = previewFile(args);
+      else if (name === "list_file_capabilities") structuredContent = listFileCapabilities();
       else if (name === "prepare_media_package") structuredContent = prepareMedia(args);
       else if (name === "prepare_public_receipt") structuredContent = prepareReceipt(args);
       else if (name === "list_device_capabilities") structuredContent = listDeviceCapabilities();
