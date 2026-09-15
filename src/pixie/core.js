@@ -1,5 +1,5 @@
 import { buildReceipt } from "../atproto.js";
-import { previewFileAction } from "../file-stewardship.js";
+import { listFileRoots, previewFileAction } from "../file-stewardship.js";
 import { prepareMediaPackage } from "../media.js";
 import { evaluateAllocation, findAction, holdings, initialLedger, outcomeFor } from "../model.js";
 import { assessDeviceLife, describeDevice, listDeviceChoices, listDeviceRoles } from "./device.js";
@@ -20,6 +20,15 @@ export function previewAllocation({ ledger = initialLedger, holdingId, actionId 
   };
 }
 
+export function listFileCapabilities() {
+  return {
+    roots: listFileRoots(),
+    identity: "path",
+    ownerAuthority: true,
+    execution: "not-permitted"
+  };
+}
+
 export function previewFile({ sourcePath, destinationFolder, reason }) {
   return {
     type: "file",
@@ -27,7 +36,8 @@ export function previewFile({ sourcePath, destinationFolder, reason }) {
     requiresConfirmation: true,
     consequence: previewFileAction({ sourcePath, destinationFolder, reason }),
     rollbackAvailable: true,
-    governance: "preview-only"
+    governance: "preview-only",
+    execution: "not-permitted"
   };
 }
 
