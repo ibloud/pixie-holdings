@@ -2,6 +2,7 @@ import { buildReceipt } from "../atproto.js";
 import { previewFileAction } from "../file-stewardship.js";
 import { prepareMediaPackage } from "../media.js";
 import { evaluateAllocation, findAction, holdings, initialLedger, outcomeFor } from "../model.js";
+import { assessDeviceLife, describeDevice, listDeviceChoices, listDeviceRoles } from "./device.js";
 
 export function listHoldings() {
   return { holdings };
@@ -58,4 +59,29 @@ export function describeAction(holdingId, actionId) {
 
 export function summarizeLedger(ledger = initialLedger) {
   return { ledger, outcome: outcomeFor(ledger) };
+}
+
+export function listDeviceCapabilities() {
+  return {
+    roles: listDeviceRoles(),
+    choices: listDeviceChoices(),
+    identity: "device-id-and-owner-ref",
+    ownerAuthority: true
+  };
+}
+
+export function previewDevice(input) {
+  return {
+    type: "device",
+    allowed: true,
+    requiresConfirmation: false,
+    consequence: assessDeviceLife(input),
+    rollbackAvailable: false,
+    governance: "assessment-only",
+    execution: "not-permitted"
+  };
+}
+
+export function describeDeviceProfile(input) {
+  return describeDevice(input);
 }
