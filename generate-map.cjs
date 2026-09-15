@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 const USERNAME = 'ibloud';
+const OUTPUT_PATH = './public/generated-radar.html';
 
 async function generateGTAMap() {
   console.log(`Fetching repositories for ${USERNAME}...`);
@@ -32,9 +33,10 @@ async function generateGTAMap() {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>LOPTR LABS // RADAR SITEMAP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOPTR LABS // GENERATED RADAR SITEMAP</title>
   <style>
-    body { background: #080a0f; color: #00ff66; font-family: monospace; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+    body { background: #080a0f; color: #00ff66; font-family: monospace; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; overflow: auto; }
     h2 { letter-spacing: 3px; margin-bottom: 10px; text-shadow: 0 0 8px #00ff66; }
     #radar-container { position: relative; width: 800px; height: 600px; border: 2px solid #00ff66; border-radius: 50%; background: radial-gradient(circle, #0f172a 0%, #020617 100%); box-shadow: 0 0 25px rgba(0,255,102,0.2); }
     .node { position: absolute; width: 10px; height: 10px; background: #00ff66; border-radius: 2px; transform: translate(-50%, -50%); cursor: pointer; box-shadow: 0 0 8px #00ff66; transition: all 0.2s; }
@@ -44,11 +46,11 @@ async function generateGTAMap() {
   </style>
 </head>
 <body>
-  <h2>SYS_RADAR // REPOSITORY MAP</h2>
+  <h2>SYS_RADAR // GENERATED REPOSITORY MAP</h2>
   <div id="radar-container">
     <div id="center-hub" title="Downtown HQ"></div>
     ${repoNodes.map(node => `
-      <a href="${node.url}" target="_blank">
+      <a href="${node.url}" target="_blank" rel="noopener noreferrer">
         <div class="node" style="left: ${node.x}px; top: ${node.y}px;" title="${node.name}">
           <span class="label">${node.name}</span>
         </div>
@@ -59,13 +61,15 @@ async function generateGTAMap() {
 </html>`;
 
     if (!fs.existsSync('./public')) {
-      fs.mkdirSync('./public');
+      fs.mkdirSync('./public', { recursive: true });
     }
 
-    fs.writeFileSync('./public/radar.html', htmlContent);
-    console.log('✅ GTA Radar Map generated at ./public/radar.html');
+    fs.writeFileSync(OUTPUT_PATH, htmlContent);
+    console.log(`✅ Generated repository radar at ${OUTPUT_PATH}`);
+    console.log('ℹ️ public/radar.html remains the PIXIE OS wrapper and is not overwritten.');
   } catch (err) {
     console.error('Execution error:', err);
+    process.exitCode = 1;
   }
 }
 
