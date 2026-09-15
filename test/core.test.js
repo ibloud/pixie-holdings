@@ -8,7 +8,7 @@ test("allocation remains a governed preview", () => {
   assert.equal(result.allowed, true);
   assert.equal(result.requiresConfirmation, true);
   assert.equal(result.governance, "preview-only");
-  assert.equal(result.consequence.consequence.delta.rights, 18);
+  assert.equal(result.consequence.delta.rights, 18);
 });
 
 test("file action remains reversible and unapplied", () => {
