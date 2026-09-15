@@ -13,7 +13,7 @@ test("supported allocation command routes to a governed preview", () => {
   const result = routeAgentResult({ reply: "Previewing it.", intent: "allocation", requiresConfirmation: true, command: { name: "evaluate_allocation", arguments: { holdingId: "float-works", actionId: "originalize" } } });
   assert.equal(result.routed, true);
   assert.equal(result.preview.governance, "preview-only");
-  assert.equal(result.preview.consequence.consequence.delta.rights, 18);
+  assert.equal(result.preview.consequence.delta.rights, 18);
 });
 
 test("invalid allocation identifiers are rejected at the Core boundary", () => {
