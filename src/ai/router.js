@@ -1,6 +1,6 @@
-import { listHoldings, previewAllocation } from "../pixie/core.js";
+import { listDeviceCapabilities, listHoldings, previewAllocation, previewDevice } from "../pixie/core.js";
 
-const PREVIEW_COMMANDS = new Set(["evaluate_allocation"]);
+const PREVIEW_COMMANDS = new Set(["evaluate_allocation", "preview_device"]);
 
 export function buildAgentCatalog() {
   return listHoldings().holdings.map(({ id, name, purpose, actions }) => ({
@@ -14,7 +14,8 @@ export function buildAgentCatalog() {
 export function buildAgentContext() {
   return JSON.stringify({
     rule: "Choose only identifiers present in this catalog. Do not invent identifiers or consequences.",
-    holdings: buildAgentCatalog()
+    holdings: buildAgentCatalog(),
+    deviceCapabilities: listDeviceCapabilities()
   });
 }
 
@@ -27,6 +28,15 @@ export function routeAgentResult(result, { ledger } = {}) {
     try {
       const preview = previewAllocation({ ledger, holdingId: args.holdingId, actionId: args.actionId });
       return { ...result, routed: true, requiresConfirmation: preview.requiresConfirmation, preview };
+    } catch (error) {
+      return { ...result, routed: false, routeError: { code: "INVALID_COMMAND_ARGUMENTS", message: error.message } };
+    }
+  }
+
+  if (command.name === "preview_device") {
+    try {
+      const preview = previewDevice(args);
+      return { ...result, routed: true, requiresConfirmation: false, preview };
     } catch (error) {
       return { ...result, routed: false, routeError: { code: "INVALID_COMMAND_ARGUMENTS", message: error.message } };
     }
