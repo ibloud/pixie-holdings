@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="PIXIE is a consent-first device stewardship concept. Follow the build from prototype to Android, Apple, and dedicated hardware.">
+  <meta property="og:title" content="PIXIE — The device that asks before it acts">
+  <meta property="og:description" content="Follow the build. Get product updates, prototype milestones, and early-access opportunities without a noisy marketing funnel.">
+  <meta property="og:type" content="website">
+  <title>PIXIE — Concept / Early Access</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .concept-hero { max-width: 1120px; margin: auto; padding: clamp(4rem, 10vw, 8rem) clamp(1rem, 4vw, 3rem) 4rem; }
+    .concept-hero h1 { font-family: "Times New Roman", Times, serif; font-size: clamp(3rem, 8vw, 7rem); line-height: .98; max-width: 11ch; color: #fff; font-weight: normal; margin: .5rem 0 1.5rem; }
+    .concept-grid { display:grid; grid-template-columns: 1.3fr .7fr; gap:1.5rem; align-items:start; }
+    .concept-panel { border:1px solid var(--line); background:var(--panel); padding:1.5rem; }
+    .concept-panel h2 { margin-top:0; }
+    .signal { display:inline-flex; gap:.5rem; align-items:center; border:1px solid var(--line); padding:.45rem .7rem; color:var(--good); text-transform:uppercase; font-size:.8rem; letter-spacing:.08em; }
+    .signal::before { content:"●"; }
+    .interest-form { display:grid; gap:.8rem; }
+    .interest-form label { display:grid; gap:.35rem; color:var(--muted); font-weight:bold; }
+    .interest-form input, .interest-form select { width:100%; background:#050508; color:#fff; border:1px solid var(--line); padding:.85rem; font:inherit; border-radius:0; }
+    .interest-form input:focus, .interest-form select:focus { outline:3px solid var(--gold); outline-offset:2px; }
+    .consent { display:flex !important; grid-template-columns:none !important; gap:.6rem; align-items:flex-start; font-size:.85rem; font-weight:normal !important; }
+    .consent input { width:1.2rem; margin-top:.2rem; }
+    .mini-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:2rem; }
+    .mini-grid article { border-top:2px solid var(--gold); padding-top:1rem; }
+    .mini-grid strong { display:block; color:#fff; margin-bottom:.35rem; }
+    .trust-list { padding-left:1.2rem; }
+    .trust-list li { margin: .7rem 0; }
+    .fine { color:var(--muted); font-size:.85rem; }
+    .success { margin-top:1rem; padding:1rem; border:1px solid var(--good); color:var(--good); background:#08140f; }
+    @media (max-width:800px) { .concept-grid, .mini-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="ticker-bar" style="display:flex;justify-content:space-between;background:#000;border-bottom:1px solid rgba(255,110,180,.22);padding:6px 16px;font-family:'Courier New',monospace;font-size:11px;color:#b2ffe8;letter-spacing:1px;text-transform:uppercase;">
+    <span>PIXIE / CONCEPT</span><span>BUILD STATUS: EARLY</span><span>CONSENT: REQUIRED</span><span>NO SILENT INFERENCE</span>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="/">PIXIE Holdings</a>
+    <nav aria-label="Concept navigation">
+      <a href="#concept">Concept</a><a href="#build">Build</a><a href="#early-access">Early Access</a><a href="/">Holdings</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="concept" class="concept-hero">
+      <span class="signal">Concept build · public roadmap</span>
+      <h1>A device that asks before it acts.</h1>
+      <p class="lede">PIXIE is a proposed device-stewardship layer for people who want technology to show consequences, preserve provenance, and wait for consent before consequential actions.</p>
+      <div class="actions">
+        <a class="button" href="#early-access">[ JOIN THE BUILD ]</a>
+        <a class="button secondary-link" href="/">[ EXPLORE HOLDINGS ]</a>
+      </div>
+
+      <div class="mini-grid">
+        <article><strong>SHOW THE CONSEQUENCE</strong><span>Preview what an action will change before execution.</span></article>
+        <article><strong>KEEP THE MEMORY LOCAL</strong><span>Separate creator-controlled provenance from public publication.</span></article>
+        <article><strong>ASK FOR CONSENT</strong><span>No silent inference. No automatic publication. No hidden file actions.</span></article>
+      </div>
+    </section>
+
+    <section id="build" class="content-section">
+      <p class="eyebrow">The build path</p>
+      <h2>From concept to hardware</h2>
+      <div class="concept-grid">
+        <div>
+          <div class="four-up">
+            <article><h3>01 · Web</h3><p>The current PIXIE Holdings experience demonstrates the stewardship model in a browser.</p></article>
+            <article><h3>02 · Android</h3><p>Proposed launcher → LineageOS system layer → dedicated device, with the Pixel 8a as the initial reference target.</p></article>
+            <article><h3>03 · Apple</h3><p>File-structure conversion is under development, followed by proposed iOS/iPadOS and macOS companion surfaces.</p></article>
+            <article><h3>04 · Hardware</h3><p>A future purpose-built device could make consent and stewardship physical, local, and obvious.</p></article>
+          </div>
+        </div>
+        <aside class="concept-panel">
+          <h2>Build discipline</h2>
+          <ul class="trust-list">
+            <li><strong>PROPOSED</strong> — a product direction, not a shipped feature.</li>
+            <li><strong>IMPLEMENTED</strong> — demonstrated in the repository and testable today.</li>
+            <li><strong>UNVERIFIED</strong> — requires platform, hardware, or external-service validation.</li>
+          </ul>
+          <p class="boundary">The roadmap does not claim that PIXIE replaces iOS/iPadOS system launchers or that the dedicated hardware exists today.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="early-access" class="content-section">
+      <p class="eyebrow">Early access / research interest</p>
+      <h2>Tell us what you want to see built.</h2>
+      <div class="concept-grid">
+        <div>
+          <p class="lede">Leave an email if you want occasional build notes, prototype milestones, testing invitations, or an early look at the device concept.</p>
+          <p>We are treating this as an interest list—not a growth hack. There are no fake user counts, invented testimonials, dark-pattern opt-ins, or urgency timers.</p>
+          <ul class="trust-list">
+            <li>Updates are product-specific and infrequent.</li>
+            <li>Your response is not a public post.</li>
+            <li>We do not ask for passwords, health data, location, or device contents.</li>
+            <li>Unsubscribe should be available on every future email.</li>
+          </ul>
+        </div>
+        <div class="concept-panel">
+          <!-- Netlify Forms provides server-side capture when this static site is deployed on Netlify. -->
+          <!-- If the project uses another host, replace this form action with its approved form endpoint. -->
+          <form class="interest-form" name="pixie-interest" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="pixie-interest">
+            <p class="sr-only"><label>Do not fill this out: <input name="bot-field"></label></p>
+            <label for="email">Email address
+              <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@example.com">
+            </label>
+            <label for="interest">What are you interested in?
+              <select id="interest" name="interest">
+                <option value="product-updates">Product / build updates</option>
+                <option value="android">Android prototype</option>
+                <option value="apple">Apple platform work</option>
+                <option value="hardware">Dedicated hardware</option>
+                <option value="testing">Prototype testing</option>
+                <option value="partnership">Partnership / collaboration</option>
+              </select>
+            </label>
+            <label class="consent" for="consent"><input id="consent" name="consent" type="checkbox" required> <span>I agree to receive PIXIE-related updates at this address. I understand this is an interest list, not a product order.</span></label>
+            <button type="submit">[ REQUEST BUILD UPDATES ]</button>
+            <p class="fine">No tracking pixels or advertising profile are required for this form. The deployment host may have its own infrastructure/privacy policy.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <p class="eyebrow">Launch-ready positioning</p>
+      <h2>Made to survive a skeptical first impression.</h2>
+      <div class="four-up">
+        <article><h3>Clear</h3><p>One sentence explains the product. The roadmap separates shipped work from proposals.</p></article>
+        <article><h3>Credible</h3><p>No inflated traction claims, fake testimonials, or invented launch dates.</p></article>
+        <article><h3>Accessible</h3><p>Keyboard-friendly controls, visible focus, high contrast, reduced-motion support, and plain-language boundaries.</p></article>
+        <article><h3>Portable</h3><p>The concept page can link from GitHub, Product Hunt, a future waitlist campaign, or the existing Holdings experience.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>PIXIE · Loptr Lab · Concept build · Accessibility is infrastructure.</footer>
+</body>
+</html>

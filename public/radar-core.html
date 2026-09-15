@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="PIXIE Holdings — a consent-first portfolio-economics game and multi-door ARG ecosystem.">
+<title>PIXIE OS — Loptr Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:          #08080f;
+    --desk:        #0b0b14;
+    --win:         #101018;
+    --win2:        #141420;
+
+    --pink:        #ff6eb4;
+    --pink2:       #ffadd6;
+    --pink3:       rgba(255,110,180,0.08);
+    --pink-glow:   rgba(255,110,180,0.18);
+
+    --lav:         #c084fc;
+    --lav2:        #e0b0ff;
+    --lav3:        rgba(192,132,252,0.08);
+
+    --mint:        #7fffd4;
+    --mint2:       #b2ffe8;
+    --mint3:       rgba(127,255,212,0.08);
+
+    --yellow:      #ffe600;
+    --red:         #ff4444;
+
+    --white:       #f0eaff;
+    --muted:       rgba(240,234,255,0.42);
+    --dimmer:      rgba(240,234,255,0.2);
+
+    --border:      rgba(255,110,180,0.22);
+    --lborder:     rgba(192,132,252,0.18);
+    --mborder:     rgba(127,255,212,0.18);
+
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Space Grotesk', sans-serif;
+
+    --radius-win: 10px;
+    --radius-sm:  5px;
+  }
+
+  html, body {
+    height: 100%;
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--white);
+    overflow: hidden;
+  }
+
+  .desktop {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: var(--desk);
+    overflow: hidden;
+  }
+
+  .wallpaper {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .taskbar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 46px;
+    background: rgba(8,8,15,0.94);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 8px;
+    z-index: 500;
+  }
+
+  .tb-logo {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--pink);
+    letter-spacing: 0.05em;
+    margin-right: 6px;
+    text-shadow: 0 0 20px rgba(255,110,180,0.55);
+    user-select: none;
+  }
+
+  .tb-div { width: 1px; height: 22px; background: var(--border); flex-shrink: 0; }
+
+  .tb-btn {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    padding: 5px 11px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    white-space: nowrap;
+    user-select: none;
+  }
+  .tb-btn:hover { color: var(--pink); border-color: var(--border); }
+  .tb-btn.active { color: var(--pink); border-color: var(--border); background: var(--pink3); }
+  .tb-btn.t-lav:hover { color: var(--lav); border-color: var(--lborder); }
+  .tb-btn.t-lav.active { color: var(--lav); border-color: var(--lborder); background: var(--lav3); }
+  .tb-btn.t-mint:hover { color: var(--mint); border-color: var(--mborder); }
+  .tb-btn.t-mint.active { color: var(--mint); border-color: var(--mborder); background: var(--mint3); }
+
+  .tb-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+  .access-pill {
+    font-family: var(--mono);
+    font-size: 9px;
+    padding: 4px 11px;
+    border-radius: 14px;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+    letter-spacing: 0.06em;
+  }
+  .ap-guest { border-color: var(--dimmer); color: var(--muted); }
+  .ap-member { border-color: var(--lborder); color: var(--lav2); }
+  .ap-insider { border-color: var(--mborder); color: var(--mint2); }
+  .ap-admin { border-color: var(--border); color: var(--pink2); }
+  .tb-clock { font-family: var(--mono); font-size: 11px; color: var(--muted); user-select: none; }
+
+  .icon-grid {
+    position: absolute;
+    top: 16px; left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 1;
+  }
+
+  .desk-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    width: 68px;
+    padding: 7px 4px;
+    border-radius: 8px;
+    transition: background 0.15s;
+    user-select: none;
+  }
+  .desk-icon:hover { background: rgba(255,110,180,0.09); }
+  .desk-icon:active { background: rgba(255,110,180,0.16); }
+  .icon-face { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 22px; border: 1px solid; transition: box-shadow 0.2s; }
+  .desk-icon:hover .icon-face { box-shadow: 0 0 14px rgba(255,110,180,0.2); }
+  .icon-label { font-size: 9px; color: var(--muted); text-align: center; font-family: var(--mono); letter-spacing: 0.02em; line-height: 1.4; }
+
+  .window {
+    position: absolute;
+    background: var(--win);
+    border-radius: var(--radius-win);
+    border: 1px solid rgba(255,110,180,0.18);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    min-width: 240px;
+    box-shadow: 0 10px 48px rgba(0,0,0,0.65);
+    transition: box-shadow 0.15s;
+  }
+  .window.focused { z-index: 50; }
+  .w-pink.focused { border-color: rgba(255,110,180,0.45); box-shadow: 0 10px 48px rgba(255,110,180,0.08); }
+  .w-lav.focused { border-color: rgba(192,132,252,0.45); box-shadow: 0 10px 48px rgba(192,132,252,0.07); }
+  .w-mint.focused { border-color: rgba(127,255,212,0.38); box-shadow: 0 10px 48px rgba(127,255,212,0.06); }
+  .w-yellow.focused { border-color: rgba(255,230,0,0.38); box-shadow: 0 10px 48px rgba(255,230,0,0.05); }
+  .win-bar { display: flex; align-items: center; gap: 8px; padding: 10px 13px; cursor: move; flex-shrink: 0; border-bottom: 1px solid rgba(255,255,255,0.05); border-radius: var(--radius-win) var(--radius-win) 0 0; }
+  .win-dots { display: flex; gap: 6px; }
+  .wdot { width: 11px; height: 11px; border-radius: 50%; cursor: pointer; flex-shrink: 0; transition: opacity 0.15s, transform 0.1s; }
+  .wdot:hover { opacity: 0.8; transform: scale(1.1); }
+  .wd-close { background: #ff5f57; }
+  .wd-min { background: #febc2e; }
+  .wd-max { background: #28c840; }
+  .win-title { font-family: var(--mono); font-size: 10px; color: var(--muted); flex: 1; text-align: center; letter-spacing: 0.08em; pointer-events: none; }
+  .win-body { flex: 1; overflow: hidden; border-radius: 0 0 var(--radius-win) var(--radius-win); }
+
+  .about-body { padding: 22px; display: flex; flex-direction: column; gap: 16px; }
+  .about-eyebrow { font-family: var(--mono); font-size: 9px; color: var(--pink); letter-spacing: 0.16em; }
+  .about-h1 { font-size: 28px; font-weight: 700; color: var(--white); line-height: 1.15; }
+  .about-h1 .accent { color: var(--pink); }
+  .about-p { font-size: 13px; color: var(--muted); line-height: 1.72; max-width: 56ch; }
+  .pill-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pill { font-family: var(--mono); font-size: 9px; padding: 4px 11px; border-radius: 20px; border: 1px solid; letter-spacing: 0.04em; }
+  .p-pink { border-color: var(--border); color: var(--pink2); background: var(--pink3); }
+  .p-lav { border-color: var(--lborder); color: var(--lav2); background: var(--lav3); }
+  .p-mint { border-color: var(--mborder); color: var(--mint2); background: var(--mint3); }
+  .doors-label { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 9px; }
+  .doors-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+  .door-card { padding: 10px 12px; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-sm); cursor: pointer; transition: border-color 0.15s, background 0.15s; background: rgba(255,255,255,0.02); }
+  .door-card:hover { border-color: var(--border); background: var(--pink3); }
+  .door-name { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 3px; }
+  .door-sub { font-family: var(--mono); font-size: 9px; color: var(--muted); }
+  .door-card.locked { opacity: 0.45; cursor: not-allowed; }
+  .door-card.locked:hover { border-color: rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); }
+  .door-card.locked .door-name { color: var(--muted); }
+  .about-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .abtn { font-size: 12px; font-weight: 600; padding: 9px 18px; border-radius: var(--radius-sm); border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: opacity 0.15s, transform 0.1s; user-select: none; }
+  .abtn:hover { opacity: 0.88; }
+  .abtn:active { transform: scale(0.97); }
+  .abtn-pink { background: var(--pink); color: #08080f; }
+  .abtn-ghost { background: transparent; color: var(--lav2); border: 1px solid var(--lborder); font-family: var(--mono); font-size: 11px; font-weight: 400; }
+
+  .radar-body { padding: 14px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .radar-access-bar { width: 100%; display: flex; align-items: center; justify-content: space-between; }
+  .rab-label { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.1em; }
+  .rab-level { font-family: var(--mono); font-size: 9px; padding: 2px 9px; border-radius: 10px; border: 1px solid; letter-spacing: 0.06em; transition: color 0.2s, border-color 0.2s; }
+  .radar-tt { width: 100%; padding: 10px 12px; border-left: 2px solid var(--mint); background: var(--mint3); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; min-height: 60px; }
+  .rtt-name { font-size: 13px; font-weight: 600; color: var(--mint2); transition: color 0.2s; }
+  .rtt-access { font-family: var(--mono); font-size: 9px; color: var(--muted); margin-top: 2px; letter-spacing: 0.08em; }
+  .rtt-desc { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.55; }
+
+  /* DID continuity sitemap */
+  .sitemap-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; max-height: 420px; overflow-y: auto; }
+  .sitemap-body::-webkit-scrollbar { width: 3px; }
+  .sitemap-body::-webkit-scrollbar-thumb { background: var(--lborder); }
+  .sitemap-intro { font-size: 11px; color: var(--muted); line-height: 1.55; }
+  .sitemap-tree { display: flex; flex-direction: column; gap: 7px; }
+  .tree-root { font-family: var(--mono); font-size: 10px; color: var(--lav2); padding: 8px 10px; border: 1px solid var(--lborder); background: var(--lav3); border-radius: var(--radius-sm); }
+  .tree-branch { display: flex; flex-direction: column; gap: 6px; padding-left: 12px; border-left: 1px solid rgba(192,132,252,0.22); }
+  .tree-node { padding: 9px 10px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); border-radius: var(--radius-sm); cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .tree-node:hover { border-color: var(--lborder); background: var(--lav3); }
+  .tree-node.is-locked { opacity: 0.45; cursor: not-allowed; }
+  .tree-node.is-locked:hover { border-color: rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); }
+  .t-icon { margin-right: 4px; }
+  .t-sub { display: block; margin: 4px 0 0 23px; font-family: var(--mono); font-size: 8px; color: var(--muted); }
+  .tree-subbranch { display: flex; flex-direction: column; gap: 4px; padding: 0 0 2px 24px; }
+  .tree-leaf { font-family: var(--mono); font-size: 8px; color: var(--muted); line-height: 1.5; }
+  .badge { display: inline-block; margin-left: 5px; padding: 1px 5px; border: 1px solid rgba(192,132,252,0.2); color: var(--lav2); background: rgba(192,132,252,0.04); }
+  .sitemap-status { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px; border: 1px solid var(--mborder); background: var(--mint3); border-radius: var(--radius-sm); font-family: var(--mono); font-size: 8px; color: var(--mint2); letter-spacing: 0.05em; }
+  .sitemap-footer { display: flex; justify-content: space-between; gap: 8px; font-family: var(--mono); font-size: 8px; color: var(--muted); letter-spacing: 0.06em; }
+
+  .holdings-body { padding: 12px; display: flex; flex-direction: column; gap: 9px; overflow-y: auto; max-height: 360px; }
+  .holdings-body::-webkit-scrollbar { width: 3px; }
+  .holdings-body::-webkit-scrollbar-thumb { background: var(--lborder); }
+  .hcard { padding: 12px; border: 1px solid var(--lborder); background: var(--lav3); border-radius: 6px; }
+  .hcard-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+  .hcard-name { font-size: 15px; font-weight: 600; color: var(--white); line-height: 1.2; }
+  .hcard-badge { font-family: var(--mono); font-size: 8px; padding: 2px 8px; border-radius: 10px; border: 1px solid; flex-shrink: 0; margin-top: 3px; letter-spacing: 0.06em; }
+  .hcard-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 9px; }
+  .hcard-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+  .htag { font-family: var(--mono); font-size: 8px; padding: 2px 6px; border: 1px solid var(--lborder); color: var(--lav2); background: rgba(192,132,252,0.05); letter-spacing: 0.04em; }
+  .hcard-status { font-family: var(--mono); font-size: 9px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  .sdot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .s-on { background: var(--mint); }
+  .s-warn { background: var(--yellow); }
+  .s-off { background: rgba(240,234,255,0.18); }
+
+  .meters-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .mrow { display: flex; align-items: center; gap: 10px; }
+  .ml { font-size: 12px; color: var(--muted); width: 96px; flex-shrink: 0; }
+  .mbar { flex: 1; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+  .mfill { height: 100%; border-radius: 2px; transition: width 1.2s ease; }
+  .f-mint { background: var(--mint); }
+  .f-lav { background: var(--lav); }
+  .f-yellow { background: var(--yellow); }
+  .f-red { background: var(--red); }
+  .mv { font-family: var(--mono); font-size: 11px; color: var(--white); width: 38px; text-align: right; flex-shrink: 0; }
+
+  .chat-body { display: flex; flex-direction: column; height: 300px; }
+  .chat-log { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .chat-log::-webkit-scrollbar { width: 3px; }
+  .chat-log::-webkit-scrollbar-thumb { background: var(--border); }
+  .msg { display: flex; flex-direction: column; gap: 4px; }
+  .msg-from { font-family: var(--mono); font-size: 9px; color: var(--pink); letter-spacing: 0.1em; }
+  .msg-from.you { color: var(--lav); }
+  .msg-text { font-size: 12px; color: var(--white); line-height: 1.65; padding: 9px 11px; border-radius: 6px; max-width: 92%; }
+  .msg-text.pixie { background: var(--pink3); border: 1px solid var(--border); align-self: flex-start; }
+  .msg-text.you { background: var(--lav3); border: 1px solid var(--lborder); align-self: flex-end; }
+  .chat-input-row { display: flex; border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; border-radius: 0 0 var(--radius-win) var(--radius-win); overflow: hidden; }
+  .chat-input { flex: 1; background: transparent; border: none; outline: none; font-family: var(--sans); font-size: 12px; color: var(--white); padding: 11px 13px; }
+  .chat-input::placeholder { color: var(--dimmer); }
+  .chat-send { background: var(--pink); color: #08080f; border: none; font-family: var(--mono); font-size: 10px; font-weight: 500; padding: 0 16px; cursor: pointer; letter-spacing: 0.04em; transition: opacity 0.15s; }
+  .chat-send:hover { opacity: 0.85; }
+
+  .notify { position: absolute; top: 16px; right: 16px; background: var(--win2); border: 1px solid var(--border); border-radius: 8px; padding: 11px 15px; max-width: 230px; z-index: 999; pointer-events: none; animation: notifyIn 0.22s ease; }
+  @keyframes notifyIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+  .notify-title { font-family: var(--mono); font-size: 9px; color: var(--pink); letter-spacing: 0.1em; margin-bottom: 4px; }
+  .notify-body { font-size: 11px; color: var(--muted); line-height: 1.55; }
+
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="desktop" id="desk" role="main" aria-label="PIXIE OS Desktop">
+  <svg class="wallpaper" viewBox="0 0 1280 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="wg1" cx="78%" cy="18%"><stop offset="0%" stop-color="rgba(192,132,252,0.09)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+      <radialGradient id="wg2" cx="12%" cy="82%"><stop offset="0%" stop-color="rgba(255,110,180,0.07)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+    </defs>
+    <rect width="1280" height="800" fill="url(#wg1)"/>
+    <rect width="1280" height="800" fill="url(#wg2)"/>
+    <circle cx="960" cy="140" r="260" fill="none" stroke="rgba(192,132,252,0.05)" stroke-width="1"/>
+    <circle cx="960" cy="140" r="170" fill="none" stroke="rgba(192,132,252,0.04)" stroke-width="0.5"/>
+    <circle cx="140" cy="660" r="200" fill="none" stroke="rgba(255,110,180,0.04)" stroke-width="1"/>
+    <line x1="0" y1="200" x2="1280" y2="200" stroke="rgba(255,110,180,0.028)" stroke-width="0.5"/>
+    <line x1="0" y1="400" x2="1280" y2="400" stroke="rgba(255,110,180,0.028)" stroke-width="0.5"/>
+    <line x1="0" y1="600" x2="1280" y2="600" stroke="rgba(255,110,180,0.028)" stroke-width="0.5"/>
+  </svg>
+
+  <nav class="icon-grid" aria-label="Desktop applications">
+    <div class="desk-icon" role="button" tabindex="0" aria-label="Open PIXIE Holdings" ondblclick="openWin('about')" onkeydown="if(event.key==='Enter')openWin('about')">
+      <div class="icon-face" style="background:rgba(255,110,180,0.1);border-color:rgba(255,110,180,0.3)">🎴</div><div class="icon-label">PIXIE<br>Holdings</div>
+    </div>
+    <div class="desk-icon" role="button" tabindex="0" aria-label="Open Repo Radar" ondblclick="openWin('radar')" onkeydown="if(event.key==='Enter')openWin('radar')">
+      <div class="icon-face" style="background:rgba(127,255,212,0.08);border-color:rgba(127,255,212,0.25)">📡</div><div class="icon-label">Repo<br>Radar</div>
+    </div>
+    <div class="desk-icon" role="button" tabindex="0" aria-label="Open Holdings" ondblclick="openWin('holdings')" onkeydown="if(event.key==='Enter')openWin('holdings')">
+      <div class="icon-face" style="background:rgba(192,132,252,0.1);border-color:rgba(192,132,252,0.3)">🗂</div><div class="icon-label">Holdings</div>
+    </div>
+    <div class="desk-icon" role="button" tabindex="0" aria-label="Open Resource Meters" ondblclick="openWin('meters')" onkeydown="if(event.key==='Enter')openWin('meters')">
+      <div class="icon-face" style="background:rgba(255,230,0,0.08);border-color:rgba(255,230,0,0.25)">📊</div><div class="icon-label">Resources</div>
+    </div>
+    <div class="desk-icon" role="button" tabindex="0" aria-label="Open PIXIE Agent" ondblclick="openWin('pixie')" onkeydown="if(event.key==='Enter')openWin('pixie')">
+      <div class="icon-face" style="background:rgba(255,110,180,0.12);border-color:rgba(255,110,180,0.4)">🤖</div><div class="icon-label">PIXIE<br>Agent</div>
+    </div>
+    <div class="desk-icon" role="button" tabindex="0" aria-label="Open Sitemap" ondblclick="openWin('sitemap')" onkeydown="if(event.key==='Enter')openWin('sitemap')">
+      <div class="icon-face" style="background:rgba(192,132,252,0.1);border-color:rgba(192,132,252,0.3)">🗺️</div><div class="icon-label">DID<br>Sitemap</div>
+    </div>
+  </nav>
+
+  <div class="window w-pink focused" id="win-about" style="left:96px;top:20px;width:400px" role="dialog" aria-label="PIXIE Holdings Ecosystem">
+    <div class="win-bar" onmousedown="startDrag(event,'win-about')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-about')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE Holdings — ecosystem</div></div>
+    <div class="win-body"><div class="about-body">
+      <div class="about-eyebrow">portfolio economics · consent-first · multi-door ARG</div>
+      <h1 class="about-h1">Our ecosystem has<br><span class="accent">many doors.</span></h1>
+      <p class="about-p">No matter which one you enter — PIXIE can help you. A consent-first portfolio-economics game that keeps communities together long after the press run ends.</p>
+      <div class="pill-row"><span class="pill p-pink">consent-first</span><span class="pill p-lav">AT Protocol</span><span class="pill p-mint">open ARG engine</span><span class="pill p-pink">Rocky Horror model</span><span class="pill p-lav">fan-forkable</span></div>
+      <div><div class="doors-label">Ecosystem doors — tap to enter</div><div class="doors-grid">
+        <div class="door-card" onclick="enterDoor('loptr')" role="button" tabindex="0"><div class="door-name">Loptr Lab</div><div class="door-sub">holdings.loptrlab.com</div></div>
+        <div class="door-card" onclick="enterDoor('inpatient')" role="button" tabindex="0"><div class="door-name">Inpatient Asylum</div><div class="door-sub">inpatient.world — soon</div></div>
+        <div class="door-card" onclick="enterDoor('sicksick')" role="button" tabindex="0"><div class="door-name">Sick Sick Soul</div><div class="door-sub">Skinner Bros + Ren</div></div>
+        <div class="door-card locked" onclick="enterDoor('locked')" role="button" tabindex="0" aria-disabled="true"><div class="door-name">??? · locked</div><div class="door-sub">access level required</div></div>
+      </div></div>
+      <div class="about-btns"><a class="abtn abtn-pink" href="https://github.com/ibloud/pixie-holdings" target="_blank" rel="noopener">GitHub ↗</a><button class="abtn abtn-ghost" onclick="openWin('pixie')">Talk to PIXIE</button><button class="abtn abtn-ghost" onclick="openWin('radar')">Radar ↗</button></div>
+    </div></div>
+  </div>
+
+  <div class="window w-mint" id="win-radar" style="left:96px;top:20px;width:330px;display:none" role="dialog" aria-label="Repository Radar">
+    <div class="win-bar" onmousedown="startDrag(event,'win-radar')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-radar')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">repo radar</div></div>
+    <div class="win-body"><div class="radar-body"><div class="radar-access-bar"><span class="rab-label">Repository map</span><span class="rab-level" id="radar-level-badge" style="border-color:var(--dimmer);color:var(--muted)">Guest view</span></div><canvas id="rc" width="298" height="240" style="cursor:pointer;display:block" aria-label="Interactive repository radar — tap nodes to learn more"></canvas><div class="radar-tt" role="status" aria-live="polite"><div class="rtt-name" id="tt-name" style="color:rgba(127,255,212,0.35);font-style:italic">Tap a node</div><div class="rtt-access" id="tt-access"></div><div class="rtt-desc" id="tt-desc"></div></div></div></div>
+  </div>
+
+  <div class="window w-lav" id="win-sitemap" style="left:160px;top:80px;width:480px;display:none" role="dialog" aria-label="DID Sitemap Navigator">
+    <div class="win-bar" onmousedown="startDrag(event,'win-sitemap')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-sitemap')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">SITEMAP // DID: IBLOUD.XYZ</div></div>
+    <div class="win-body"><div class="sitemap-body">
+      <div class="sitemap-intro">DID continuity navigator for the PIXIE ecosystem. Canonical research, executable test bench, public campaign, and staged/private supporting modules remain separate doors.</div>
+      <div class="sitemap-tree" id="sitemap-tree"><div class="tree-root">did:plc:ibloud (ibloud.xyz)</div><div class="tree-branch">
+        <div class="tree-node" data-sitemap-tier="0" onclick="openContinuityRepo('pixie-device-stewardship')"><span class="t-icon">🧭</span> <strong>/pixie-device-stewardship</strong><span class="t-sub">canonical PIXIE research &amp; specification · Tier 0 · <span data-sitemap-status="pixie-device-stewardship">ACTIVE</span></span></div>
+        <div class="tree-node" data-sitemap-tier="0" onclick="openContinuityRepo('pixie-holdings')"><span class="t-icon">📂</span> <strong>/pixie-holdings</strong><span class="t-sub">executable PIXIE OS test bench &amp; control room · Tier 0 · <span data-sitemap-status="pixie-holdings">ACTIVE</span></span></div>
+        <div class="tree-node" data-sitemap-tier="0" onclick="openContinuityRepo('made-sick')"><span class="t-icon">🌐</span> <strong>/made-sick</strong><span class="t-sub">public campaign &amp; participation surface · Tier 0 · <span data-sitemap-status="made-sick">ACTIVE</span></span></div>
+        <div class="tree-node" data-sitemap-tier="1" onclick="openContinuityRepo('narrative-provenance')"><span class="t-icon">🔒</span> <strong>/narrative-provenance</strong><span class="t-sub">creator-controlled private memory layer · Tier 1 · <span data-sitemap-status="narrative-provenance">LOCKED</span></span></div>
+        <div class="tree-node" data-sitemap-tier="2" onclick="openContinuityRepo('duet-engine-architecture')"><span class="t-icon">🧩</span> <strong>/duet-engine-architecture</strong><span class="t-sub">Duet engine architecture · Tier 2 · <span data-sitemap-status="duet-engine-architecture">LOCKED</span></span></div>
+        <div class="tree-subbranch"><div class="tree-leaf">📄 continuity policy <span class="badge">rollback receipts: ON</span></div><div class="tree-leaf">🛡 consent guard <span class="badge">silent inference: OFF</span></div><div class="tree-leaf">🔗 PDS <span class="badge">ATPROTO/STABLE</span></div></div>
+      </div></div>
+      <div class="sitemap-status"><span>PDS STATUS: SYNCED</span><span id="sitemap-access-status">ACCESS: GUEST</span></div><div class="sitemap-footer"><span>DID CONTINUUM NODE</span><span>PIXIE OS // CONTINUITY</span></div>
+    </div></div>
+  </div>
+
+  <div class="window w-lav" id="win-holdings" style="right:16px;top:20px;width:262px;display:none" role="dialog" aria-label="Holdings">
+    <div class="win-bar" onmousedown="startDrag(event,'win-holdings')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-holdings')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">holdings</div></div>
+    <div class="win-body"><div class="holdings-body">
+      <div class="hcard"><div class="hcard-top"><span class="hcard-name">Made Sick</span><span class="hcard-badge" style="border-color:var(--mborder);color:var(--mint)">Active</span></div><p class="hcard-desc">Public campaign and AT Protocol participation surface.</p><div class="hcard-tags"><span class="htag">public</span><span class="htag">ATPROTO</span></div><div class="hcard-status"><span class="sdot s-on"></span>connected</div></div>
+      <div class="hcard"><div class="hcard-top"><span class="hcard-name">PIXIE Stewardship</span><span class="hcard-badge" style="border-color:var(--lborder);color:var(--lav2)">Spec</span></div><p class="hcard-desc">Accessibility research and device-stewardship specification.</p><div class="hcard-tags"><span class="htag">research</span><span class="htag">consent</span></div><div class="hcard-status"><span class="sdot s-on"></span>canonical</div></div>
+    </div></div>
+  </div>
+
+  <div class="window w-yellow" id="win-meters" style="right:16px;bottom:62px;width:262px;display:none" role="dialog" aria-label="Resource Meters">
+    <div class="win-bar" onmousedown="startDrag(event,'win-meters')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-meters')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">system resources</div></div>
+    <div class="win-body"><div class="meters-body"><div class="mrow"><span class="ml">Network</span><div class="mbar"><div class="mfill f-mint" style="width:72%"></div></div><span class="mv">72%</span></div><div class="mrow"><span class="ml">Memory</span><div class="mbar"><div class="mfill f-lav" style="width:56%"></div></div><span class="mv">56%</span></div><div class="mrow"><span class="ml">Compute</span><div class="mbar"><div class="mfill f-yellow" style="width:35%"></div></div><span class="mv">35%</span></div><div class="mrow"><span class="ml">Consent</span><div class="mbar"><div class="mfill f-mint" style="width:100%"></div></div><span class="mv">100%</span></div></div></div>
+  </div>
+
+  <div class="window w-pink" id="win-pixie" style="left:96px;top:20px;width:340px;display:none" role="dialog" aria-label="PIXIE Agent Chat">
+    <div class="win-bar" onmousedown="startDrag(event,'win-pixie')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-pixie')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE agent</div></div>
+    <div class="win-body"><div class="chat-body"><div class="chat-log" id="chat-log" aria-live="polite" aria-label="Chat messages"><div class="msg"><span class="msg-from">PIXIE</span><div class="msg-text pixie">Hello. I'm PIXIE — your consent-first portfolio steward.<br><br>I show before I act. I don't infer without permission. I don't move files without giving you source, destination, and a rollback receipt.<br><br>Ask me about the ecosystem, the holdings, the ARG, access levels, or consent rules.</div></div></div><div class="chat-input-row"><input class="chat-input" id="chat-input" type="text" placeholder="Ask PIXIE something…" aria-label="Chat input" onkeydown="if(event.key==='Enter')sendMsg()"/><button class="chat-send" onclick="sendMsg()" aria-label="Send message">Send</button></div></div></div>
+  </div>
+
+  <div class="taskbar" role="navigation" aria-label="Taskbar"><span class="tb-logo">PIXIE OS</span><div class="tb-div"></div><button class="tb-btn active" id="tb-about" onclick="openWin('about')">Ecosystem</button><button class="tb-btn t-mint" id="tb-radar" onclick="openWin('radar')">Radar</button><button class="tb-btn t-lav" id="tb-holdings" onclick="openWin('holdings')">Holdings</button><button class="tb-btn" id="tb-meters" onclick="openWin('meters')">Resources</button><button class="tb-btn" id="tb-pixie" onclick="openWin('pixie')">PIXIE</button><button class="tb-btn t-lav" id="tb-sitemap" onclick="openWin('sitemap')">DID Sitemap</button><div class="tb-right"><span class="access-pill ap-guest" id="access-pill" onclick="cycleAccess()" role="button" tabindex="0" title="Click to cycle access level (demo)" aria-label="Current access level — click to change" onkeydown="if(event.key==='Enter')cycleAccess()">● Guest</span><div class="tb-div"></div><span class="tb-clock" id="clock" aria-label="Current time">--:--</span></div></div>
+</div>
+
+<script>
+const repos = [
+  { name:'pixie-holdings', desc:'Portfolio-economics game — primary holding', x:0.52, y:0.24, min:0 },
+  { name:'did-continuum-node', desc:'PIXIE ecosystem continuity and DID sitemap', x:0.50, y:0.48, min:0 },
+  { name:'pixie-device-stewardship', desc:'Accessibility research and specification', x:0.32, y:0.32, min:0 },
+  { name:'made-sick', desc:'Public campaign and AT Protocol surface', x:0.68, y:0.30, min:0 },
+  { name:'violets-revenge', desc:'Open-source 1v4 asymmetrical horror game', x:0.78, y:0.44, min:0 },
+  { name:'ibloud.github.io', desc:'Public profile and portfolio site', x:0.52, y:0.84, min:0 },
+  { name:'veiled-dominion', desc:'Duet engine — live 2-player game system', x:0.22, y:0.46, min:1 },
+  { name:'narrative-provenance', desc:'Creator-controlled private memory layer', x:0.30, y:0.57, min:1 },
+  { name:'duet-engine-architecture', desc:'Architecture docs for the Duet engine', x:0.68, y:0.63, min:2 },
+  { name:'inpatient-asylum-core', desc:'Core ARG mechanics and consent framework', x:0.42, y:0.70, min:2 },
+  { name:'pixie-agent-mcp', desc:'Model Context Protocol agent server', x:0.76, y:0.77, min:3 }
+];
+
+const accessLevels = [
+  { level:0, name:'Guest', class:'ap-guest', color:'rgba(240,234,255,0.42)', label:'● Guest' },
+  { level:1, name:'Member', class:'ap-member', color:'#c084fc', label:'● Member' },
+  { level:2, name:'Insider', class:'ap-insider', color:'#7fffd4', label:'● Insider' },
+  { level:3, name:'Admin', class:'ap-admin', color:'#ff6eb4', label:'● Admin' }
+];
+
+let currentAccessIndex=0, activeNode=null, animFrameId=null, angle=0;
+
+function focusWin(id) { document.querySelectorAll('.window').forEach(w=>w.classList.remove('focused')); const win=document.getElementById(id); if(win) win.classList.add('focused'); }
+function openWin(name) { const winId='win-'+name, win=document.getElementById(winId), tbBtn=document.getElementById('tb-'+name); if(win){win.style.display='flex';focusWin(winId);} if(tbBtn)tbBtn.classList.add('active'); if(name==='radar')initRadar(); if(name==='sitemap')updateSitemapAccess(); }
+function closeWin(winId) { const win=document.getElementById(winId); if(win)win.style.display='none'; const name=winId.replace('win-',''), tbBtn=document.getElementById('tb-'+name); if(tbBtn)tbBtn.classList.remove('active'); }
+
+let dragWin=null, dragOffsetX=0, dragOffsetY=0;
+function startDrag(e,winId){dragWin=document.getElementById(winId);focusWin(winId);const rect=dragWin.getBoundingClientRect();dragOffsetX=e.clientX-rect.left;dragOffsetY=e.clientY-rect.top;document.addEventListener('mousemove',onDrag);document.addEventListener('mouseup',stopDrag);}
+function onDrag(e){if(!dragWin)return;dragWin.style.left=(e.clientX-dragOffsetX)+'px';dragWin.style.top=(e.clientY-dragOffsetY)+'px';}
+function stopDrag(){dragWin=null;document.removeEventListener('mousemove',onDrag);document.removeEventListener('mouseup',stopDrag);}
+
+function cycleAccess(){currentAccessIndex=(currentAccessIndex+1)%accessLevels.length;const access=accessLevels[currentAccessIndex];const pill=document.getElementById('access-pill');pill.className='access-pill '+access.class;pill.textContent=access.label;const radarBadge=document.getElementById('radar-level-badge');if(radarBadge){radarBadge.textContent=access.name+' view';radarBadge.style.color=access.color;radarBadge.style.borderColor=access.color;}showNotification('Access Level Changed','Switched to '+access.name+' access privileges.');if(document.getElementById('win-radar').style.display!=='none')drawRadar();if(document.getElementById('win-sitemap').style.display!=='none')updateSitemapAccess();}
+function enterDoor(doorKey){if(doorKey==='locked'){showNotification('Access Denied','Elevated permission level required to unlock this door.');return;}showNotification('Entering Door','Navigating to '+doorKey+' portal...');}
+
+const continuityRepos={
+  'pixie-device-stewardship':{tier:0,url:'https://github.com/ibloud/pixie-device-stewardship'},
+  'pixie-holdings':{tier:0,url:'https://github.com/ibloud/pixie-holdings'},
+  'made-sick':{tier:0,url:'https://github.com/ibloud/made-sick'},
+  'narrative-provenance':{tier:1,url:'https://github.com/ibloud/narrative-provenance'},
+  'duet-engine-architecture':{tier:2,url:'https://github.com/ibloud/duet-engine-architecture'}
+};
+function updateSitemapAccess(){const access=accessLevels[currentAccessIndex];const status=document.getElementById('sitemap-access-status');if(status)status.textContent='ACCESS: '+access.name.toUpperCase();document.querySelectorAll('[data-sitemap-tier]').forEach(node=>{const tier=Number(node.getAttribute('data-sitemap-tier')),unlocked=currentAccessIndex>=tier;node.classList.toggle('is-locked',!unlocked);const key=node.getAttribute('onclick')||'',match=key.match(/openContinuityRepo\('([^']+)'\)/),repoName=match?match[1]:null,state=repoName?node.querySelector('[data-sitemap-status]'):null;if(state){state.textContent=unlocked?'ACCESSIBLE':'LOCKED';state.style.color=unlocked?'var(--mint2)':'var(--red)';}});}
+function openContinuityRepo(name){const repo=continuityRepos[name];if(!repo)return;if(currentAccessIndex<repo.tier){showNotification('Access Denied',accessLevels[repo.tier].name+' access required for '+name+'.');return;}window.open(repo.url,'_blank','noopener');}
+
+function initRadar(){const canvas=document.getElementById('rc');if(!canvas)return;canvas.onclick=function(e){const rect=canvas.getBoundingClientRect(),mx=e.clientX-rect.left,my=e.clientY-rect.top;let found=null;repos.forEach(r=>{const rx=r.x*canvas.width,ry=r.y*canvas.height;if(Math.hypot(mx-rx,my-ry)<12)found=r;});if(found){activeNode=found;const accessReq=accessLevels[found.min].name,isUnlocked=currentAccessIndex>=found.min;document.getElementById('tt-name').textContent=found.name;document.getElementById('tt-name').style.color=isUnlocked?'var(--mint2)':'var(--red)';document.getElementById('tt-access').textContent='Access: '+accessReq+(isUnlocked?' [Granted]':' [Restricted]');document.getElementById('tt-desc').textContent=isUnlocked?found.desc:'Encrypted content. Switch access profile to unlock.';}};if(!animFrameId)animateRadar();}
+function animateRadar(){angle+=0.015;drawRadar();animFrameId=requestAnimationFrame(animateRadar);}
+function drawRadar(){const canvas=document.getElementById('rc');if(!canvas||canvas.offsetWidth===0)return;const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height,cx=w/2,cy=h/2;ctx.clearRect(0,0,w,h);ctx.strokeStyle='rgba(127,255,212,0.12)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,40,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,80,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,110,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,h);ctx.stroke();ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(w,cy);ctx.stroke();const sweepX=cx+Math.cos(angle)*115,sweepY=cy+Math.sin(angle)*115,grad=ctx.createRadialGradient(cx,cy,5,cx,cy,115);grad.addColorStop(0,'rgba(127,255,212,0.3)');grad.addColorStop(1,'rgba(127,255,212,0)');ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,115,angle-0.35,angle);ctx.closePath();ctx.fillStyle=grad;ctx.fill();ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(sweepX,sweepY);ctx.strokeStyle='rgba(127,255,212,0.6)';ctx.stroke();repos.forEach(r=>{const rx=r.x*w,ry=r.y*h,isUnlocked=currentAccessIndex>=r.min,isSelected=activeNode===r;ctx.beginPath();ctx.arc(rx,ry,isSelected?7:4,0,Math.PI*2);if(isUnlocked){ctx.fillStyle=isSelected?'#ff6eb4':'#7fffd4';ctx.shadowColor='#7fffd4';ctx.shadowBlur=isSelected?10:4;}else{ctx.fillStyle='rgba(240,234,255,0.2)';ctx.shadowBlur=0;}ctx.fill();ctx.shadowBlur=0;if(isSelected){ctx.beginPath();ctx.arc(rx,ry,11,0,Math.PI*2);ctx.strokeStyle='#ff6eb4';ctx.lineWidth=1;ctx.stroke();}});}
+
+function sendMsg(){const input=document.getElementById('chat-input'),text=input.value.trim();if(!text)return;const chatLog=document.getElementById('chat-log'),uMsg=document.createElement('div');uMsg.className='msg';uMsg.innerHTML='<span class="msg-from you">YOU</span><div class="msg-text you">'+escapeHtml(text)+'</div>';chatLog.appendChild(uMsg);input.value='';chatLog.scrollTop=chatLog.scrollHeight;setTimeout(()=>{const pMsg=document.createElement('div');pMsg.className='msg';pMsg.innerHTML='<span class="msg-from">PIXIE</span><div class="msg-text pixie">'+getPixieResponse(text)+'</div>';chatLog.appendChild(pMsg);chatLog.scrollTop=chatLog.scrollHeight;},600);}
+function getPixieResponse(input){const q=input.toLowerCase();if(q.includes('radar')||q.includes('repo'))return'The Repo Radar tracks open and restricted projects. Change access levels on the taskbar to inspect restricted repositories.';else if(q.includes('consent')||q.includes('rule'))return'Consent Rule #1: Every dynamic state change requires direct user verification. All file operations append a rollback entry.';else if(q.includes('arg')||q.includes('door'))return'The ecosystem features multiple doors across domains (Loptr Lab, Inpatient Asylum, Sick Sick Soul). Access keys unlock deeper layers.';return"I've recorded your inquiry. I act strictly with consent — ask me to inspect holdings, check system meters, or cycle your access level.";}
+function escapeHtml(str){return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function showNotification(title,body){const old=document.querySelector('.notify');if(old)old.remove();const n=document.createElement('div');n.className='notify';n.innerHTML='<div class="notify-title">'+title+'</div><div class="notify-body">'+body+'</div>';document.getElementById('desk').appendChild(n);setTimeout(()=>{n.remove();},3500);}
+function updateClock(){const now=new Date(),hrs=String(now.getHours()).padStart(2,'0'),mins=String(now.getMinutes()).padStart(2,'0');document.getElementById('clock').textContent=hrs+':'+mins;}
+setInterval(updateClock,1000);updateClock();document.querySelectorAll('.window').forEach(w=>{w.addEventListener('mousedown',()=>focusWin(w.id));});
+</script>
+</body>
+</html>

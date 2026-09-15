@@ -1,159 +1,74 @@
-/**
- * Test Suite: model.test.js
- * Run using Node.js built-in test runner:
- * node --test model.test.js
- */
-
 import assert from "node:assert/strict";
 import { test, describe } from "node:test";
-import { evaluateAllocation, holdings, initialLedger, outcomeFor } from "./model.js";
+import { evaluateAllocation, holdings, initialLedger, outcomeFor } from "../src/model.js";
 
-describe("PIXIE Holdings Model Engine Data Integrity Tests", () => {
-
-  describe("Initial Ledger Invariants", () => {
-    test("initialLedger contains all expected metrics bounded between 0 and 100", () => {
-      const keys = ["cash", "capacity", "access", "rights", "trust", "pressure"];
-      
-      for (const key of keys) {
-        assert.ok(key in initialLedger, `Missing metric key: ${key}`);
-        assert.ok(initialLedger[key] >= 0 && initialLedger[key] <= 100, `Key ${key} out of bounds`);
-      }
-    });
-
-    test("initialLedger is frozen and immutable", () => {
-      assert.throws(() => {
-        initialLedger.cash = 999;
-      }, TypeError);
-    });
+describe("PIXIE Holdings Model Engine", () => {
+  test("initial ledger contains bounded metrics", () => {
+    for (const key of ["cash", "capacity", "access", "rights", "trust", "pressure"]) {
+      assert.ok(key in initialLedger);
+      assert.ok(initialLedger[key] >= 0 && initialLedger[key] <= 100);
+    }
   });
 
-  describe("evaluateAllocation Boundary & Calculation Rules", () => {
-    test("calculates deterministic next state for valid action", () => {
-      const result = evaluateAllocation(
-        initialLedger,
-        "learning-commons",
-        "expand-accessibility"
-      );
-
-      assert.equal(result.holdingId, "learning-commons");
-      assert.equal(result.actionId, "expand-accessibility");
-      assert.equal(result.ledger.cash, 60);       // 80 - 20
-      assert.equal(result.ledger.capacity, 85);   // 75 + 10
-      assert.equal(result.ledger.access, 80);     // 60 + 20
-      assert.equal(result.ledger.rights, 75);     // 70 + 5
-      assert.equal(result.ledger.trust, 80);      // 65 + 15
-      assert.equal(result.ledger.pressure, 15);   // 25 - 10
-    });
-
-    test("clamps metric values at upper bound (100)", () => {
-      const highCapacityLedger = { ...initialLedger, capacity: 95 };
-      const result = evaluateAllocation(
-        highCapacityLedger,
-        "health-stewardship",
-        "enforce-rest-cadence" // delta.capacity is +30
-      );
-
-      assert.equal(result.ledger.capacity, 100, "Capacity must be clamped at 100");
-    });
-
-    test("clamps metric values at lower bound (0)", () => {
-      const lowCashLedger = { ...initialLedger, cash: 20 };
-      const result = evaluateAllocation(
-        lowCashLedger,
-        "learning-commons",
-        "expand-accessibility" // delta.cash is -20
-      );
-
-      assert.equal(result.ledger.cash, 0, "Cash must be clamped at 0");
-    });
-
-    test("enforces state immutability on source ledger during evaluation", () => {
-      const snapshotBefore = JSON.stringify(initialLedger);
-      evaluateAllocation(initialLedger, "learning-commons", "expand-accessibility");
-      const snapshotAfter = JSON.stringify(initialLedger);
-
-      assert.equal(snapshotBefore, snapshotAfter, "Input ledger must not be mutated");
-    });
+  test("initial ledger is frozen", () => {
+    assert.throws(() => { initialLedger.cash = 999; }, TypeError);
   });
 
-  describe("Error Boundaries & Guard Clauses", () => {
-    test("throws descriptive error on insufficient synthetic cash", () => {
-      const brokeLedger = { ...initialLedger, cash: 5 };
-
-      assert.throws(
-        () => evaluateAllocation(brokeLedger, "learning-commons", "expand-accessibility"),
-        {
-          name: "Error",
-          message: /Insufficient synthetic cash reserve/
-        }
-      );
-    });
-
-    test("throws Data Integrity Error for invalid holdingId", () => {
-      assert.throws(
-        () => evaluateAllocation(initialLedger, "non-existent-holding", "expand-accessibility"),
-        {
-          name: "Error",
-          message: /Data Integrity Error: Holding 'non-existent-holding' not found\./
-        }
-      );
-    });
-
-    test("throws Data Integrity Error for invalid actionId", () => {
-      assert.throws(
-        () => evaluateAllocation(initialLedger, "learning-commons", "non-existent-action"),
-        {
-          name: "Error",
-          message: /Data Integrity Error: Action 'non-existent-action' not found under holding 'learning-commons'\./
-        }
-      );
-    });
-
-    test("throws Data Integrity Error when invalid ledger is supplied", () => {
-      assert.throws(
-        () => evaluateAllocation(null, "learning-commons", "expand-accessibility"),
-        {
-          name: "Error",
-          message: /Data Integrity Error: Invalid ledger state provided\./
-        }
-      );
-    });
+  test("current holdings expose stable identifiers and actions", () => {
+    assert.deepEqual(holdings.map(h => h.id), ["veiled-dominion", "break-the-grid", "float-works"]);
+    assert.deepEqual(holdings.map(h => h.actions.map(a => a.id)), [
+      ["fund-core", "license-fast"],
+      ["community-pilot", "ship-now"],
+      ["originalize", "viral-reference"]
+    ]);
   });
 
-  describe("outcomeFor Interpretation Logic", () => {
-    test("detects Critical Strain when capacity is depleted (<= 20)", () => {
-      const strainedLedger = { ...initialLedger, capacity: 15 };
-      const result = outcomeFor(strainedLedger);
+  test("calculates deterministic next state for a valid current action", () => {
+    const result = evaluateAllocation(initialLedger, "float-works", "originalize");
+    assert.equal(result.holding, "Float Works");
+    assert.equal(result.action, "Fund an original identity");
+    assert.deepEqual(result.delta, { cash: -20, capacity: -9, access: 5, rights: 18, trust: 9, pressure: -3 });
+    assert.deepEqual(result.ledger, { cash: 80, capacity: 51, access: 45, rights: 88, trust: 59, pressure: 22 });
+  });
 
-      assert.match(result, /^Critical Strain/);
-    });
+  test("clamps metric values at upper bound", () => {
+    const ledger = { ...initialLedger, rights: 95 };
+    const result = evaluateAllocation(ledger, "float-works", "originalize");
+    assert.equal(result.ledger.rights, 100);
+  });
 
-    test("detects Critical Strain when pressure is excessive (>= 80)", () => {
-      const highPressureLedger = { ...initialLedger, pressure: 85 };
-      const result = outcomeFor(highPressureLedger);
+  test("clamps metric values at lower bound", () => {
+    const ledger = { ...initialLedger, access: 2 };
+    const result = evaluateAllocation(ledger, "veiled-dominion", "license-fast");
+    assert.equal(result.ledger.access, 0);
+  });
 
-      assert.match(result, /^Critical Strain/);
-    });
+  test("does not mutate source ledger during evaluation", () => {
+    const before = JSON.stringify(initialLedger);
+    evaluateAllocation(initialLedger, "float-works", "originalize");
+    assert.equal(JSON.stringify(initialLedger), before);
+  });
 
-    test("detects Erosion of Consent when trust drops (<= 30)", () => {
-      const lowTrustLedger = { ...initialLedger, trust: 25 };
-      const result = outcomeFor(lowTrustLedger);
+  test("rejects insufficient synthetic cash", () => {
+    assert.throws(() => evaluateAllocation({ ...initialLedger, cash: 5 }, "float-works", "originalize"), /does not have enough cash/);
+  });
 
-      assert.match(result, /^Erosion of Consent/);
-    });
+  test("rejects invalid holding and action identifiers", () => {
+    assert.throws(() => evaluateAllocation(initialLedger, "non-existent-holding", "originalize"), /Unknown holding/);
+    assert.throws(() => evaluateAllocation(initialLedger, "float-works", "non-existent-action"), /Unknown action for Float Works/);
+  });
 
-    test("detects Balanced Stewardship when all key conditions are met", () => {
-      const balancedLedger = {
-        cash: 50,
-        capacity: 80,
-        access: 80,
-        rights: 70,
-        trust: 70,
-        pressure: 30
-      };
-      const result = outcomeFor(balancedLedger);
+  test("outcomeFor detects rights/trust/access erosion", () => {
+    assert.match(outcomeFor({ ...initialLedger, rights: 34 }), /unacceptable costs/);
+    assert.match(outcomeFor({ ...initialLedger, trust: 29 }), /unacceptable costs/);
+    assert.match(outcomeFor({ ...initialLedger, access: 24 }), /unacceptable costs/);
+  });
 
-      assert.match(result, /^Balanced Stewardship/);
-    });
+  test("outcomeFor detects a solvent balanced state", () => {
+    assert.match(outcomeFor({ cash: 50, capacity: 80, access: 80, rights: 70, trust: 70, pressure: 30 }), /remains solvent/);
+  });
+
+  test("outcomeFor reports pressure/capacity recovery state otherwise", () => {
+    assert.match(outcomeFor({ ...initialLedger, capacity: 29 }), /next quarter must reduce pressure/);
   });
 });
