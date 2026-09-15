@@ -69,6 +69,6 @@ describe("PIXIE Holdings Model Engine", () => {
   });
 
   test("outcomeFor reports pressure/capacity recovery state otherwise", () => {
-    assert.match(outcomeFor(initialLedger), /next quarter must reduce pressure/);
+    assert.match(outcomeFor({ ...initialLedger, capacity: 29 }), /next quarter must reduce pressure/);
   });
 });
