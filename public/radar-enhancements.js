@@ -27,18 +27,8 @@
     const win = doc.getElementById(id);
     if (!win) return;
     if (!win.dataset.pixieMaximized) {
-      win.dataset.pixiePrev = JSON.stringify({
-        left: win.style.left,
-        top: win.style.top,
-        width: win.style.width,
-        height: win.style.height,
-        maxWidth: win.style.maxWidth,
-        maxHeight: win.style.maxHeight
-      });
-      Object.assign(win.style, {
-        left: '8px', top: '8px', width: 'calc(100vw - 16px)', height: 'calc(100vh - 62px)',
-        maxWidth: 'none', maxHeight: 'none'
-      });
+      win.dataset.pixiePrev = JSON.stringify({ left: win.style.left, top: win.style.top, width: win.style.width, height: win.style.height, maxWidth: win.style.maxWidth, maxHeight: win.style.maxHeight });
+      Object.assign(win.style, { left: '8px', top: '8px', width: 'calc(100vw - 16px)', height: 'calc(100vh - 62px)', maxWidth: 'none', maxHeight: 'none' });
       win.dataset.pixieMaximized = '1';
     } else {
       const prev = JSON.parse(win.dataset.pixiePrev || '{}');
@@ -53,10 +43,11 @@
     doc.querySelectorAll('.window').forEach(function (win) {
       const id = win.id;
       const dots = win.querySelectorAll('.wdot');
-      if (dots[0]) dots[0].addEventListener('click', function (e) { e.stopPropagation(); minimizeWindow(id); });
+      if (dots[0]) dots[0].addEventListener('mousedown', function (e) { e.stopPropagation(); });
+      if (dots[1]) dots[1].addEventListener('mousedown', function (e) { e.stopPropagation(); });
+      if (dots[2]) dots[2].addEventListener('mousedown', function (e) { e.stopPropagation(); });
       if (dots[1]) dots[1].addEventListener('click', function (e) { e.stopPropagation(); minimizeWindow(id); });
       if (dots[2]) dots[2].addEventListener('click', function (e) { e.stopPropagation(); maximizeWindow(id); });
-      dots.forEach(function (dot) { dot.addEventListener('mousedown', function (e) { e.stopPropagation(); }); });
       win.addEventListener('mousedown', function () { focusWindow(id); });
     });
   }
@@ -83,21 +74,9 @@
     canvas.onclick = function (event) {
       const rect = canvas.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
-      const scaledX = (event.clientX - rect.left) * canvas.width / rect.width;
-      const scaledY = (event.clientY - rect.top) * canvas.height / rect.height;
-      const synthetic = new MouseEvent('click', {
-        bubbles: true,
-        cancelable: true,
-        clientX: rect.left + scaledX,
-        clientY: rect.top + scaledY,
-        screenX: event.screenX,
-        screenY: event.screenY,
-        ctrlKey: event.ctrlKey,
-        shiftKey: event.shiftKey,
-        altKey: event.altKey,
-        metaKey: event.metaKey
-      });
-      original.call(canvas, synthetic);
+      const x = (event.clientX - rect.left) * canvas.width / rect.width;
+      const y = (event.clientY - rect.top) * canvas.height / rect.height;
+      original.call(canvas, new MouseEvent('click', { bubbles: true, cancelable: true, clientX: rect.left + x, clientY: rect.top + y }));
     };
   }
 
@@ -107,12 +86,11 @@
       bar.dataset.pixieTouchDrag = '1';
       let drag = null;
       bar.addEventListener('touchstart', function (e) {
-        if (e.touches.length !== 1) return;
+        if (e.touches.length !== 1 || e.target.closest('.wdot')) return;
         const win = bar.closest('.window');
         if (!win) return;
         focusWindow(win.id);
-        const rect = win.getBoundingClientRect();
-        const touch = e.touches[0];
+        const rect = win.getBoundingClientRect(), touch = e.touches[0];
         drag = { win: win, x: touch.clientX - rect.left, y: touch.clientY - rect.top };
         e.preventDefault();
       }, { passive: false });
@@ -132,10 +110,7 @@
     doc.querySelectorAll('.door-card, .tree-node, .wdot, .access-pill').forEach(function (el) {
       if (el.tabIndex < 0) el.tabIndex = 0;
       el.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          el.click();
-        }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
       });
     });
   }
