@@ -24,13 +24,12 @@ export function routeAgentResult(result, { ledger } = {}) {
 
   const args = command.arguments ?? {};
   if (command.name === "evaluate_allocation") {
-    const preview = previewAllocation({ ledger, holdingId: args.holdingId, actionId: args.actionId });
-    return {
-      ...result,
-      routed: true,
-      requiresConfirmation: preview.requiresConfirmation,
-      preview
-    };
+    try {
+      const preview = previewAllocation({ ledger, holdingId: args.holdingId, actionId: args.actionId });
+      return { ...result, routed: true, requiresConfirmation: preview.requiresConfirmation, preview };
+    } catch (error) {
+      return { ...result, routed: false, routeError: { code: "INVALID_COMMAND_ARGUMENTS", message: error.message } };
+    }
   }
 
   return { ...result, routed: false };

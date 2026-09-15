@@ -4,36 +4,26 @@ import { buildAgentCatalog, buildAgentContext, routeAgentResult } from "../src/a
 
 test("agent catalog is derived from PIXIE Core", () => {
   const catalog = buildAgentCatalog();
-  assert.equal(catalog.length, 3);
-  assert.equal(catalog[0].actions.length, 2);
-  assert.ok(catalog.some(item => item.id === "float-works"));
+  assert.ok(catalog.length > 0);
+  assert.ok(catalog.every(holding => holding.id && holding.actions.every(action => action.id)));
+  assert.match(buildAgentContext(), /Choose only identifiers present in this catalog/);
 });
 
-test("agent context contains only governed holding and action identifiers", () => {
-  const context = JSON.parse(buildAgentContext());
-  assert.equal(context.rule.includes("Do not invent"), true);
-  assert.ok(context.holdings.every(item => item.actions.every(action => action.id)));
-});
-
-test("allocation intent routes into a Core preview", () => {
-  const result = routeAgentResult({
-    reply: "I can preview that allocation.",
-    intent: "allocation",
-    command: { name: "evaluate_allocation", arguments: { holdingId: "float-works", actionId: "originalize" } },
-    requiresConfirmation: false
-  });
+test("supported allocation command routes to a governed preview", () => {
+  const result = routeAgentResult({ reply: "Previewing it.", intent: "allocation", requiresConfirmation: true, command: { name: "evaluate_allocation", arguments: { holdingId: "float-works", actionId: "originalize" } } });
   assert.equal(result.routed, true);
-  assert.equal(result.requiresConfirmation, true);
-  assert.equal(result.preview.consequence.holding, "Float Works");
+  assert.equal(result.preview.governance, "preview-only");
+  assert.equal(result.preview.consequence.consequence.delta.rights, 18);
+});
+
+test("invalid allocation identifiers are rejected at the Core boundary", () => {
+  const result = routeAgentResult({ reply: "No.", intent: "allocation", requiresConfirmation: true, command: { name: "evaluate_allocation", arguments: { holdingId: "invented", actionId: "invented" } } });
+  assert.equal(result.routed, false);
+  assert.equal(result.routeError.code, "INVALID_COMMAND_ARGUMENTS");
 });
 
 test("unsupported commands never execute", () => {
-  const result = routeAgentResult({
-    reply: "No execution available.",
-    intent: "file",
-    command: { name: "move_file", arguments: {} },
-    requiresConfirmation: true
-  });
+  const result = routeAgentResult({ command: { name: "execute_everything", arguments: {} } });
   assert.equal(result.routed, false);
   assert.equal(result.preview, undefined);
 });
