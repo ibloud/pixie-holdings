@@ -334,6 +334,9 @@
     <div class="desk-icon" role="button" tabindex="0" aria-label="Open Sitemap" ondblclick="openWin('sitemap')" onkeydown="if(event.key==='Enter')openWin('sitemap')">
       <div class="icon-face" style="background:rgba(192,132,252,0.1);border-color:rgba(192,132,252,0.3)">🗺️</div><div class="icon-label">DID<br>Sitemap</div>
     </div>
+    <div class="desk-icon" role="button" tabindex="0" aria-label="Open Onboarding — Find Your Path" ondblclick="openWin('onboarding')" onkeydown="if(event.key==='Enter')openWin('onboarding')">
+      <div class="icon-face" style="background:rgba(183,212,138,0.1);border-color:rgba(183,212,138,0.3)">🧭</div><div class="icon-label">Find Your<br>Path</div>
+    </div>
   </nav>
 
   <div class="window w-pink focused" id="win-about" style="left:96px;top:20px;width:400px" role="dialog" aria-label="PIXIE Holdings Ecosystem">
@@ -392,6 +395,28 @@
     <div class="win-body"><div class="chat-body"><div class="chat-log" id="chat-log" aria-live="polite" aria-label="Chat messages"><div class="msg"><span class="msg-from">PIXIE</span><div class="msg-text pixie">Hello. I'm PIXIE — your consent-first portfolio steward.<br><br>I show before I act. I don't infer without permission. I don't move files without giving you source, destination, and a rollback receipt.<br><br>Ask me about the ecosystem, the holdings, the ARG, access levels, or consent rules.</div></div></div><div class="chat-input-row"><input class="chat-input" id="chat-input" type="text" placeholder="Ask PIXIE something…" aria-label="Chat input" onkeydown="if(event.key==='Enter')sendMsg()"/><button class="chat-send" onclick="sendMsg()" aria-label="Send message">Send</button></div></div></div>
   </div>
 
+  <div class="window w-mint" id="win-onboarding" style="left:520px;top:80px;width:430px;display:none" role="dialog" aria-label="Find Your Path onboarding">
+    <div class="win-bar" onmousedown="startDrag(event,'win-onboarding')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-onboarding')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">FIND YOUR PATH // ONBOARDING</div></div>
+    <div class="win-body"><div class="about-body">
+      <div class="about-eyebrow" style="color:var(--mint)">LOPTR LAB · ONBOARDING · CHOOSE YOUR DOOR</div>
+      <h1 class="about-h1">Find your <span class="accent" style="color:var(--mint)">path.</span></h1>
+      <p class="about-p">You do not need a job title or a plan. Start with the kind of work, learning, or participation you want to explore. The routes below are starting doors, not rankings.</p>
+      <div class="doors-grid">
+        <div class="door-card" onclick="routePath('learn')"><div class="door-name">LEARN / DEVELOP</div><div class="door-sub">Build skills through an experimental project.</div></div>
+        <div class="door-card" onclick="routePath('build')"><div class="door-name">BUILD / CONTRIBUTE</div><div class="door-sub">Inspect current engineering work and open issues.</div></div>
+        <div class="door-card" onclick="routePath('story')"><div class="door-name">STORY / WORLDBUILDING</div><div class="door-sub">Writing, provenance, characters, and narrative systems.</div></div>
+        <div class="door-card" onclick="routePath('access')"><div class="door-name">ACCESSIBILITY / SYSTEMS</div><div class="door-sub">Assistive technology, consent, and open systems.</div></div>
+        <div class="door-card" onclick="routePath('creative')"><div class="door-name">MUSIC / CREATIVE PRODUCTION</div><div class="door-sub">Creator tools, capture, production, and media.</div></div>
+        <div class="door-card" onclick="routePath('explore')"><div class="door-name">I'M JUST EXPLORING</div><div class="door-sub">Start with the public map and see what interests you.</div></div>
+      </div>
+      <div class="about-btns">
+        <button class="abtn abtn-ghost" onclick="openWin('radar')">Open Radar</button>
+        <button class="abtn abtn-ghost" onclick="openWin('sitemap')">DID Sitemap</button>
+      </div>
+      <div class="door-sub" style="line-height:1.6">Privacy boundary: this prototype routes locally in your browser. It does not send questionnaire answers to Loptr Lab or place job-loss/support information in a public record.</div>
+    </div></div>
+  </div>
+
   <div class="taskbar" role="navigation" aria-label="Taskbar"><span class="tb-logo">PIXIE OS</span><div class="tb-div"></div><button class="tb-btn active" id="tb-about" onclick="openWin('about')">Ecosystem</button><button class="tb-btn t-mint" id="tb-radar" onclick="openWin('radar')">Radar</button><button class="tb-btn t-lav" id="tb-holdings" onclick="openWin('holdings')">Holdings</button><button class="tb-btn" id="tb-meters" onclick="openWin('meters')">Resources</button><button class="tb-btn" id="tb-pixie" onclick="openWin('pixie')">PIXIE</button><button class="tb-btn t-lav" id="tb-sitemap" onclick="openWin('sitemap')">DID Sitemap</button><div class="tb-right"><span class="access-pill ap-guest" id="access-pill" onclick="cycleAccess()" role="button" tabindex="0" title="Click to cycle access level (demo)" aria-label="Current access level — click to change" onkeydown="if(event.key==='Enter')cycleAccess()">● Guest</span><div class="tb-div"></div><span class="tb-clock" id="clock" aria-label="Current time">--:--</span></div></div>
 </div>
 
@@ -403,7 +428,7 @@ const repos = [
   { name:'made-sick', desc:'Public campaign and AT Protocol surface', x:0.68, y:0.30, min:0 },
   { name:'violets-revenge', desc:'Open-source 1v4 asymmetrical horror game', x:0.78, y:0.44, min:0 },
   { name:'ibloud.github.io', desc:'Public profile and portfolio site', x:0.52, y:0.84, min:0 },
-  { name:'veiled-dominion', desc:'Duet engine — live 2-player game system', x:0.22, y:0.46, min:1 },
+  { name:'veiled-dominion', desc:'Canonical 4-player 14×14 design; production engine planned; Duet is experimental', x:0.22, y:0.46, min:1 },
   { name:'narrative-provenance', desc:'Creator-controlled private memory layer', x:0.30, y:0.57, min:1 },
   { name:'duet-engine-architecture', desc:'Architecture docs for the Duet engine', x:0.68, y:0.63, min:2 },
   { name:'inpatient-asylum-core', desc:'Core ARG mechanics and consent framework', x:0.42, y:0.70, min:2 },
@@ -444,6 +469,21 @@ function openContinuityRepo(name){const repo=continuityRepos[name];if(!repo)retu
 function initRadar(){const canvas=document.getElementById('rc');if(!canvas)return;canvas.onclick=function(e){const rect=canvas.getBoundingClientRect(),mx=e.clientX-rect.left,my=e.clientY-rect.top;let found=null;repos.forEach(r=>{const rx=r.x*canvas.width,ry=r.y*canvas.height;if(Math.hypot(mx-rx,my-ry)<12)found=r;});if(found){activeNode=found;const accessReq=accessLevels[found.min].name,isUnlocked=currentAccessIndex>=found.min;document.getElementById('tt-name').textContent=found.name;document.getElementById('tt-name').style.color=isUnlocked?'var(--mint2)':'var(--red)';document.getElementById('tt-access').textContent='Access: '+accessReq+(isUnlocked?' [Granted]':' [Restricted]');document.getElementById('tt-desc').textContent=isUnlocked?found.desc:'Encrypted content. Switch access profile to unlock.';}};if(!animFrameId)animateRadar();}
 function animateRadar(){angle+=0.015;drawRadar();animFrameId=requestAnimationFrame(animateRadar);}
 function drawRadar(){const canvas=document.getElementById('rc');if(!canvas||canvas.offsetWidth===0)return;const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height,cx=w/2,cy=h/2;ctx.clearRect(0,0,w,h);ctx.strokeStyle='rgba(127,255,212,0.12)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,40,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,80,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,110,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,h);ctx.stroke();ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(w,cy);ctx.stroke();const sweepX=cx+Math.cos(angle)*115,sweepY=cy+Math.sin(angle)*115,grad=ctx.createRadialGradient(cx,cy,5,cx,cy,115);grad.addColorStop(0,'rgba(127,255,212,0.3)');grad.addColorStop(1,'rgba(127,255,212,0)');ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,115,angle-0.35,angle);ctx.closePath();ctx.fillStyle=grad;ctx.fill();ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(sweepX,sweepY);ctx.strokeStyle='rgba(127,255,212,0.6)';ctx.stroke();repos.forEach(r=>{const rx=r.x*w,ry=r.y*h,isUnlocked=currentAccessIndex>=r.min,isSelected=activeNode===r;ctx.beginPath();ctx.arc(rx,ry,isSelected?7:4,0,Math.PI*2);if(isUnlocked){ctx.fillStyle=isSelected?'#ff6eb4':'#7fffd4';ctx.shadowColor='#7fffd4';ctx.shadowBlur=isSelected?10:4;}else{ctx.fillStyle='rgba(240,234,255,0.2)';ctx.shadowBlur=0;}ctx.fill();ctx.shadowBlur=0;if(isSelected){ctx.beginPath();ctx.arc(rx,ry,11,0,Math.PI*2);ctx.strokeStyle='#ff6eb4';ctx.lineWidth=1;ctx.stroke();}});}
+
+function routePath(path){
+  const routes={
+    learn:{title:'LEARN / DEVELOP',body:'Start with Battle the Beast and other experimental/training projects where the learning surface is the work itself.',url:'https://ibloud.github.io/battle-the-beast/'},
+    build:{title:'BUILD / CONTRIBUTE',body:'The Veiled Dominion Engine is the current engineering contribution surface. Check the repository status, issues, and documented path before choosing a task.',url:'https://github.com/Loptr-Lab/veiled-dominion-engine'},
+    story:{title:'STORY / WORLDBUILDING',body:'Explore narrative and provenance work, beginning with the public campaign and story-oriented projects.',url:'https://github.com/ibloud/made-sick'},
+    access:{title:'ACCESSIBILITY / SYSTEMS',body:'Explore PIXIE Device Stewardship and the Veiled Dominion Engine for accessibility, consent, rules, and systems work.',url:'https://github.com/ibloud/pixie-device-stewardship'},
+    creative:{title:'MUSIC / CREATIVE PRODUCTION',body:'Explore creator capture and production-oriented projects in the public ecosystem.',url:'https://github.com/ibloud/pixie-creator-os'},
+    explore:{title:'EXPLORE',body:'Open the public holdings site, then use the Radar or Sitemap to inspect the ecosystem at your own pace.',url:'https://holdings.loptrlab.com/'}
+  };
+  const route=routes[path];
+  if(!route)return;
+  showNotification(route.title,route.body);
+  setTimeout(()=>window.open(route.url,'_blank','noopener'),150);
+}
 
 function sendMsg(){const input=document.getElementById('chat-input'),text=input.value.trim();if(!text)return;const chatLog=document.getElementById('chat-log'),uMsg=document.createElement('div');uMsg.className='msg';uMsg.innerHTML='<span class="msg-from you">YOU</span><div class="msg-text you">'+escapeHtml(text)+'</div>';chatLog.appendChild(uMsg);input.value='';chatLog.scrollTop=chatLog.scrollHeight;setTimeout(()=>{const pMsg=document.createElement('div');pMsg.className='msg';pMsg.innerHTML='<span class="msg-from">PIXIE</span><div class="msg-text pixie">'+getPixieResponse(text)+'</div>';chatLog.appendChild(pMsg);chatLog.scrollTop=chatLog.scrollHeight;},600);}
 function getPixieResponse(input){const q=input.toLowerCase();if(q.includes('radar')||q.includes('repo'))return'The Repo Radar tracks open and restricted projects. Change access levels on the taskbar to inspect restricted repositories.';else if(q.includes('consent')||q.includes('rule'))return'Consent Rule #1: Every dynamic state change requires direct user verification. All file operations append a rollback entry.';else if(q.includes('arg')||q.includes('door'))return'The ecosystem features multiple doors across domains (Loptr Lab, Inpatient Asylum, Sick Sick Soul). Access keys unlock deeper layers.';return"I've recorded your inquiry. I act strictly with consent — ask me to inspect holdings, check system meters, or cycle your access level.";}
