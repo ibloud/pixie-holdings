@@ -11,6 +11,14 @@ The project demonstrates a deliberately different kind of embodied assistant:
 - **AT Protocol is the portable public evidence layer.**
 - **Narrative Provenance for Obsidian remains the private creator-controlled memory.**
 
+## Contributor launchpad
+
+**Run it. Test it. Tell us what breaks.**
+
+Start with [`CONTRIBUTING.md`](CONTRIBUTING.md). Good first contributions include accessibility testing, MCP/Alexa+ interoperability, documentation, provenance, UX, tests, and ecosystem mapping.
+
+The [`Ecosystem Handoff`](docs/ECOSYSTEM-HANDOFF.md) explains how this hackathon prototype fits into the wider Loptr Lab / PIXIE architecture without treating future Gamer OS capabilities as already shipped.
+
 ## Obsidian vault contract
 
 The prototype includes an additive, Obsidian-compatible project structure in
@@ -20,9 +28,10 @@ receipt before changing anything. Original filenames and attachments are preserv
 
 ## Run
 
-Requires Node.js 20 or later.
+Requires Node.js 22 or later.
 
 ```bash
+npm install
 npm start
 ```
 
