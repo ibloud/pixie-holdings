@@ -1,6 +1,6 @@
 {
   "plugin": "devpost-hackathon",
-  "version": 2,
+  "version": 3,
   "hackathon": {
     "slug": "amazonappdev2026",
     "name": "Build, Ship, Shape: Amazon Developer Hackathon",
@@ -14,19 +14,37 @@
     "ai_usage": "Alexa-compatible MCP tools explain synthetic portfolio tradeoffs and preview reversible file-stewardship actions.",
     "codex_usage": "Codex assisted implementation, testing, documentation, and accessibility checks under the creator's direction."
   },
-  "current_stage": "resources",
-  "completed_stages": ["start-hackathon", "review", "resources"],
+  "current_stage": "submission-draft",
+  "completed_stages": [
+    "start-hackathon",
+    "review",
+    "resources",
+    "build",
+    "submission-draft"
+  ],
   "rules_acknowledged": true,
   "learning": {
-    "status": "in-progress",
-    "current_step": "build",
-    "completed_steps": ["scope", "prd", "spec", "checklist"],
+    "status": "complete-for-submission-draft",
+    "current_step": "submit",
+    "completed_steps": [
+      "scope",
+      "prd",
+      "spec",
+      "checklist",
+      "build"
+    ],
     "plan_file": "docs/hackathon-build/spec.md",
     "checklist_file": "docs/hackathon-build/checklist.md"
   },
   "submission": {
     "draft_file": "devpost-submission.md",
-    "status": "not-started"
+    "demo_script_file": "docs/hackathon-build/demo-script.md",
+    "status": "drafted",
+    "primary_track": "Alexa+",
+    "mini_challenges": [
+      "Open Source"
+    ],
+    "open_source_contribution_url": "https://github.com/ibloud/50-ways-to-leave-another/pull/41"
   },
-  "next_command": "build-project"
+  "next_command": "upload-demo-and-submit"
 }
