@@ -89,14 +89,5 @@ frame.addEventListener('load',tuneRadar);
 if(frame.contentDocument && frame.contentDocument.readyState!=='loading') tuneRadar();
 </script>
 
-<style>
-  /* PIXIE breathing status: shared control-room continuity cue. */
-  @keyframes pixie-breathe {
-    0%, 100% { opacity: .72; transform: scale(1); box-shadow: 0 0 8px rgba(178,255,50,.28); }
-    50% { opacity: 1; transform: scale(1.16); box-shadow: 0 0 16px rgba(178,255,50,.58); }
-  }
-  #pixie-core { animation: pixie-breathe 3.2s ease-in-out infinite; }
-  @media (prefers-reduced-motion: reduce) { #pixie-core { animation: none; } }
-</style>
 </body>
 </html>
