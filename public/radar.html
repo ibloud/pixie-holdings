@@ -21,8 +21,8 @@ function bootDesktop(){
     if(!doc || doc.getElementById('win-control')) return;
     const style=doc.createElement('style');
     style.textContent=`
-      @keyframes pixieBreathe{0%,100%{opacity:.72;box-shadow:0 0 7px rgba(183,212,138,.22)}50%{opacity:1;box-shadow:0 0 18px rgba(183,212,138,.62)}}
-      .pixie-breath{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--mint);margin-right:8px;animation:pixieBreathe 3.2s ease-in-out infinite}
+      @keyframes pixieBreathe{0%,100%{transform:scale(1);filter:drop-shadow(0 0 4px rgba(217,138,169,.25))}50%{transform:scale(1.08);filter:drop-shadow(0 0 12px rgba(217,138,169,.7))}}
+      .pixie-breath{animation:pixieBreathe 3.2s ease-in-out infinite;transform-origin:center}
       .taskbar{position:fixed!important;left:0;right:0;bottom:0!important;z-index:200!important}
       #win-control{height:min(76vh,720px)}
       #win-control .win-body{padding:0;overflow:hidden;flex:1}
@@ -51,11 +51,11 @@ function bootDesktop(){
     const taskbar=doc.querySelector('.taskbar');
     const taskButton=doc.createElement('button');
     taskButton.className='tb-btn t-mint'; taskButton.id='tb-control';
-    taskButton.innerHTML='<span class="pixie-breath" aria-hidden="true"></span>Control';
+    taskButton.textContent='Control';
     taskButton.addEventListener('click',()=>frame.contentWindow.openWin('control'));
     taskbar?.querySelector('.tb-right')?.before(taskButton);
-    const logo=doc.querySelector('.tb-logo');
-    if(logo) logo.innerHTML='<span class="pixie-breath" aria-hidden="true"></span>PIXIE OS';
+    const pixieIcon=doc.querySelector('[aria-label="Open PIXIE Agent"] .icon-face');
+    pixieIcon?.classList.add('pixie-breath');
   }catch(error){console.error('[PIXIE OS] Desktop boot failed:',error)}
 }
 frame.addEventListener('load',bootDesktop);
