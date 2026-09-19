@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="PIXIE OS — balanced retro radar interface from Loptr Lab.">
+<title>PIXIE OS — Radar</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{width:100%;height:100%;margin:0;background:#080b09;overflow:hidden}
+  iframe{display:block;width:100%;height:100%;border:0;background:#080b09}
+</style>
+</head>
+<body>
+<iframe id="pixie-core" src="radar-core.html" title="PIXIE OS Radar"></iframe>
+<script>
+const frame=document.getElementById('pixie-core');
+function tuneRadar(){
+  try{
+    const doc=frame.contentDocument;
+    if(!doc) throw new Error('PIXIE OS core document unavailable');
+    const style=doc.createElement('style');
+    style.textContent=`
+      :root{--bg:#080b09;--desk:#0c110e;--win:#111712;--win2:#171d18;--pink:#d98aa9;--pink2:#efb4c8;--pink3:rgba(217,138,169,.07);--pink-glow:rgba(217,138,169,.14);--lav:#a9a0c2;--lav2:#c9c2d8;--lav3:rgba(169,160,194,.07);--mint:#b7d48a;--mint2:#d2e3ae;--mint3:rgba(183,212,138,.07);--yellow:#d5c47a;--red:#d46b6b;--white:#e7e8df;--muted:rgba(231,232,223,.55);--dimmer:rgba(231,232,223,.24);--border:rgba(217,138,169,.20);--lborder:rgba(169,160,194,.18);--mborder:rgba(183,212,138,.20)}
+      .desktop{background:var(--desk)} .wallpaper{opacity:.62;filter:saturate(.68)} .icon-grid{filter:saturate(.78)} .window{border-color:rgba(183,212,138,.16)}
+      .w-pink.focused{border-color:rgba(217,138,169,.36);box-shadow:0 10px 48px rgba(217,138,169,.06)} .w-lav.focused{border-color:rgba(169,160,194,.34);box-shadow:0 10px 48px rgba(169,160,194,.05)} .w-mint.focused{border-color:rgba(183,212,138,.34);box-shadow:0 10px 48px rgba(183,212,138,.05)} .w-yellow.focused{border-color:rgba(213,196,122,.34);box-shadow:0 10px 48px rgba(213,196,122,.04)}
+      .wd-close{background:#c87878}.wd-min{background:#c7b66f}.wd-max{background:#8fb17b} #rc{filter:saturate(.78)} .radar-tt{border-left-color:var(--mint)}
+      .desk-icon:focus-visible,.door-card:focus-visible,.tree-node:focus-visible,.wdot:focus-visible,.access-pill:focus-visible{outline:1px solid var(--pink);outline-offset:2px}
+    `;
+    doc.head.appendChild(style);
+    /* Standalone PIXIE control room: the radar is the primary surface, not a nested desktop window. */
+    const room = doc.createElement('main');
+    room.id = 'pixie-control-room';
+    room.setAttribute('aria-label','PIXIE Control Room');
+    room.innerHTML = `
+      <header class="cr-head">
+        <div><span class="cr-brand">PIXIE // LOPTR LAB</span><h1>CONTROL ROOM</h1></div>
+        <div class="cr-live"><i></i> SIGNAL ONLINE <small>LOCAL ONLY</small></div>
+      </header>
+      <section class="cr-grid">
+        <div class="cr-radar"><div class="cr-label">LIVE RADAR // SIGNAL FIELD</div><div class="cr-canvas"></div></div>
+        <aside class="cr-target">
+          <span class="cr-label">CURRENT TARGET</span>
+          <h2>Rising Developer<br>Activity — Indie Tools</h2>
+          <div class="cr-confidence">CONFIDENCE <b>92%</b></div>
+          <div class="cr-risk">MEDIUM RISK</div>
+          <p>Growing momentum in indie tooling. Potential partnership opportunity.</p>
+          <strong class="cr-action">REVIEW &amp; EXPLORE →</strong>
+          <small>HUMAN REVIEW: PENDING</small>
+        </aside>
+        <section class="cr-narrative"><span>SIGNAL NARRATIVE</span><p>“I've identified three emerging signals. One requires your review.”</p><b>— SIGNAL</b></section>
+        <section class="cr-pipeline"><span class="cr-label">RECON PIPELINE</span><div class="cr-stages"><b>DRAFT</b><b>QUEUED</b><b class="sweep">SWEEP</b><b class="flagged">FLAGGED</b><b class="cleared">CLEARED</b><b>BROADCAST</b></div></section>
+        <section class="cr-feed"><span class="cr-label">SYSTEM FEED</span><p>● 12:34 &nbsp; New signal detected: indie tool — developer activity rising</p><p>● 12:28 &nbsp; Source added to memory: @tooling-trend-2025</p><p>● 12:21 &nbsp; Recon pipeline: 1 item moved to <b>FLAGGED</b></p><aside>NEXT REVIEW TARGET <b>→</b></aside></section>
+      </section>
+    `;
+    doc.body.appendChild(room);
+    const canvas = doc.getElementById('rc');
+    const mount = room.querySelector('.cr-canvas');
+    if (canvas && mount) mount.appendChild(canvas);
+    doc.querySelector('.desktop')?.setAttribute('aria-hidden','true');
+    const crStyle=doc.createElement('style');
+    crStyle.textContent=`
+      html,body{overflow:auto!important;background:#061015!important;color:#e8f6ef!important}
+      .desktop{display:none!important}
+      #pixie-control-room{min-height:100vh;padding:18px 28px 28px;font-family:Space Grotesk,system-ui,sans-serif;background:radial-gradient(circle at 20% 80%,rgba(32,255,182,.10),transparent 30%),radial-gradient(circle at 80% 12%,rgba(192,132,252,.10),transparent 28%),linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:auto,auto,28px 28px,28px 28px}
+      .cr-head{display:flex;justify-content:space-between;align-items:center;max-width:1280px;margin:0 auto 14px;padding:10px 4px 12px;border-bottom:1px solid rgba(127,255,212,.18)}
+      .cr-brand{font:600 11px/1 'JetBrains Mono',monospace;letter-spacing:.18em;color:#b2ff32}.cr-head h1{margin:5px 0 0;font:700 18px/1 'JetBrains Mono',monospace;letter-spacing:.12em;color:#edf9f1}
+      .cr-live{font:600 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#b2ff32}.cr-live i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#b2ff32;box-shadow:0 0 12px #b2ff32;margin-right:7px}.cr-live small{color:#6e8490;margin-left:8px}
+      .cr-grid{max-width:1280px;margin:auto;display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.65fr);grid-template-areas:"radar target" "narrative target" "pipeline pipeline" "feed feed";gap:10px}
+      .cr-grid>div,.cr-grid>aside,.cr-grid>section{background:rgba(5,15,20,.88);border:1px solid rgba(83,204,255,.20);clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);box-shadow:inset 0 0 24px rgba(0,255,190,.025)}
+      .cr-radar{grid-area:radar;min-height:430px;padding:14px}.cr-label{display:block;color:#56d9ff;font:600 10px 'JetBrains Mono',monospace;letter-spacing:.16em;margin-bottom:10px}.cr-canvas{height:370px;display:grid;place-items:center}.cr-canvas #rc{width:min(100%,600px);height:370px}
+      .cr-target{grid-area:target;padding:18px}.cr-target h2{font:700 18px/1.25 'JetBrains Mono',monospace;color:#eff7ef;margin:18px 0}.cr-confidence{font:600 11px 'JetBrains Mono',monospace;color:#56d9ff}.cr-confidence b{color:#b2ff32}.cr-risk{display:inline-block;margin:14px 0 8px;padding:5px 8px;border:1px solid #ff3f8e;color:#ff3f8e;font:700 10px 'JetBrains Mono',monospace}.cr-target p{color:#9eb2ba;font:13px/1.5 Space Grotesk,sans-serif}.cr-action{display:block;margin-top:20px;padding:10px;border:1px solid #b2ff32;color:#b2ff32;font:700 11px 'JetBrains Mono',monospace}.cr-target small{display:block;margin-top:10px;color:#7c9098;font:9px 'JetBrains Mono',monospace}
+      .cr-narrative{grid-area:narrative;padding:14px;display:grid;grid-template-columns:auto 1fr;gap:5px 12px}.cr-narrative span{grid-column:1/-1}.cr-narrative p{margin:0;color:#e8edf0;font:14px/1.4 Space Grotesk,sans-serif}.cr-narrative b{color:#8b7bff;font:10px 'JetBrains Mono',monospace}
+      .cr-pipeline{grid-area:pipeline;padding:14px}.cr-stages{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}.cr-stages b{padding:12px 8px;border:1px solid rgba(150,170,180,.22);color:#9eb2ba;font:600 10px 'JetBrains Mono',monospace;text-align:center}.cr-stages .sweep{border-color:#9c7cff;color:#9c7cff}.cr-stages .flagged{border-color:#ff3f8e;color:#ff3f8e}.cr-stages .cleared{border-color:#56d9ff;color:#56d9ff}
+      .cr-feed{grid-area:feed;position:relative;padding:14px 250px 14px 14px;min-height:118px}.cr-feed p{margin:7px 0;color:#94a9b1;font:11px 'JetBrains Mono',monospace}.cr-feed p:first-of-type{color:#d4e2e4}.cr-feed aside{position:absolute;right:14px;top:34px;width:200px;padding:15px;border:1px solid rgba(83,204,255,.18);color:#56d9ff;font:9px 'JetBrains Mono',monospace}.cr-feed aside b{float:right;color:#b2ff32;font-size:14px}
+      @media(max-width:800px){#pixie-control-room{padding:12px}.cr-grid{grid-template-columns:1fr;grid-template-areas:"radar" "target" "narrative" "pipeline" "feed"}.cr-radar{min-height:340px}.cr-canvas,.cr-canvas #rc{height:290px}.cr-stages{grid-template-columns:repeat(3,1fr)}.cr-feed{padding-right:14px}.cr-feed aside{position:static;width:auto;margin-top:12px}}
+      @media(prefers-reduced-motion:reduce){*{animation:none!important}}
+    `;
+    doc.head.appendChild(crStyle);
+    const script=doc.createElement('script');
+    script.src='radar-enhancements.js';
+    script.async=false;
+    doc.body.appendChild(script);
+  }catch(e){
+    console.error('[PIXIE OS] Unable to tune radar core:',e);
+  }
+}
+frame.addEventListener('load',tuneRadar);
+if(frame.contentDocument && frame.contentDocument.readyState!=='loading') tuneRadar();
+</script>
+
+<style>
+  /* PIXIE breathing status: shared control-room continuity cue. */
+  @keyframes pixie-breathe {
+    0%, 100% { opacity: .72; transform: scale(1); box-shadow: 0 0 8px rgba(178,255,50,.28); }
+    50% { opacity: 1; transform: scale(1.16); box-shadow: 0 0 16px rgba(178,255,50,.58); }
+  }
+  #pixie-core { animation: pixie-breathe 3.2s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { #pixie-core { animation: none; } }
+</style>
+</body>
+</html>
