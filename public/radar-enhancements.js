@@ -52,18 +52,6 @@
     });
   }
 
-  function wireDesktopIcons() {
-    doc.querySelectorAll('.desk-icon').forEach(function (icon) {
-      if (icon.dataset.pixieSingleClick) return;
-      icon.dataset.pixieSingleClick = '1';
-      icon.addEventListener('click', function () {
-        const dbl = icon.getAttribute('ondblclick') || '';
-        const match = dbl.match(/openWin\(['"]([^'"]+)['"]\)/);
-        if (match && typeof child.openWin === 'function') child.openWin(match[1]);
-      });
-    });
-  }
-
   function wireRadar() {
     const canvas = doc.getElementById('rc');
     if (!canvas || canvas.dataset.pixieRadarFixed) return;
@@ -117,7 +105,6 @@
 
   function boot() {
     wireWindowControls();
-    wireDesktopIcons();
     wireRadar();
     wireTouchDragging();
     wireKeyboard();
