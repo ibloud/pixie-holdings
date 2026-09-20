@@ -36,8 +36,9 @@ function bootDesktop(){
     icon.className='desk-icon'; icon.setAttribute('role','button'); icon.tabIndex=0;
     icon.setAttribute('aria-label','Open PIXIE Control Room');
     icon.innerHTML='<div class="icon-face" style="background:rgba(83,204,255,.08);border-color:rgba(83,204,255,.28)">◉</div><div class="icon-label">Control<br>Room</div>';
-    icon.addEventListener('dblclick',()=>frame.contentWindow.openWin('control'));
-    icon.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();frame.contentWindow.openWin('control')}});
+    const openControlRoom = () => frame.contentWindow.openWin('control');
+    icon.addEventListener('click', openControlRoom);
+    icon.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openControlRoom()}});
     icons?.appendChild(icon);
     const win=doc.createElement('div');
     win.className='window w-mint'; win.id='win-control';
