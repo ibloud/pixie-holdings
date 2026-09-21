@@ -15,6 +15,9 @@ html,body{width:100%;height:100%;margin:0;background:#080b09;overflow:hidden}
 <iframe id="pixie-core" src="radar-core.html" title="PIXIE OS Desktop"></iframe>
 <script>
 const frame=document.getElementById('pixie-core');
+const pixieParams = new URLSearchParams(window.location.search);
+const coreQuery = window.location.search || '';
+if (coreQuery) frame.src = 'radar-core.html' + coreQuery;
 function bootDesktop(){
   try{
     const doc=frame.contentDocument;
@@ -60,6 +63,15 @@ function bootDesktop(){
   }catch(error){console.error('[PIXIE OS] Desktop boot failed:',error)}
 }
 frame.addEventListener('load',bootDesktop);
+function routeMadeSickHandoff(){
+  const role=pixieParams.get('role');
+  if(role==='admin'){
+    setTimeout(()=>frame.contentWindow.openWin?.('control'),250);
+  }else if(role==='participant'){
+    setTimeout(()=>frame.contentWindow.openWin?.('made-sick'),250);
+  }
+}
+frame.addEventListener('load',routeMadeSickHandoff);
 if(frame.contentDocument && frame.contentDocument.readyState!=='loading') bootDesktop();
 </script>
 </body>
