@@ -40,6 +40,26 @@ function bootDesktop(){
     icon.setAttribute('aria-label','Open PIXIE Control Room');
     icon.innerHTML='<div class="icon-face" style="background:rgba(83,204,255,.08);border-color:rgba(83,204,255,.28)">◉</div><div class="icon-label">Control<br>Room</div>';
     const openControlRoom = () => frame.contentWindow.openWin('control');
+
+    // Made Sick is a persistent PIXIE OS application, not a dashboard replacing the host site.
+    if (!doc.getElementById('icon-made-sick')) {
+      const madeSickIcon=doc.createElement('div');
+      madeSickIcon.className='desk-icon';
+      madeSickIcon.id='icon-made-sick';
+      madeSickIcon.setAttribute('role','button');
+      madeSickIcon.tabIndex=0;
+      madeSickIcon.setAttribute('aria-label','Open Made Sick');
+      madeSickIcon.innerHTML='<div class="icon-face" style="background:rgba(255,68,68,.08);border-color:rgba(255,68,68,.32);color:#ff6b62">MS</div><div class="icon-label">Made<br>Sick</div>';
+      const openMadeSick=()=>{
+        const params=new URLSearchParams(window.location.search);
+        if(params.get('role')==='admin') frame.contentWindow.openWin?.('control');
+        else if(params.get('role')==='participant' && frame.contentWindow.openWin) frame.contentWindow.openWin('made-sick');
+        else window.top.location.href='https://made-sick.org/join.html?pixie=1';
+      };
+      madeSickIcon.addEventListener('click',openMadeSick);
+      madeSickIcon.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openMadeSick()}});
+      icons?.appendChild(madeSickIcon);
+    }
     icon.addEventListener('click', openControlRoom);
     icon.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openControlRoom()}});
     icons?.appendChild(icon);
