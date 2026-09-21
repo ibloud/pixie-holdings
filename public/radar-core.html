@@ -490,6 +490,72 @@ function getPixieResponse(input){const q=input.toLowerCase();if(q.includes('rada
 function escapeHtml(str){return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function showNotification(title,body){const old=document.querySelector('.notify');if(old)old.remove();const n=document.createElement('div');n.className='notify';n.innerHTML='<div class="notify-title">'+title+'</div><div class="notify-body">'+body+'</div>';document.getElementById('desk').appendChild(n);setTimeout(()=>{n.remove();},3500);}
 function updateClock(){const now=new Date(),hrs=String(now.getHours()).padStart(2,'0'),mins=String(now.getMinutes()).padStart(2,'0');document.getElementById('clock').textContent=hrs+':'+mins;}
+
+// Made Sick / AT Protocol handoff
+function initMadeSickHandoff(){
+  const params=new URLSearchParams(window.location.search);
+  if(params.get('role')!=='participant') return;
+  if(document.getElementById('win-made-sick')) return;
+  const card=params.get('card')||'missing';
+  const did=params.get('did')||'';
+  const displayName=params.get('displayName')||'';
+  const milestone=params.get('milestone')||'';
+  const returnTo=params.get('return_to')||'https://made-sick.org/join.html';
+  const win=document.createElement('div');
+  win.className='window w-lav';
+  win.id='win-made-sick';
+  win.style.cssText='left:8vw;top:7vh;width:min(720px,84vw);max-height:82vh;display:none';
+  win.setAttribute('role','dialog');
+  win.setAttribute('aria-label','Made Sick participant');
+  const safe=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  if(card==='existing'){
+    win.innerHTML=`<div class="win-bar"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" id="ms-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">MADE SICK // PARTICIPANT CARD</div></div>
+      <div class="win-body" style="overflow:auto;padding:22px">
+        <div class="about-eyebrow">AT PROTOCOL · CARD FOUND</div>
+        <h2 class="about-h1">Welcome back, <span class="accent">${safe(displayName||'participant')}</span>.</h2>
+        <p class="about-p">Your Made Sick participant card already exists in your own AT Protocol repository. PIXIE OS is loading the existing card; no new card is required.</p>
+        <div class="pill-row"><span class="pill p-lav">DID ${safe(did)}</span><span class="pill p-mint">CARD: EXISTING</span></div>
+        <div style="margin-top:18px;padding:14px;border:1px solid var(--lborder);background:var(--lav3);border-radius:6px">
+          <div class="doors-label">MILESTONE</div><div style="font-size:14px;color:var(--white);line-height:1.6">${safe(milestone||'No milestone supplied.')}</div>
+        </div>
+        <p class="about-p" style="margin-top:16px">The card remains participant-controlled. PIXIE OS does not rewrite it merely by opening this workspace.</p>
+      </div>`;
+  }else{
+    win.innerHTML=`<div class="win-bar"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" id="ms-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">MADE SICK // CREATE PARTICIPANT CARD</div></div>
+      <div class="win-body" style="overflow:auto;padding:22px">
+        <div class="about-eyebrow">AT PROTOCOL · NO CARD FOUND</div>
+        <h2 class="about-h1">Let's make your <span class="accent">Made Sick card</span>.</h2>
+        <p class="about-p">Your AT Protocol identity is connected, but no <code>org.made-sick.participant/self</code> record was found. PIXIE OS will ask what you want the public card to say. Nothing is published until you explicitly consent.</p>
+        <form id="ms-onboarding" style="display:flex;flex-direction:column;gap:12px;margin-top:18px">
+          <label style="font-size:12px;color:var(--muted)">Public display name<input id="ms-name" required maxlength="80" value="${safe(displayName)}" placeholder="The name you want people to see" style="display:block;width:100%;margin-top:6px;padding:10px;background:#08080f;color:var(--white);border:1px solid var(--lborder);border-radius:5px;font:inherit"></label>
+          <label style="font-size:12px;color:var(--muted)">Milestone or short description<input id="ms-milestone" maxlength="500" value="${safe(milestone)}" placeholder="What are you celebrating, making, learning, or sharing?" style="display:block;width:100%;margin-top:6px;padding:10px;background:#08080f;color:var(--white);border:1px solid var(--lborder);border-radius:5px;font:inherit"></label>
+          <label style="display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--white)"><input id="ms-consent" type="checkbox" required style="margin-top:3px"> I consent to publish this participant card in my AT Protocol repository and for Made Sick to index it in the directory.</label>
+          <button class="abtn abtn-pink" type="submit">CREATE CARD &amp; RETURN TO MADE SICK</button>
+        </form>
+        <p class="about-p" style="margin-top:14px">PIXIE OS prepares the card. Made Sick performs the authenticated repository write after you return.</p>
+      </div>`;
+  }
+  document.querySelector('.taskbar')?.before(win);
+  win.querySelector('#ms-close')?.addEventListener('click',()=>closeWin('win-made-sick'));
+  win.addEventListener('mousedown',()=>focusWin('win-made-sick'));
+  if(card!=='existing'){
+    win.querySelector('#ms-onboarding').addEventListener('submit',e=>{
+      e.preventDefault();
+      const name=win.querySelector('#ms-name').value.trim();
+      const ms=win.querySelector('#ms-milestone').value.trim();
+      const consent=win.querySelector('#ms-consent').checked;
+      if(!name||!consent) return;
+      const target=new URL(returnTo);
+      target.searchParams.set('pixie_onboarding','1');
+      target.searchParams.set('displayName',name);
+      if(ms) target.searchParams.set('milestone',ms);
+      target.searchParams.set('consent','1');
+      window.top.location.assign(target.toString());
+    });
+  }
+  openWin('made-sick');
+}
+initMadeSickHandoff();
 setInterval(updateClock,1000);updateClock();document.querySelectorAll('.window').forEach(w=>{w.addEventListener('mousedown',()=>focusWin(w.id));});
 </script>
 </body>
