@@ -3,12 +3,12 @@ import { randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
-import { askGemini } from "./ai/gemini.js";
-import { buildAgentContext, routeAgentResult } from "./ai/router.js";
-import { listHoldings, listDeviceCapabilities, listFileCapabilities, prepareMedia, prepareReceipt, previewAllocation, previewDevice, previewFile } from "./pixie/core.js";
+import { askGemini } from "../ai/gemini.js";
+import { buildAgentContext, routeAgentResult } from "../ai/router.js";
+import { listHoldings, listDeviceCapabilities, listFileCapabilities, prepareMedia, prepareReceipt, previewAllocation, previewDevice, previewFile } from "../pixie/core.js";
 
 export const MCP_PROTOCOL_VERSION = "2025-11-25";
-const root = fileURLToPath(new URL("../public/", import.meta.url));
+const root = fileURLToPath(new URL("../../public/", import.meta.url));
 const mime = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml" };
 const MAX_BODY_BYTES = 16_384;
 const AGENT_WINDOW_MS = 10 * 60 * 1000;
@@ -62,7 +62,7 @@ async function parseJson(request) {
   try { return JSON.parse(body || "{}"); } catch { throw Object.assign(new Error("Invalid JSON"), { code: "INVALID_JSON" }); }
 }
 
-import { getMarketData, MARKET_SYMBOLS } from "./market-data.js";
+import { getMarketData, MARKET_SYMBOLS } from "../market-data.js";
 
 let marketCache = { expiresAt: 0, data: null };
 
