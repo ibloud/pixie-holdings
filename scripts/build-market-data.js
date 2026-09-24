@@ -10,14 +10,6 @@ try {
   await writeFile(output, JSON.stringify(data, null, 2) + "\n", "utf8");
   console.log(`Wrote ${data.quotes.length} reference signals to ${output}`);
 } catch (error) {
-  const fallback = {
-    source: { market: "fmp", macro: "fred" },
-    fetchedAt: new Date().toISOString(),
-    referenceOnly: true,
-    quotes: [],
-    error: "External market data is unavailable during this Pages build."
-  };
-  await writeFile(output, JSON.stringify(fallback, null, 2) + "\n", "utf8");
-  console.warn(error?.message || error);
-  console.warn(`Wrote an offline market snapshot to ${output}`);
+  console.error(error?.message || error);
+  process.exitCode = 1;
 }
