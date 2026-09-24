@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { handleMcp, toolDefinitions } from "../src/server.js";
+import { handleMcp, toolDefinitions } from "../src/app.js";
 
 test("MCP exposes the semantic file capability catalog", async () => {
   const result = await handleMcp({ jsonrpc: "2.0", id: 1, method: "tools/call", params: { name: "list_file_capabilities", arguments: {} } });
