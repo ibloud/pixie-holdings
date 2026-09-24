@@ -31,7 +31,7 @@ button{font:9px "JetBrains Mono",monospace;color:#b2ffe8;background:transparent;
   <div class="note">Real market quotes are displayed as external reference signals. They do not alter the synthetic PXCOIN ledger, portfolio outcomes, or PIXIE governance.</div>
   <section class="board" id="board" aria-label="Market signal groups"></section>
   <section class="tape" id="tape" aria-live="polite"></section>
-  <div class="footer">PROXY BASKETS ARE PRODUCT DEFINITIONS, NOT OFFICIAL INDICES. QUOTES MAY BE DELAYED. SOURCE: YAHOO FINANCE.</div>
+  <div class="footer">PROXY BASKETS ARE PRODUCT DEFINITIONS, NOT OFFICIAL INDICES. QUOTES MAY BE DELAYED. SOURCES: FINANCIAL MODELING PREP (MARKET) + FEDERAL RESERVE BANK OF ST. LOUIS FRED (MACRO). FRED DATA IS REFERENCE-ONLY.</div>
 </div>
 <script>
 const GROUPS=[
@@ -40,23 +40,23 @@ const GROUPS=[
   {id:"power",label:"POWER / DATA CENTERS",symbols:["XLE","EQIX","DLR"]},
   {id:"automation",label:"AUTOMATION",symbols:["BOTZ"]},
   {id:"digital",label:"DIGITAL MONEY",symbols:["BTC-USD","ETH-USD"]},
-  {id:"macro",label:"RATES / RISK",symbols:["^TNX","^VIX"]}
+  {id:"macro",label:"RATES / RISK",symbols:["DGS10","VIXCLS"]}
 ];
 const META={
  SPY:["S&P 500 proxy","baseline"],QQQ:["Nasdaq-100 proxy","baseline"],
  SMH:["Semiconductor ETF","compute"],NVDA:["GPU / AI infrastructure","compute"],
  XLE:["Energy sector ETF","power"],EQIX:["Data-center REIT","power"],DLR:["Data-center REIT","power"],
  BOTZ:["Robotics / automation ETF","automation"],"BTC-USD":["Bitcoin","digital"],"ETH-USD":["Ethereum","digital"],
- "^TNX":["10Y Treasury yield","macro"],"^VIX":["Volatility index","macro"]
+ DGS10:["10Y Treasury yield","macro"],VIXCLS:["Volatility index","macro"]
 };
 let last=null;
-function fmt(v,s){if(v==null)return "—"; if(s.endsWith("-USD")) return "$"+v.toLocaleString(undefined,{maximumFractionDigits:2}); if(s==="^TNX"||s==="^VIX") return v.toFixed(2); return "$"+v.toFixed(2)}
+function fmt(v,s){if(v==null)return "—"; if(s.endsWith("-USD")) return "$"+v.toLocaleString(undefined,{maximumFractionDigits:2}); if(s==="DGS10"||s==="VIXCLS") return v.toFixed(2); return "$"+v.toFixed(2)}
 function pct(v){return v==null?null:v*100}
 function cls(v){return v==null?"muted":v>0?"up":v<0?"down":"flat"}
 function render(data){
  last=data; const rows=data.quotes||[];
  const map=new Map(rows.map(x=>[x.symbol,x]));
- document.getElementById("feed").textContent=data.fetchedAt?("LIVE · "+new Date(data.fetchedAt).toLocaleTimeString()):"UNAVAILABLE";
+ document.getElementById("feed").textContent=data.fetchedAt?("FEED · "+new Date(data.fetchedAt).toLocaleTimeString()):"UNAVAILABLE";
  document.getElementById("board").innerHTML=GROUPS.map(g=>{
    const vals=g.symbols.map(s=>map.get(s)?.changePct).filter(v=>typeof v==="number");
    const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
