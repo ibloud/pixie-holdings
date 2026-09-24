@@ -5,19 +5,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PIXIE Holdings // New Economy Market</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;background:#0b0b14;color:#f0eaff;font:12px/1.45 "Space Grotesk",system-ui,sans-serif}
+:root{--void:#050508;--panel:#11111a;--text:#ffc4e4;--muted:#d0c8e0;--line:rgba(255,160,210,.45);--gold:#ffe082;--good:#70ffcb;--risk:#ff6b6b;--pink:#ff3f91}
+*{box-sizing:border-box}html,body{margin:0;background:var(--void);color:var(--text);font:12px/1.45 "Courier New",Courier,monospace}
 body{padding:14px}.wrap{max-width:980px;margin:auto}
-.head{display:flex;justify-content:space-between;align-items:end;gap:12px;border-bottom:1px solid rgba(192,132,252,.2);padding-bottom:10px;margin-bottom:10px}
-.eyebrow{font:9px "JetBrains Mono",monospace;letter-spacing:.14em;color:#c084fc}.title{font-size:18px;font-weight:700;margin-top:3px}.status{font:9px "JetBrains Mono",monospace;color:#7fffd4;text-align:right}
-.note{font:10px/1.5 "JetBrains Mono",monospace;color:rgba(240,234,255,.45);margin-bottom:10px}
+.head{display:flex;justify-content:space-between;align-items:end;gap:12px;border-bottom:2px solid var(--line);padding-bottom:10px;margin-bottom:10px}
+.eyebrow{font:9px "Courier New",monospace;letter-spacing:.14em;color:var(--gold)}.title{font-size:18px;font-weight:700;margin-top:3px}.status{font:9px "Courier New",monospace;color:var(--good);text-align:right}
+.note{font:10px/1.5 "Courier New",monospace;color:var(--muted);margin-bottom:10px}
 .board{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
-.signal{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);padding:9px;border-radius:5px}
-.signal h2{font:9px "JetBrains Mono",monospace;color:#c084fc;letter-spacing:.08em;margin:0 0 6px}
-.signal .value{font:15px "JetBrains Mono",monospace}.signal .sub{font:9px "JetBrains Mono",monospace;color:rgba(240,234,255,.4);margin-top:3px}
-.tape{display:grid;gap:5px}.row{display:grid;grid-template-columns:76px 1fr 86px 66px;gap:8px;align-items:center;padding:8px 9px;border:1px solid rgba(192,132,252,.13);background:rgba(192,132,252,.035);border-radius:4px}
-.sym{font:700 10px "JetBrains Mono",monospace;color:#e0b0ff}.name{color:rgba(240,234,255,.72);font-size:11px}.price{text-align:right;font:11px "JetBrains Mono",monospace}.chg{text-align:right;font:10px "JetBrains Mono",monospace}.up{color:#7fffd4}.down{color:#ff8eaa}.flat{color:#ffe600}.muted{color:rgba(240,234,255,.35)}
-.footer{margin-top:10px;color:rgba(240,234,255,.34);font:8px "JetBrains Mono",monospace}
-button{font:9px "JetBrains Mono",monospace;color:#b2ffe8;background:transparent;border:1px solid rgba(127,255,212,.2);padding:5px 8px;cursor:pointer}button:hover{border-color:#7fffd4}
+.signal{border:1px solid var(--line);background:var(--panel);padding:9px;border-radius:0}
+.signal h2{font:9px "Courier New",monospace;color:var(--gold);letter-spacing:.08em;margin:0 0 6px}
+.signal .value{font:15px "Courier New",monospace}.signal .sub{font:9px "Courier New",monospace;color:var(--muted);margin-top:3px}
+.tape{display:grid;gap:5px}.row{display:grid;grid-template-columns:76px 1fr 86px 66px;gap:8px;align-items:center;padding:8px 9px;border:1px solid var(--line);background:var(--panel);border-radius:0}
+.sym{font:700 10px "Courier New",monospace;color:var(--text)}.name{color:var(--muted);font-size:11px}.price{text-align:right;font:11px "Courier New",monospace}.chg{text-align:right;font:10px "Courier New",monospace}.up{color:var(--good)}.down{color:var(--risk)}.flat{color:var(--gold)}.muted{color:var(--muted)}
+.footer{margin-top:10px;color:var(--muted);font:8px "Courier New",monospace}
+button{font:9px "Courier New",monospace;color:var(--gold);background:transparent;border:2px solid var(--gold);padding:5px 8px;cursor:pointer;text-transform:uppercase}button:hover{background:var(--gold);color:var(--void)}
 @media(max-width:700px){.board{grid-template-columns:1fr 1fr}.row{grid-template-columns:68px 1fr 75px 60px}.name{display:none}}
 @media(max-width:470px){.board{grid-template-columns:1fr}.row{grid-template-columns:60px 1fr 72px 58px}}
 </style>
