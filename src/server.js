@@ -62,6 +62,32 @@ async function parseJson(request) {
   try { return JSON.parse(body || "{}"); } catch { throw Object.assign(new Error("Invalid JSON"), { code: "INVALID_JSON" }); }
 }
 
+const MARKET_SYMBOLS = new Set(["SPY","QQQ","SMH","NVDA","XLE","EQIX","DLR","BOTZ","BTC-USD","ETH-USD","^TNX","^VIX"]);
+let marketCache = { expiresAt: 0, data: null };
+
+async function handleMarket(request, response) {
+  const url = new URL(request.url, "http://localhost");
+  const requested = [...new Set((url.searchParams.get("symbols") || "").split(",").map(s => s.trim()).filter(Boolean))];
+  const symbols = requested.filter(symbol => MARKET_SYMBOLS.has(symbol)).slice(0, 12);
+  if (!symbols.length) return sendJson(response, 400, { error: "No supported market symbols requested." });
+  const now = Date.now();
+  if (marketCache.data && marketCache.expiresAt > now) return sendJson(response, 200, marketCache.data, { "Cache-Control": "public, max-age=30" });
+  const quotes = await Promise.allSettled(symbols.map(async symbol => {
+    const endpoint = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=1d&interval=5m&includePrePost=false`;
+    const upstream = await fetch(endpoint, { headers: { "user-agent": "PIXIE-Holdings/0.1" } });
+    if (!upstream.ok) throw new Error(`upstream ${upstream.status}`);
+    const payload = await upstream.json();
+    const meta = payload?.chart?.result?.[0]?.meta;
+    if (!meta || typeof meta.regularMarketPrice !== "number") throw new Error("quote unavailable");
+    const previous = typeof meta.previousClose === "number" ? meta.previousClose : meta.chartPreviousClose;
+    return { symbol, price: meta.regularMarketPrice, previousClose: previous, changePct: previous ? (meta.regularMarketPrice - previous) / previous : null, currency: meta.currency || "USD", marketState: meta.marketState || "UNKNOWN", asOf: meta.regularMarketTime ? new Date(meta.regularMarketTime * 1000).toISOString() : null };
+  }));
+  const data = { source: "Yahoo Finance", fetchedAt: new Date().toISOString(), quotes: quotes.filter(r => r.status === "fulfilled").map(r => r.value) };
+  if (!data.quotes.length) return sendJson(response, 503, { error: "External market data is temporarily unavailable.", source: "Yahoo Finance" });
+  marketCache = { expiresAt: now + 30_000, data };
+  return sendJson(response, 200, data, { "Cache-Control": "public, max-age=30" });
+}
+
 function clientKey(request) {
   return request.headers["x-forwarded-for"]?.split(",")[0]?.trim() || request.socket.remoteAddress || "unknown";
 }
@@ -102,6 +128,7 @@ export function createAppServer() {
     response.setHeader("Referrer-Policy", "no-referrer");
     response.setHeader("Permissions-Policy", "camera=(self), microphone=(self), display-capture=(self), geolocation=()");
     if (request.url === "/health") return sendJson(response, 200, { ok: true, protocolVersion: MCP_PROTOCOL_VERSION, ai: Boolean(process.env.GEMINI_API_KEY) });
+    if (request.url?.startsWith("/api/market") && request.method === "GET") return handleMarket(request, response);
     if (request.url === "/api/agent" && request.method === "POST") return handleAgent(request, response);
     if (request.url === "/mcp" && request.method === "POST") {
       try {
