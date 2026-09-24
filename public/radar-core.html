@@ -248,7 +248,7 @@
 
   .holdings-body { padding: 12px; display: flex; flex-direction: column; gap: 9px; overflow-y: auto; max-height: 360px; }
   .holdings-body::-webkit-scrollbar { width: 3px; }
-  .holdings-body::-webkit-scrollbar-thumb { background: var(--lborder); }
+  .holdings-body::-webkit-scrollbar-thumb { background: var(--lborder); }\n  .market-frame { width:100%; height:100%; border:0; background:#0b0b14; }
   .hcard { padding: 12px; border: 1px solid var(--lborder); background: var(--lav3); border-radius: 6px; }
   .hcard-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
   .hcard-name { font-size: 15px; font-weight: 600; color: var(--white); line-height: 1.2; }
@@ -377,12 +377,9 @@
     </div></div>
   </div>
 
-  <div class="window w-lav" id="win-holdings" style="right:16px;top:20px;width:262px;display:none" role="dialog" aria-label="Holdings">
-    <div class="win-bar" onmousedown="startDrag(event,'win-holdings')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-holdings')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">holdings</div></div>
-    <div class="win-body"><div class="holdings-body">
-      <div class="hcard"><div class="hcard-top"><span class="hcard-name">Made Sick</span><span class="hcard-badge" style="border-color:var(--mborder);color:var(--mint)">Active</span></div><p class="hcard-desc">Public campaign and AT Protocol participation surface.</p><div class="hcard-tags"><span class="htag">public</span><span class="htag">ATPROTO</span></div><div class="hcard-status"><span class="sdot s-on"></span>connected</div></div>
-      <div class="hcard"><div class="hcard-top"><span class="hcard-name">PIXIE Stewardship</span><span class="hcard-badge" style="border-color:var(--lborder);color:var(--lav2)">Spec</span></div><p class="hcard-desc">Accessibility research and device-stewardship specification.</p><div class="hcard-tags"><span class="htag">research</span><span class="htag">consent</span></div><div class="hcard-status"><span class="sdot s-on"></span>canonical</div></div>
-    </div></div>
+  <div class="window w-lav" id="win-holdings" style="left:5vw;top:5vh;width:90vw;height:min(82vh,760px);display:none" role="dialog" aria-label="Holdings">
+    <div class="win-bar" onmousedown="startDrag(event,'win-holdings')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-holdings')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">holdings // new economy market</div></div>
+    <div class="win-body" style="padding:0;overflow:hidden;flex:1"><iframe src="market.html" title="PIXIE Holdings New Economy Market" style="display:block;width:100%;height:100%;border:0;background:#0b0b14"></iframe></div>
   </div>
 
   <div class="window w-yellow" id="win-meters" style="right:16px;bottom:62px;width:262px;display:none" role="dialog" aria-label="Resource Meters">
