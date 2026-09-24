@@ -17,7 +17,7 @@
  *   Designed by Dominique Devereaux / Loptr Lab (https://loptrlab.com/)
  */
 
-import { evaluateAllocation, holdings, initialLedger, outcomeFor } from "/model.js";
+import { evaluateAllocation, holdings, initialLedger, outcomeFor } from "./model.js";
 
 const ledgerNode = document.querySelector("#ledger");
 const holdingsNode = document.querySelector("#holdings");
