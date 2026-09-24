@@ -4,8 +4,10 @@
   "private": true,
   "type": "module",
   "description": "Accessibility-first portfolio economics game and Alexa+ MCP prototype.",
+  "main": "api/index.js",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "start": "node api/index.js"
   },
   "engines": {
     "node": ">=22"
