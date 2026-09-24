@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createAppServer, handleMcp, MCP_PROTOCOL_VERSION } from "../src/server.js";
+import { createAppServer, handleMcp, MCP_PROTOCOL_VERSION } from "../src/app.js";
 
 async function withServer(run){ const server=createAppServer(); await new Promise(resolve=>server.listen(0,"127.0.0.1",resolve)); const address=server.address(); try{await run(`http://127.0.0.1:${address.port}`)}finally{await new Promise(resolve=>server.close(resolve))} }
 
