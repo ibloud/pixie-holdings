@@ -62,7 +62,8 @@ async function parseJson(request) {
   try { return JSON.parse(body || "{}"); } catch { throw Object.assign(new Error("Invalid JSON"), { code: "INVALID_JSON" }); }
 }
 
-const MARKET_SYMBOLS = new Set(["SPY","QQQ","SMH","NVDA","XLE","EQIX","DLR","BOTZ","BTC-USD","ETH-USD","^TNX","^VIX"]);
+import { getMarketData, MARKET_SYMBOLS } from "./market-data.js";
+
 let marketCache = { expiresAt: 0, data: null };
 
 async function handleMarket(request, response) {
@@ -72,20 +73,13 @@ async function handleMarket(request, response) {
   if (!symbols.length) return sendJson(response, 400, { error: "No supported market symbols requested." });
   const now = Date.now();
   if (marketCache.data && marketCache.expiresAt > now) return sendJson(response, 200, marketCache.data, { "Cache-Control": "public, max-age=30" });
-  const quotes = await Promise.allSettled(symbols.map(async symbol => {
-    const endpoint = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=1d&interval=5m&includePrePost=false`;
-    const upstream = await fetch(endpoint, { headers: { "user-agent": "PIXIE-Holdings/0.1" } });
-    if (!upstream.ok) throw new Error(`upstream ${upstream.status}`);
-    const payload = await upstream.json();
-    const meta = payload?.chart?.result?.[0]?.meta;
-    if (!meta || typeof meta.regularMarketPrice !== "number") throw new Error("quote unavailable");
-    const previous = typeof meta.previousClose === "number" ? meta.previousClose : meta.chartPreviousClose;
-    return { symbol, price: meta.regularMarketPrice, previousClose: previous, changePct: previous ? (meta.regularMarketPrice - previous) / previous : null, currency: meta.currency || "USD", marketState: meta.marketState || "UNKNOWN", asOf: meta.regularMarketTime ? new Date(meta.regularMarketTime * 1000).toISOString() : null };
-  }));
-  const data = { source: "Yahoo Finance", fetchedAt: new Date().toISOString(), quotes: quotes.filter(r => r.status === "fulfilled").map(r => r.value) };
-  if (!data.quotes.length) return sendJson(response, 503, { error: "External market data is temporarily unavailable.", source: "Yahoo Finance" });
-  marketCache = { expiresAt: now + 30_000, data };
-  return sendJson(response, 200, data, { "Cache-Control": "public, max-age=30" });
+  try {
+    const data = await getMarketData(symbols);
+    marketCache = { expiresAt: now + 30_000, data };
+    return sendJson(response, 200, data, { "Cache-Control": "public, max-age=30" });
+  } catch (error) {
+    return sendJson(response, 503, { error: "External market data is temporarily unavailable.", detail: error.message, referenceOnly: true });
+  }
 }
 
 function clientKey(request) {
