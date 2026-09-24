@@ -62,6 +62,26 @@ async function parseJson(request) {
   try { return JSON.parse(body || "{}"); } catch { throw Object.assign(new Error("Invalid JSON"), { code: "INVALID_JSON" }); }
 }
 
+import { getMarketData, MARKET_SYMBOLS } from "./market-data.js";
+
+let marketCache = { expiresAt: 0, data: null };
+
+async function handleMarket(request, response) {
+  const url = new URL(request.url, "http://localhost");
+  const requested = [...new Set((url.searchParams.get("symbols") || "").split(",").map(s => s.trim()).filter(Boolean))];
+  const symbols = requested.filter(symbol => MARKET_SYMBOLS.has(symbol)).slice(0, 12);
+  if (!symbols.length) return sendJson(response, 400, { error: "No supported market symbols requested." });
+  const now = Date.now();
+  if (marketCache.data && marketCache.expiresAt > now) return sendJson(response, 200, marketCache.data, { "Cache-Control": "public, max-age=30" });
+  try {
+    const data = await getMarketData(symbols);
+    marketCache = { expiresAt: now + 30_000, data };
+    return sendJson(response, 200, data, { "Cache-Control": "public, max-age=30" });
+  } catch (error) {
+    return sendJson(response, 503, { error: "External market data is temporarily unavailable.", detail: error.message, referenceOnly: true });
+  }
+}
+
 function clientKey(request) {
   return request.headers["x-forwarded-for"]?.split(",")[0]?.trim() || request.socket.remoteAddress || "unknown";
 }
@@ -102,6 +122,7 @@ export function createAppServer() {
     response.setHeader("Referrer-Policy", "no-referrer");
     response.setHeader("Permissions-Policy", "camera=(self), microphone=(self), display-capture=(self), geolocation=()");
     if (request.url === "/health") return sendJson(response, 200, { ok: true, protocolVersion: MCP_PROTOCOL_VERSION, ai: Boolean(process.env.GEMINI_API_KEY) });
+    if (request.url?.startsWith("/api/market") && request.method === "GET") return handleMarket(request, response);
     if (request.url === "/api/agent" && request.method === "POST") return handleAgent(request, response);
     if (request.url === "/mcp" && request.method === "POST") {
       try {

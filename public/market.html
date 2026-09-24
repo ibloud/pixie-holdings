@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PIXIE Holdings // New Economy Market</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#0b0b14;color:#f0eaff;font:12px/1.45 "Space Grotesk",system-ui,sans-serif}
+body{padding:14px}.wrap{max-width:980px;margin:auto}
+.head{display:flex;justify-content:space-between;align-items:end;gap:12px;border-bottom:1px solid rgba(192,132,252,.2);padding-bottom:10px;margin-bottom:10px}
+.eyebrow{font:9px "JetBrains Mono",monospace;letter-spacing:.14em;color:#c084fc}.title{font-size:18px;font-weight:700;margin-top:3px}.status{font:9px "JetBrains Mono",monospace;color:#7fffd4;text-align:right}
+.note{font:10px/1.5 "JetBrains Mono",monospace;color:rgba(240,234,255,.45);margin-bottom:10px}
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
+.signal{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);padding:9px;border-radius:5px}
+.signal h2{font:9px "JetBrains Mono",monospace;color:#c084fc;letter-spacing:.08em;margin:0 0 6px}
+.signal .value{font:15px "JetBrains Mono",monospace}.signal .sub{font:9px "JetBrains Mono",monospace;color:rgba(240,234,255,.4);margin-top:3px}
+.tape{display:grid;gap:5px}.row{display:grid;grid-template-columns:76px 1fr 86px 66px;gap:8px;align-items:center;padding:8px 9px;border:1px solid rgba(192,132,252,.13);background:rgba(192,132,252,.035);border-radius:4px}
+.sym{font:700 10px "JetBrains Mono",monospace;color:#e0b0ff}.name{color:rgba(240,234,255,.72);font-size:11px}.price{text-align:right;font:11px "JetBrains Mono",monospace}.chg{text-align:right;font:10px "JetBrains Mono",monospace}.up{color:#7fffd4}.down{color:#ff8eaa}.flat{color:#ffe600}.muted{color:rgba(240,234,255,.35)}
+.footer{margin-top:10px;color:rgba(240,234,255,.34);font:8px "JetBrains Mono",monospace}
+button{font:9px "JetBrains Mono",monospace;color:#b2ffe8;background:transparent;border:1px solid rgba(127,255,212,.2);padding:5px 8px;cursor:pointer}button:hover{border-color:#7fffd4}
+@media(max-width:700px){.board{grid-template-columns:1fr 1fr}.row{grid-template-columns:68px 1fr 75px 60px}.name{display:none}}
+@media(max-width:470px){.board{grid-template-columns:1fr}.row{grid-template-columns:60px 1fr 72px 58px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="head">
+    <div><div class="eyebrow">HOLDINGS // MARKET LAYER</div><div class="title">NEW ECONOMY SIGNAL BOARD</div></div>
+    <div class="status"><span id="feed">CONNECTING</span><br><button id="refresh" type="button">REFRESH</button></div>
+  </header>
+  <div class="note">Real market quotes are displayed as external reference signals. They do not alter the synthetic PXCOIN ledger, portfolio outcomes, or PIXIE governance.</div>
+  <section class="board" id="board" aria-label="Market signal groups"></section>
+  <section class="tape" id="tape" aria-live="polite"></section>
+  <div class="footer">PROXY BASKETS ARE PRODUCT DEFINITIONS, NOT OFFICIAL INDICES. QUOTES MAY BE DELAYED. SOURCES: FINANCIAL MODELING PREP (MARKET) + FEDERAL RESERVE BANK OF ST. LOUIS FRED (MACRO). GITHUB PAGES SERVES A SERVER-GENERATED REFERENCE SNAPSHOT; FRED DATA IS REFERENCE-ONLY.</div>
+</div>
+<script>
+const GROUPS=[
+  {id:"baseline",label:"BASELINE",symbols:["SPY","QQQ"]},
+  {id:"compute",label:"COMPUTE / AI",symbols:["SMH","NVDA"]},
+  {id:"power",label:"POWER / DATA CENTERS",symbols:["XLE","EQIX","DLR"]},
+  {id:"automation",label:"AUTOMATION",symbols:["BOTZ"]},
+  {id:"digital",label:"DIGITAL MONEY",symbols:["BTC-USD","ETH-USD"]},
+  {id:"macro",label:"RATES / RISK",symbols:["DGS10","VIXCLS"]}
+];
+const META={
+ SPY:["S&P 500 proxy","baseline"],QQQ:["Nasdaq-100 proxy","baseline"],
+ SMH:["Semiconductor ETF","compute"],NVDA:["GPU / AI infrastructure","compute"],
+ XLE:["Energy sector ETF","power"],EQIX:["Data-center REIT","power"],DLR:["Data-center REIT","power"],
+ BOTZ:["Robotics / automation ETF","automation"],"BTC-USD":["Bitcoin","digital"],"ETH-USD":["Ethereum","digital"],
+ DGS10:["10Y Treasury yield","macro"],VIXCLS:["Volatility index","macro"]
+};
+let last=null;
+function fmt(v,s){if(v==null)return "—"; if(s.endsWith("-USD")) return "$"+v.toLocaleString(undefined,{maximumFractionDigits:2}); if(s==="DGS10"||s==="VIXCLS") return v.toFixed(2); return "$"+v.toFixed(2)}
+function pct(v){return v==null?null:v*100}
+function cls(v){return v==null?"muted":v>0?"up":v<0?"down":"flat"}
+function render(data){
+ last=data; const rows=data.quotes||[];
+ const map=new Map(rows.map(x=>[x.symbol,x]));
+ document.getElementById("feed").textContent=data.fetchedAt?("SNAPSHOT · "+new Date(data.fetchedAt).toLocaleTimeString()):"UNAVAILABLE";
+ document.getElementById("board").innerHTML=GROUPS.map(g=>{
+   const vals=g.symbols.map(s=>map.get(s)?.changePct).filter(v=>typeof v==="number");
+   const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
+   return '<article class="signal"><h2>'+g.label+'</h2><div class="value '+cls(avg)+'">'+(avg==null?"—":(avg>=0?"+":"")+avg.toFixed(2)+"%")+'</div><div class="sub">'+g.symbols.join(" · ")+' · proxy basket</div></article>';
+ }).join("");
+ document.getElementById("tape").innerHTML=rows.map(q=>{
+   const m=META[q.symbol]||[q.symbol,""];
+   const c=pct(q.changePct);
+   return '<div class="row"><div class="sym">'+q.symbol+'</div><div class="name">'+m[0]+'</div><div class="price">'+fmt(q.price,q.symbol)+'</div><div class="chg '+cls(c)+'">'+(c==null?"—":(c>=0?"+":"")+c.toFixed(2)+"%")+'</div></div>';
+ }).join("");
+}
+async function fetchJson(path){
+ const r=await fetch(path,{cache:"no-store"});
+ const data=await r.json();
+ if(!r.ok) throw new Error(data.error||"Market feed unavailable");
+ return data;
+}
+async function load(){
+ document.getElementById("feed").textContent="UPDATING";
+ try{
+   const data=await fetchJson("/market-data.json");
+   render(data);
+ }catch(snapshotError){
+   try{
+     const symbols=GROUPS.flatMap(g=>g.symbols).join(",");
+     const data=await fetchJson("/api/market?symbols="+encodeURIComponent(symbols));
+     render(data);
+   }catch(apiError){
+     document.getElementById("feed").textContent="OFFLINE";
+     if(!last) document.getElementById("tape").innerHTML='<div class="note">External market data is unavailable. PIXIE Holdings remains fully usable; no synthetic ledger values were changed.</div>';
+   }
+ }
+}
+document.getElementById("refresh").addEventListener("click",load); load(); setInterval(load,60000);
+</script>
+</body>
+</html>

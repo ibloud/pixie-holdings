@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/health", "destination": "/api/health" },
+    { "source": "/mcp", "destination": "/api/mcp" }
+  ],
+  "functions": {
+    "api/[...path].js": {
+      "includeFiles": "public/**"
+    }
+  }
+}

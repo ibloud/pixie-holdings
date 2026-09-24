@@ -41,6 +41,17 @@ Open `http://localhost:3000`. The MCP endpoint is `POST /mcp`; health is `GET /h
 npm test
 ```
 
+## New Economy market reference layer
+
+The Holdings market surface uses server-side provider credentials for external reference data. The production GitHub Pages site receives a generated static snapshot at `public/market-data.json`; the Node server retains `/api/market` for local/server deployments:
+
+- Financial Modeling Prep (`FMP_API_KEY`) for equities, ETFs, and crypto quotes.
+- Federal Reserve Bank of St. Louis FRED (`FRED_API_KEY`) for macroeconomic observations such as the 10-year Treasury yield (`DGS10`) and volatility index (`VIXCLS`).
+
+Set these variables in the deployment environment; never commit provider keys or put them in browser code. The Pages workflow reads `FMP_API_KEY` and `FRED_API_KEY` from GitHub Actions secrets, generates the static snapshot, and deploys only the resulting public data. It refreshes on `main` pushes, manual runs, and a 15-minute schedule. Provider freshness depends on the subscribed data plan; FRED is an observation series rather than a continuous ticker.
+
+All market records are normalized with `referenceOnly: true`. External market data cannot mutate PXCOIN, allocations, trust, rights, capacity, governance, or other synthetic game state.
+
 ## Alexa+ MCP
 
 The server implements the MCP `2025-11-25` JSON-RPC surface needed for the prototype:
