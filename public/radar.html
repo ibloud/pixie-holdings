@@ -17,7 +17,7 @@ html,body{width:100%;height:100%;margin:0;background:#080b09;overflow:hidden}
 const frame=document.getElementById('pixie-core');
 const pixieParams = new URLSearchParams(window.location.search);
 const coreQuery = window.location.search || '';
-if (coreQuery) frame.src = 'radar-core.html' + coreQuery;
+frame.src = 'radar-core.html' + (coreQuery ? coreQuery + '&shell=1' : '?shell=1');
 function bootDesktop(){
   try{
     const doc=frame.contentDocument;
@@ -34,6 +34,7 @@ function bootDesktop(){
       #win-care .win-body{padding:0;overflow:hidden;flex:1}
       #win-care iframe{display:block;width:100%;height:100%;border:0;background:#faf7f2}
       @media(max-width:760px){#win-control,#win-care{left:2vw!important;top:2vh!important;width:96vw!important;height:86vh!important}.icon-grid{padding-bottom:72px}}
+      .wdot:focus-visible{outline:2px solid currentColor;outline-offset:3px}
       @media(prefers-reduced-motion:reduce){.pixie-breath{animation:none}}
     `;
     doc.head.appendChild(style);
@@ -81,11 +82,9 @@ function bootDesktop(){
     madeSickWin.className='window w-pink'; madeSickWin.id='win-made-sick';
     madeSickWin.style.cssText='left:8vw;top:4vh;width:84vw;height:min(82vh,780px);display:none';
     madeSickWin.setAttribute('role','dialog'); madeSickWin.setAttribute('aria-label','Made Sick');
-    madeSickWin.innerHTML='<div class="win-bar"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" id="made-sick-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE // MADE SICK</div></div><div class="win-body" style="padding:0;overflow:hidden;flex:1"><iframe src="https://made-sick.org/join.html" title="Made Sick" style="display:block;width:100%;height:100%;border:0;background:#fff"></iframe></div>';
+    madeSickWin.innerHTML='<div class="win-bar"><div class="win-dots"><div class="wdot wd-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE // MADE SICK</div></div><div class="win-body" style="padding:0;overflow:hidden;flex:1"><iframe src="https://made-sick.org/join.html" title="Made Sick" style="display:block;width:100%;height:100%;border:0;background:#fff"></iframe></div>';
     doc.querySelector('.taskbar')?.before(madeSickWin);
-    madeSickWin.querySelector('#made-sick-close').addEventListener('click',()=>frame.contentWindow.closeWin('win-made-sick'));
-    madeSickWin.querySelector('.win-bar').addEventListener('mousedown',e=>frame.contentWindow.startDrag(e,'win-made-sick'));
-    madeSickWin.addEventListener('mousedown',()=>frame.contentWindow.focusWin('win-made-sick'));
+    frame.contentWindow.wireWindow?.('win-made-sick');
     const madeSickTask=doc.createElement('button');
     madeSickTask.className='tb-btn t-pink'; madeSickTask.id='tb-made-sick'; madeSickTask.textContent='Made Sick';
     madeSickTask.addEventListener('click',()=>frame.contentWindow.openWin('made-sick'));
@@ -95,11 +94,9 @@ function bootDesktop(){
     win.className='window w-mint'; win.id='win-control';
     win.style.cssText='left:7vw;top:5vh;width:86vw;display:none';
     win.setAttribute('role','dialog'); win.setAttribute('aria-label','PIXIE Control Room');
-    win.innerHTML='<div class="win-bar"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" id="control-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE // CONTROL ROOM</div></div><div class="win-body"><iframe src="control-room.html" title="PIXIE Control Room module"></iframe></div>';
+    win.innerHTML='<div class="win-bar"><div class="win-dots"><div class="wdot wd-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE // CONTROL ROOM</div></div><div class="win-body"><iframe src="control-room.html" title="PIXIE Control Room module"></iframe></div>';
     doc.querySelector('.taskbar')?.before(win);
-    win.querySelector('#control-close').addEventListener('click',()=>frame.contentWindow.closeWin('win-control'));
-    win.querySelector('.win-bar').addEventListener('mousedown',e=>frame.contentWindow.startDrag(e,'win-control'));
-    win.addEventListener('mousedown',()=>frame.contentWindow.focusWin('win-control'));
+    frame.contentWindow.wireWindow?.('win-control');
     const taskbar=doc.querySelector('.taskbar');
     const taskButton=doc.createElement('button');
     taskButton.className='tb-btn t-mint'; taskButton.id='tb-control';
@@ -111,11 +108,9 @@ function bootDesktop(){
     careWin.className='window w-pink'; careWin.id='win-care';
     careWin.style.cssText='left:10vw;top:4vh;width:80vw;display:none';
     careWin.setAttribute('role','dialog'); careWin.setAttribute('aria-label','Made Sick PIXIE care cue');
-    careWin.innerHTML='<div class="win-bar"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" id="care-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE // MADE SICK CARE</div></div><div class="win-body"><iframe src="https://made-sick.org/pixie-care.html" title="Made Sick PIXIE care workspace"></iframe></div>';
+    careWin.innerHTML='<div class="win-bar"><div class="win-dots"><div class="wdot wd-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE // MADE SICK CARE</div></div><div class="win-body"><iframe src="https://made-sick.org/pixie-care.html" title="Made Sick PIXIE care workspace"></iframe></div>';
     doc.querySelector('.taskbar')?.before(careWin);
-    careWin.querySelector('#care-close').addEventListener('click',()=>frame.contentWindow.closeWin('win-care'));
-    careWin.querySelector('.win-bar').addEventListener('mousedown',e=>frame.contentWindow.startDrag(e,'win-care'));
-    careWin.addEventListener('mousedown',()=>frame.contentWindow.focusWin('win-care'));
+    frame.contentWindow.wireWindow?.('win-care');
     const careTask=doc.createElement('button');
     careTask.className='tb-btn t-pink'; careTask.id='tb-care'; careTask.textContent='Care';
     careTask.addEventListener('click',()=>frame.contentWindow.openWin('care'));
@@ -125,6 +120,15 @@ function bootDesktop(){
   }catch(error){console.error('[PIXIE OS] Desktop boot failed:',error)}
 }
 frame.addEventListener('load',bootDesktop);
+window.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && !e.defaultPrevented && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)){
+    window.parent.postMessage({type:'pixie:close-os'},window.location.origin);
+  }
+});
+window.addEventListener('message',e=>{
+  if(e.origin!==window.location.origin)return;
+  if(e.data?.type==='pixie:focus-window' && e.data.name) frame.contentWindow.openWin?.(e.data.name);
+});
 function routeMadeSickHandoff(){
   const role=pixieParams.get('role');
   const tool=pixieParams.get('tool');

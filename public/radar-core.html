@@ -450,14 +450,104 @@ function radarNodePosition(r,index,w,h,time){
   return {x:r.x*w+px,y:r.y*h+py};
 }
 
-function focusWin(id) { document.querySelectorAll('.window').forEach(w=>w.classList.remove('focused')); const win=document.getElementById(id); if(win) win.classList.add('focused'); }
-function openWin(name) { const winId='win-'+name, win=document.getElementById(winId), tbBtn=document.getElementById('tb-'+name); if(win){win.style.display='flex';focusWin(winId);} if(tbBtn)tbBtn.classList.add('active'); if(name==='radar')initRadar(); if(name==='sitemap')updateSitemapAccess(); }
-function closeWin(winId) { const win=document.getElementById(winId); if(win)win.style.display='none'; const name=winId.replace('win-',''), tbBtn=document.getElementById('tb-'+name); if(tbBtn)tbBtn.classList.remove('active'); }
-
+function focusWin(id) {
+  document.querySelectorAll('.window').forEach(w=>w.classList.remove('focused'));
+  const win=document.getElementById(id);
+  if(win){win.classList.add('focused');win.setAttribute('aria-hidden',win.style.display==='none'?'true':'false');}
+}
+function syncTaskbar(winId){
+  const name=winId.replace('win-','');
+  const tbBtn=document.getElementById('tb-'+name);
+  const win=document.getElementById(winId);
+  if(tbBtn){
+    const visible=!!win&&win.style.display!=='none';
+    tbBtn.classList.toggle('active',visible);
+    tbBtn.setAttribute('aria-pressed',visible?'true':'false');
+  }
+}
+function openWin(name) {
+  const winId='win-'+name, win=document.getElementById(winId);
+  if(win){
+    win.style.display='flex';
+    win.dataset.minimized='0';
+    win.setAttribute('aria-hidden','false');
+    focusWin(winId);
+    syncTaskbar(winId);
+  }
+  if(name==='radar')initRadar();
+  if(name==='sitemap')updateSitemapAccess();
+}
+function closeWin(winId) {
+  const win=document.getElementById(winId);
+  if(win){win.style.display='none';win.dataset.minimized='0';win.setAttribute('aria-hidden','true');}
+  syncTaskbar(winId);
+}
+function minimizeWin(winId){
+  const win=document.getElementById(winId);
+  if(!win)return;
+  win.style.display='none';
+  win.dataset.minimized='1';
+  win.setAttribute('aria-hidden','true');
+  syncTaskbar(winId);
+}
+function maximizeWin(winId){
+  const win=document.getElementById(winId);
+  if(!win)return;
+  if(win.dataset.maximized==='1'){
+    const previous=JSON.parse(win.dataset.previousRect||'{}');
+    if(previous.left)win.style.left=previous.left;
+    if(previous.top)win.style.top=previous.top;
+    if(previous.width)win.style.width=previous.width;
+    if(previous.height)win.style.height=previous.height;
+    win.dataset.maximized='0';
+  }else{
+    win.dataset.previousRect=JSON.stringify({
+      left:win.style.left,top:win.style.top,width:win.style.width,height:win.style.height
+    });
+    win.style.left='10px';win.style.top='10px';win.style.width='calc(100vw - 20px)';win.style.height='calc(100vh - 66px)';
+    win.dataset.maximized='1';
+  }
+  openWin(winId.replace('win-',''));
+}
+function wireWindow(winId){
+  const win=document.getElementById(winId);
+  if(!win)return;
+  win.setAttribute('aria-hidden',win.style.display==='none'?'true':'false');
+  win.querySelectorAll('.wdot').forEach(dot=>{
+    const kind=dot.classList.contains('wd-close')?'close':dot.classList.contains('wd-min')?'min':'max';
+    dot.setAttribute('role','button');
+    dot.setAttribute('tabindex','0');
+    dot.setAttribute('aria-label',kind==='close'?'Close window':kind==='min'?'Minimize window':'Maximize window');
+    const action=kind==='close'?()=>closeWin(winId):kind==='min'?()=>minimizeWin(winId):()=>maximizeWin(winId);
+    dot.addEventListener('click',action);
+    dot.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();action();}});
+  });
+  const bar=win.querySelector('.win-bar');
+  if(bar&&!bar.dataset.dragWired){
+    bar.dataset.dragWired='1';
+    bar.addEventListener('pointerdown',e=>startDrag(e,winId));
+  }
+  if(!win.dataset.focusWired){
+    win.dataset.focusWired='1';
+    win.addEventListener('pointerdown',()=>focusWin(winId));
+  }
+  syncTaskbar(winId);
+}
 let dragWin=null, dragOffsetX=0, dragOffsetY=0;
-function startDrag(e,winId){dragWin=document.getElementById(winId);focusWin(winId);const rect=dragWin.getBoundingClientRect();dragOffsetX=e.clientX-rect.left;dragOffsetY=e.clientY-rect.top;document.addEventListener('mousemove',onDrag);document.addEventListener('mouseup',stopDrag);}
-function onDrag(e){if(!dragWin)return;dragWin.style.left=(e.clientX-dragOffsetX)+'px';dragWin.style.top=(e.clientY-dragOffsetY)+'px';}
-function stopDrag(){dragWin=null;document.removeEventListener('mousemove',onDrag);document.removeEventListener('mouseup',stopDrag);}
+function startDrag(e,winId){
+  if(e.target.closest('.wdot,button,a,input,textarea,select'))return;
+  dragWin=document.getElementById(winId);
+  if(!dragWin)return;
+  focusWin(winId);
+  const rect=dragWin.getBoundingClientRect();
+  dragOffsetX=e.clientX-rect.left;dragOffsetY=e.clientY-rect.top;
+  if(dragWin.setPointerCapture&&e.pointerId!=null){try{dragWin.setPointerCapture(e.pointerId);}catch(_){}}
+  document.addEventListener('pointermove',onDrag);
+  document.addEventListener('pointerup',stopDrag,{once:true});
+  e.preventDefault();
+}
+function onDrag(e){if(!dragWin)return;dragWin.style.left=Math.max(0,e.clientX-dragOffsetX)+'px';dragWin.style.top=Math.max(0,e.clientY-dragOffsetY)+'px';}
+function stopDrag(){dragWin=null;document.removeEventListener('pointermove',onDrag);}
 
 function cycleAccess(){currentAccessIndex=(currentAccessIndex+1)%accessLevels.length;const access=accessLevels[currentAccessIndex];const pill=document.getElementById('access-pill');pill.className='access-pill '+access.class;pill.textContent=access.label;const radarBadge=document.getElementById('radar-level-badge');if(radarBadge){radarBadge.textContent=access.name+' view';radarBadge.style.color=access.color;radarBadge.style.borderColor=access.color;}showNotification('Access Level Changed','Switched to '+access.name+' access privileges.');if(document.getElementById('win-radar').style.display!=='none')drawRadar();if(document.getElementById('win-sitemap').style.display!=='none')updateSitemapAccess();}
 function enterDoor(doorKey){if(doorKey==='locked'){showNotification('Access Denied','Elevated permission level required to unlock this door.');return;}showNotification('Entering Door','Navigating to '+doorKey+' portal...');}
@@ -513,6 +603,7 @@ function updateClock(){const now=new Date(),hrs=String(now.getHours()).padStart(
 // Made Sick / AT Protocol handoff
 function initMadeSickHandoff(){
   const params=new URLSearchParams(window.location.search);
+  if(params.get('shell')==='1') return;
   if(params.get('role')!=='participant') return;
   if(document.getElementById('win-made-sick')) return;
   const card=params.get('card')||'missing';
@@ -555,7 +646,7 @@ function initMadeSickHandoff(){
       </div>`;
   }
   document.querySelector('.taskbar')?.before(win);
-  win.querySelector('#ms-close')?.addEventListener('click',()=>closeWin('win-made-sick'));
+  wireWindow('win-made-sick');
   win.addEventListener('mousedown',()=>focusWin('win-made-sick'));
   if(card!=='existing'){
     win.querySelector('#ms-onboarding').addEventListener('submit',e=>{
@@ -575,7 +666,13 @@ function initMadeSickHandoff(){
   openWin('made-sick');
 }
 initMadeSickHandoff();
-setInterval(updateClock,1000);updateClock();document.querySelectorAll('.window').forEach(w=>{w.addEventListener('mousedown',()=>focusWin(w.id));});
+document.querySelectorAll('.window').forEach(w=>wireWindow(w.id));
+window.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && !e.defaultPrevented && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)){
+    window.top.postMessage({type:'pixie:close-os'},window.location.origin);
+  }
+});
+setInterval(updateClock,1000);updateClock();
 </script>
 </body>
 </html>

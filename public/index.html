@@ -50,6 +50,10 @@
   open.addEventListener('click', showRadar);
   close.addEventListener('click', hideRadar);
   overlay.addEventListener('click', e => { if(e.target === overlay) hideRadar(); });
+  window.addEventListener('message', e => {
+    if(e.origin !== window.location.origin) return;
+    if(e.data?.type === 'pixie:close-os' && overlay.classList.contains('open')) hideRadar();
+  });
   document.addEventListener('keydown', e => { if(e.key === 'Escape' && overlay.classList.contains('open')) hideRadar(); });
 })();
 </script>
