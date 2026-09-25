@@ -603,6 +603,7 @@ function updateClock(){const now=new Date(),hrs=String(now.getHours()).padStart(
 // Made Sick / AT Protocol handoff
 function initMadeSickHandoff(){
   const params=new URLSearchParams(window.location.search);
+  if(params.get('shell')==='1') return;
   if(params.get('role')!=='participant') return;
   if(document.getElementById('win-made-sick')) return;
   const card=params.get('card')||'missing';
