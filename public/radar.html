@@ -17,7 +17,7 @@ html,body{width:100%;height:100%;margin:0;background:#080b09;overflow:hidden}
 const frame=document.getElementById('pixie-core');
 const pixieParams = new URLSearchParams(window.location.search);
 const coreQuery = window.location.search || '';
-if (coreQuery) frame.src = 'radar-core.html' + coreQuery;
+frame.src = 'radar-core.html' + (coreQuery ? coreQuery + '&shell=1' : '?shell=1');
 function bootDesktop(){
   try{
     const doc=frame.contentDocument;
