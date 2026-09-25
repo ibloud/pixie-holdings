@@ -11,37 +11,53 @@ body{padding:14px}.wrap{max-width:1100px;margin:auto}
 .head{display:flex;justify-content:space-between;align-items:end;gap:12px;border-bottom:2px solid var(--line);padding-bottom:10px;margin-bottom:10px}
 .eyebrow{font:11px "Courier New",monospace;letter-spacing:.14em;color:var(--gold)}.title{font-size:24px;font-weight:700;margin-top:3px}.status{font:11px "Courier New",monospace;color:var(--good);text-align:right}
 .note{font:13px/1.55 "Courier New",monospace;color:var(--muted);margin-bottom:10px}
+.signal-rule{border:1px solid var(--line);background:#0b0b12;padding:12px 14px;margin:0 0 12px}
+.signal-rule strong{color:var(--gold)}.signal-rule span{color:var(--muted)}
 .board{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
 .signal{border:1px solid var(--line);background:var(--panel);padding:14px;border-radius:0}
 .signal h2{font:12px "Courier New",monospace;color:var(--gold);letter-spacing:.08em;margin:0 0 6px}
-.signal .value{font:22px "Courier New",monospace}.signal .sub{font:11px "Courier New",monospace;color:var(--muted);margin-top:3px}
+.signal .value{font:22px "Courier New",monospace}.signal .sub{font:11px "Courier New",monospace;color:var(--muted);margin-top:3px}.signal .meaning{font:11px/1.45 "Courier New",monospace;color:var(--text);margin-top:8px;padding-top:8px;border-top:1px dashed rgba(255,160,210,.3)}
+.signal .meaning b{color:var(--gold);font-weight:700}
 .tape{display:grid;gap:7px}.row{display:grid;grid-template-columns:76px 1fr 86px 66px;gap:8px;align-items:center;padding:12px 13px;border:1px solid var(--line);background:var(--panel);border-radius:0}
-.sym{font:700 12px "Courier New",monospace;color:var(--text)}.name{color:var(--muted);font-size:13px.price{text-align:right;font:13px "Courier New",monospace}.chg{text-align:right;font:12px "Courier New",monospace}.up{color:var(--good)}.down{color:var(--risk)}.flat{color:var(--gold)}.muted{color:var(--muted)}
-.footer{margin-top:14px;color:var(--muted);font:10px "Courier New",monospace}
+.sym{font:700 12px "Courier New",monospace;color:var(--text)}.name{color:var(--muted);font-size:13px}.price{text-align:right;font:13px "Courier New",monospace}.chg{text-align:right;font:12px "Courier New",monospace}.up{color:var(--good)}.down{color:var(--risk)}.flat{color:var(--gold)}.muted{color:var(--muted)}
+.context{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.context-card{border:1px solid var(--line);background:#0b0b12;padding:14px}.context-card h3{margin:0 0 7px;color:var(--gold);font-size:12px;letter-spacing:.08em}.context-card p{margin:0;color:var(--muted);font-size:11px;line-height:1.55}.context-card b{color:var(--text)}
+.footer{margin-top:14px;color:var(--muted);font:10px/1.5 "Courier New",monospace}
 button{font:9px "Courier New",monospace;color:var(--gold);background:transparent;border:2px solid var(--gold);padding:5px 8px;cursor:pointer;text-transform:uppercase}button:hover{background:var(--gold);color:var(--void)}
-@media(max-width:700px){.board{grid-template-columns:1fr 1fr}.row{grid-template-columns:68px 1fr 75px 60px}.name{display:none}}
+@media(max-width:700px){.board{grid-template-columns:1fr 1fr}.row{grid-template-columns:68px 1fr 75px 60px}.name{display:none}.context{grid-template-columns:1fr}}
 @media(max-width:470px){.board{grid-template-columns:1fr}.row{grid-template-columns:60px 1fr 72px 58px}}
 </style>
-<style>body.embed-mode{padding:0}body.embed-mode .head{display:none}body.embed-mode .footer{display:none}body.embed-mode .wrap{max-width:none}</style></head>
+<style>body.embed-mode{padding:0}body.embed-mode .head{display:none}body.embed-mode .footer{display:none}body.embed-mode .wrap{max-width:none}body.embed-mode .signal-rule{margin-top:0}</style>
+</head>
 <body class="embed-mode">
 <div class="wrap">
   <header class="head">
     <div><div class="eyebrow">HOLDINGS // MARKET LAYER</div><div class="title">NEW ECONOMY SIGNAL BOARD</div></div>
     <div class="status"><span id="feed">CONNECTING</span><br><button id="refresh" type="button">REFRESH</button></div>
   </header>
-  <div class="note">Real market quotes are displayed as external reference signals. They do not alter the synthetic PXCOIN ledger, portfolio outcomes, or PIXIE governance.</div>
+
+  <div class="note">External market quotes are reference signals. PIXIE watches them for context; they do not alter the synthetic PXCOIN ledger, portfolio outcomes, or PIXIE governance.</div>
+  <div class="signal-rule"><strong>MARKET SIGNAL → SYSTEM CONDITION → PIXIE RELEVANCE</strong><br><span>These are external signals PIXIE watches, not variables PIXIE obeys.</span></div>
+
   <section class="board" id="board" aria-label="Market signal groups"></section>
+
   <section class="tape" id="tape" aria-live="polite"></section>
+
+  <section class="context" aria-label="PIXIE interpretation layer">
+    <article class="context-card"><h3>CREATOR / RIGHTS</h3><p><b>NO DIRECT QUOTE.</b> Provenance, licensing, creator bargaining power, AI training/use, consent, and platform dependence remain PIXIE-native concerns rather than a stock-price proxy.</p></article>
+    <article class="context-card"><h3>INTERNAL LEDGER</h3><p><b>CONTEXT, NOT CONTROL.</b> External signals can frame conditions around <b>cash · capacity · access · rights · trust · pressure</b>; they do not write to those values.</p></article>
+  </section>
+
   <div class="footer">PROXY BASKETS ARE PRODUCT DEFINITIONS, NOT OFFICIAL INDICES. QUOTES MAY BE DELAYED. SOURCES: FINANCIAL MODELING PREP (MARKET) + FEDERAL RESERVE BANK OF ST. LOUIS FRED (MACRO). GITHUB PAGES SERVES A SERVER-GENERATED REFERENCE SNAPSHOT; FRED DATA IS REFERENCE-ONLY.</div>
 </div>
+
 <script>
 const GROUPS=[
-  {id:"baseline",label:"BASELINE",symbols:["SPY","QQQ"]},
-  {id:"compute",label:"COMPUTE / AI",symbols:["SMH","NVDA"]},
-  {id:"power",label:"POWER / DATA CENTERS",symbols:["XLE","EQIX","DLR"]},
-  {id:"automation",label:"AUTOMATION",symbols:["BOTZ"]},
-  {id:"digital",label:"DIGITAL MONEY",symbols:["BTC-USD","ETH-USD"]},
-  {id:"macro",label:"RATES / RISK",symbols:["DGS10","VIXCLS"]}
+  {id:"baseline",label:"BASELINE",symbols:["SPY","QQQ"],meaning:"Broad U.S. equity-market backdrop; PIXIE relevance: overall capital/risk context."},
+  {id:"compute",label:"COMPUTE / AI",symbols:["SMH","NVDA"],meaning:"Semiconductor and GPU/AI-infrastructure market signal; PIXIE relevance: compute access, capital concentration, and infrastructure dependence."},
+  {id:"power",label:"POWER / DATA CENTERS",symbols:["XLE","EQIX","DLR"],meaning:"Energy plus data-center infrastructure signal; PIXIE relevance: physical capacity, energy demand, and infrastructure pressure."},
+  {id:"automation",label:"AUTOMATION",symbols:["BOTZ"],meaning:"Robotics/automation investment signal; PIXIE relevance: the relationship between automation, human capacity, and workload."},
+  {id:"digital",label:"DIGITAL MONEY",symbols:["BTC-USD","ETH-USD"],meaning:"Digital-asset market conditions; PIXIE relevance: networked economic infrastructure and exposure to crypto-market volatility."},
+  {id:"macro",label:"RATES / RISK",symbols:["DGS10","VIXCLS"],meaning:"Long-term rates and implied volatility; PIXIE relevance: financing conditions, uncertainty, and system pressure."}
 ];
 const META={
  SPY:["S&P 500 proxy","baseline"],QQQ:["Nasdaq-100 proxy","baseline"],
@@ -51,47 +67,42 @@ const META={
  DGS10:["10Y Treasury yield","macro"],VIXCLS:["Volatility index","macro"]
 };
 let last=null;
-function fmt(v,s){if(v==null)return "—"; if(s.endsWith("-USD")) return "$"+v.toLocaleString(undefined,{maximumFractionDigits:2}); if(s==="DGS10"||s==="VIXCLS") return v.toFixed(2); return "$"+v.toFixed(2)}
+function fmt(v,s){if(v==null)return "—";if(s.endsWith("-USD"))return "$"+v.toLocaleString(undefined,{maximumFractionDigits:2});if(s==="DGS10"||s==="VIXCLS")return v.toFixed(2);return "$"+v.toFixed(2)}
 function pct(v){return v==null?null:v*100}
 function cls(v){return v==null?"muted":v>0?"up":v<0?"down":"flat"}
 function render(data){
- last=data; const rows=data.quotes||[];
- const map=new Map(rows.map(x=>[x.symbol,x]));
+ last=data;const rows=data.quotes||[];const map=new Map(rows.map(x=>[x.symbol,x]));
  document.getElementById("feed").textContent=data.fetchedAt?("SNAPSHOT · "+new Date(data.fetchedAt).toLocaleTimeString()):"UNAVAILABLE";
  document.getElementById("board").innerHTML=GROUPS.map(g=>{
    const vals=g.symbols.map(s=>map.get(s)?.changePct).filter(v=>typeof v==="number");
    const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
-   return '<article class="signal"><h2>'+g.label+'</h2><div class="value '+cls(avg)+'">'+(avg==null?"—":(avg>=0?"+":"")+avg.toFixed(2)+"%")+'</div><div class="sub">'+g.symbols.join(" · ")+' · proxy basket</div></article>';
+   return '<article class="signal"><h2>'+g.label+'</h2><div class="value '+cls(avg)+'">'+(avg==null?"—":(avg>=0?"+":"")+avg.toFixed(2)+"%")+'</div><div class="sub">'+g.symbols.join(" · ")+' · proxy basket</div><div class="meaning">'+g.meaning+'</div></article>';
  }).join("");
  document.getElementById("tape").innerHTML=rows.map(q=>{
-   const m=META[q.symbol]||[q.symbol,""];
-   const c=pct(q.changePct);
+   const m=META[q.symbol]||[q.symbol,""];const c=pct(q.changePct);
    return '<div class="row"><div class="sym">'+q.symbol+'</div><div class="name">'+m[0]+'</div><div class="price">'+fmt(q.price,q.symbol)+'</div><div class="chg '+cls(c)+'">'+(c==null?"—":(c>=0?"+":"")+c.toFixed(2)+"%")+'</div></div>';
  }).join("");
 }
 async function fetchJson(path){
- const r=await fetch(path,{cache:"no-store"});
- const data=await r.json();
- if(!r.ok) throw new Error(data.error||"Market feed unavailable");
- return data;
+ const r=await fetch(path,{cache:"no-store"});const data=await r.json();
+ if(!r.ok)throw new Error(data.error||"Market feed unavailable");return data;
 }
 async function load(){
  document.getElementById("feed").textContent="UPDATING";
  try{
-   const data=await fetchJson("/market-data.json");
-   render(data);
+   const data=await fetchJson("/market-data.json");render(data);
  }catch(snapshotError){
    try{
      const symbols=GROUPS.flatMap(g=>g.symbols).join(",");
-     const data=await fetchJson("/api/market?symbols="+encodeURIComponent(symbols));
-     render(data);
+     const data=await fetchJson("/api/market?symbols="+encodeURIComponent(symbols));render(data);
    }catch(apiError){
      document.getElementById("feed").textContent="OFFLINE";
-     if(!last) document.getElementById("tape").innerHTML='<div class="note">External market data is unavailable. PIXIE Holdings remains fully usable; no synthetic ledger values were changed.</div>';
+     if(!last)document.getElementById("tape").innerHTML='<div class="note">External market data is unavailable. PIXIE Holdings remains fully usable; no synthetic ledger values were changed.</div>';
    }
  }
 }
-document.getElementById("refresh").addEventListener("click",load); load(); setInterval(load,60000);
+document.getElementById("refresh").addEventListener("click",load);
+load();setInterval(load,60000);
 </script>
 </body>
 </html>
