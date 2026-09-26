@@ -9,4 +9,6 @@ test("first-five desktop opens Intake and retains the Made Sick participant rout
   assert.match(html, /params\.get\('role'\)==='participant'\) frame\.src='radar-core\.html'\+location\.search/);
   assert.match(html, /host\.querySelector\('#edit-action'\).*renderStage\(6\)/);
   assert.match(html, /host\.querySelector\('#undo-demo'\).*renderStage\(5\)/);
+  assert.match(html, /icons\.appendChild\(trainingIcon\)/);
+  assert.doesNotMatch(html, /\.demo-window\{[^}]*\b(?:left|top|width|height):[^;}]*!important/);
 });
