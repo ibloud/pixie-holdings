@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="PIXIE OS desktop — consent-first ecosystem control center from Loptr Lab.">
-<title>PIXIE OS — Desktop</title>
+<meta name="description" content="PIXIE OS — first five minutes stewardship demo from Loptr Lab.">
+<title>PIXIE OS — First Five Minutes</title>
 <style>
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;background:#080b09;overflow:hidden}
@@ -12,135 +12,223 @@ html,body{width:100%;height:100%;margin:0;background:#080b09;overflow:hidden}
 </style>
 </head>
 <body>
-<iframe id="pixie-core" src="radar-core.html" title="PIXIE OS Desktop"></iframe>
+<iframe id="pixie-core" src="radar-core.html?shell=1" title="PIXIE OS Desktop"></iframe>
 <script>
 const frame=document.getElementById('pixie-core');
-const pixieParams = new URLSearchParams(window.location.search);
-const coreQuery = window.location.search || '';
-frame.src = 'radar-core.html' + (coreQuery ? coreQuery + '&shell=1' : '?shell=1');
+const DEMO_KEY='pixie-first-five-v1';
+const params=new URLSearchParams(location.search);
+// The participant card lives in the canonical core route, outside the seeded demo.
+if(params.get('role')==='participant') frame.src='radar-core.html'+location.search;
+
 function bootDesktop(){
+  if(params.get('role')==='participant') return;
   try{
     const doc=frame.contentDocument;
-    if(!doc || doc.getElementById('win-control')) return;
+    const win=frame.contentWindow;
+    if(!doc || doc.getElementById('pixie-demo-mounted')) return;
+
+    const marker=doc.createElement('meta');
+    marker.id='pixie-demo-mounted';
+    doc.head.appendChild(marker);
+
     const style=doc.createElement('style');
     style.textContent=`
-      @keyframes pixieBreathe{0%,100%{transform:scale(1);filter:drop-shadow(0 0 4px rgba(217,138,169,.25))}50%{transform:scale(1.08);filter:drop-shadow(0 0 12px rgba(217,138,169,.7))}}
-      .pixie-breath{animation:pixieBreathe 3.2s ease-in-out infinite;transform-origin:center}
+      .icon-grid{top:22px!important;left:22px!important;gap:14px!important}
+      .desk-icon{width:84px!important;padding:10px 6px!important}
+      .icon-face{width:52px!important;height:52px!important;font-size:24px!important}
+      .icon-label{font-size:10px!important;color:rgba(240,234,255,.78)!important}
+      .seed-banner{position:fixed;top:18px;right:18px;z-index:180;max-width:360px;padding:12px 14px;border:1px solid rgba(127,255,212,.25);border-radius:10px;background:rgba(8,11,9,.88);backdrop-filter:blur(10px);font-family:var(--mono);font-size:10px;line-height:1.55;color:var(--muted)}
+      .seed-banner strong{color:var(--mint2)}
+      .demo-window{left:18vw!important;top:7vh!important;width:min(760px,76vw)!important;height:min(78vh,760px)!important}
+      .demo-window .win-body{overflow:auto!important;padding:24px!important}
+      .demo-kicker{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--mint2);margin-bottom:10px}
+      .demo-title{font-size:30px;line-height:1.1;margin:0 0 12px}
+      .demo-copy{color:var(--muted);line-height:1.55;max-width:680px}
+      .status-row{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}
+      .status-chip{font-family:var(--mono);font-size:9px;padding:5px 8px;border:1px solid var(--mborder);border-radius:999px;color:var(--mint2)}
+      .status-chip.proto{border-color:var(--lborder);color:var(--lav2)}
+      .status-chip.plan{border-color:rgba(255,230,0,.25);color:#ffe600}
+      .state-card{border:1px solid rgba(240,234,255,.12);border-radius:10px;padding:16px;margin:12px 0;background:rgba(255,255,255,.02)}
+      .state-label{font-family:var(--mono);font-size:10px;color:var(--pink2);letter-spacing:.1em;margin-bottom:8px}
+      .state-card strong{color:var(--white)}
+      .state-meta{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px}
+      .diff{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+      .diff>div{padding:12px;border:1px solid rgba(240,234,255,.1);border-radius:8px;font-family:var(--mono);font-size:11px;overflow-wrap:anywhere}
+      .demo-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+      .demo-btn{border:1px solid var(--mborder);background:var(--mint3);color:var(--mint2);font-family:var(--mono);font-size:11px;padding:10px 14px;border-radius:7px;cursor:pointer}
+      .demo-btn.secondary{border-color:var(--lborder);background:var(--lav3);color:var(--lav2)}
+      .demo-btn.ghost{background:transparent;color:var(--muted)}
+      .demo-btn:focus-visible{outline:2px solid var(--mint2);outline-offset:3px}
+      .receipt{border:1px solid rgba(127,255,212,.32);background:rgba(127,255,212,.05);border-radius:12px;padding:18px;margin-top:14px}
+      .receipt h3{color:var(--mint2);margin:0 0 10px}
+      .trust-line{font-size:20px;color:var(--white);margin:8px 0}
+      .mail-catch{border-left:3px solid var(--pink);padding:14px 16px;background:rgba(255,110,180,.05);margin-top:16px}
+      .how-door{margin-top:20px;padding-top:16px;border-top:1px solid rgba(240,234,255,.1)}
+      .persona-note{font-size:11px;color:var(--muted);margin-top:6px}
       .taskbar{position:fixed!important;left:0;right:0;bottom:0!important;z-index:200!important}
-      #win-control{height:min(76vh,720px)}
-      #win-control .win-body{padding:0;overflow:hidden;flex:1}
-      #win-control iframe{display:block;width:100%;height:100%;border:0;background:#061015}
-      #win-care{height:min(82vh,780px)}
-      #win-care .win-body{padding:0;overflow:hidden;flex:1}
-      #win-care iframe{display:block;width:100%;height:100%;border:0;background:#faf7f2}
-      @media(max-width:760px){#win-control,#win-care{left:2vw!important;top:2vh!important;width:96vw!important;height:86vh!important}.icon-grid{padding-bottom:72px}}
-      .wdot:focus-visible{outline:2px solid currentColor;outline-offset:3px}
-      @media(prefers-reduced-motion:reduce){.pixie-breath{animation:none}}
+      @media(max-width:760px){.demo-window{left:2vw!important;top:2vh!important;width:96vw!important;height:86vh!important}.seed-banner{display:none}.diff{grid-template-columns:1fr}.icon-grid{padding-bottom:72px}}
+      @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
     `;
     doc.head.appendChild(style);
+
+    const banner=doc.createElement('div');
+    banner.className='seed-banner';
+    banner.innerHTML='<strong>PIXIE OS // FIRST FIVE MINUTES</strong><br>Seeded public demo · no live mailbox or file-system access<br>Persona data is fictional and modeled on real stewardship problems.';
+    doc.body.appendChild(banner);
+
     const icons=doc.querySelector('.icon-grid');
-    const icon=doc.createElement('div');
-    icon.className='desk-icon'; icon.setAttribute('role','button'); icon.tabIndex=0;
-    icon.setAttribute('aria-label','Open PIXIE Control Room');
-    icon.innerHTML='<div class="icon-face" style="background:rgba(83,204,255,.08);border-color:rgba(83,204,255,.28)">◉</div><div class="icon-label">Control<br>Room</div>';
-    const openControlRoom = () => frame.contentWindow.openWin('control');
+    if(icons) icons.innerHTML='';
 
-    // Made Sick is a persistent PIXIE OS application, not a dashboard replacing the host site.
-    if (!doc.getElementById('icon-made-sick')) {
-      const madeSickIcon=doc.createElement('div');
-      madeSickIcon.className='desk-icon';
-      madeSickIcon.id='icon-made-sick';
-      madeSickIcon.setAttribute('role','button');
-      madeSickIcon.tabIndex=0;
-      madeSickIcon.setAttribute('aria-label','Open Made Sick');
-      madeSickIcon.innerHTML='<div class="icon-face" style="background:rgba(255,68,68,.08);border-color:rgba(255,68,68,.32);color:#ff6b62">MS</div><div class="icon-label">Made<br>Sick</div>';
-      const openMadeSick=()=>{
-        // Made Sick stays inside PIXIE OS. The canonical join page is the iframe content;
-        // never navigate the host desktop away from the radar.
-        frame.contentWindow.openWin?.('made-sick');
-      };
-      madeSickIcon.addEventListener('click',openMadeSick);
-      madeSickIcon.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openMadeSick()}});
-      icons?.appendChild(madeSickIcon);
+    const addIcon=(label,emoji,aria,openFn)=>{
+      const el=doc.createElement('div');
+      el.className='desk-icon'; el.setAttribute('role','button'); el.tabIndex=0; el.setAttribute('aria-label',aria);
+      el.innerHTML='<div class="icon-face" style="background:rgba(127,255,212,.08);border-color:rgba(127,255,212,.26)">'+emoji+'</div><div class="icon-label">'+label+'</div>';
+      el.addEventListener('click',openFn);
+      el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openFn()}});
+      icons?.appendChild(el);
+    };
+
+    const addWindow=(id,title,body)=>{
+      const w=doc.createElement('div');
+      w.className='window w-mint demo-window'; w.id=id; w.style.display='none';
+      w.setAttribute('role','dialog'); w.setAttribute('aria-label',title);
+      w.innerHTML='<div class="win-bar"><div class="win-dots"><div class="wdot wd-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">'+title+'</div></div><div class="win-body">'+body+'</div>';
+      doc.querySelector('.taskbar')?.before(w);
+      win.wireWindow?.(id);
+      return w;
+    };
+
+    const intake=addWindow('win-intake','PIXIE // INTAKE',`
+      <div class="demo-kicker">SEEDED PERSONA · CREATOR WORKSPACE</div>
+      <h1 class="demo-title">I found something you may want to keep.</h1>
+      <p class="demo-copy">This persona's mess is modeled on real creator workflows. The file below is seeded demo data. PIXIE will not change anything until permission is given.</p>
+      <div class="status-row"><span class="status-chip proto">PROTOTYPE</span><span class="status-chip">SEEDED DATA</span><span class="status-chip plan">NO LIVE FILE ACCESS</span></div>
+      <div id="demo-stage"></div>
+    `);
+
+    const projects=addWindow('win-projects','PIXIE // PROJECTS',`
+      <div class="demo-kicker">PROJECT CONTEXT</div>
+      <h1 class="demo-title">Two active projects. One source of truth each.</h1>
+      <div class="state-card"><div class="state-label">PROJECT 01</div><strong>PIXIE Device Stewardship</strong><p class="demo-copy">Artist File Protocol · consent loop · provenance receipts.</p><div class="status-row"><span class="status-chip">TESTED: UI SHELL</span><span class="status-chip proto">PROTOTYPE: FILE ACTIONS</span></div></div>
+      <div class="state-card"><div class="state-label">PROJECT 02</div><strong>Made Sick</strong><p class="demo-copy">Community experience connected through PIXIE, not duplicated inside the desktop.</p><div class="demo-actions"><button class="demo-btn secondary" id="open-made-sick">Open Made Sick</button></div></div>
+    `);
+
+    const receipts=addWindow('win-receipts','PIXIE // RECEIPTS',`
+      <div class="demo-kicker">PROVENANCE</div>
+      <h1 class="demo-title">The receipt is the trust signal.</h1>
+      <p class="demo-copy">Every consequential action should leave a human-readable record of what was observed, what PIXIE inferred, what was proposed, what you approved, and what changed.</p>
+      <div id="receipt-status" class="state-card" role="status" aria-live="polite"></div>
+    `);
+
+    const how=addWindow('win-how','PIXIE // HOW THIS WORKS',`
+      <div class="demo-kicker">BUILDER DOOR</div>
+      <h1 class="demo-title">One stewardship grammar. Multiple adapters.</h1>
+      <div class="state-card"><div class="state-label">INTENT RECORD</div><strong>Observed → Inferred → Proposed → Permission → Action → Receipt</strong><p class="demo-copy">The receipt is the user-facing view of PIXIE's provenance chain.</p></div>
+      <div class="state-card"><div class="state-label">ADAPTERS</div><strong>Files · Mail · GitHub · AT Protocol · future device surfaces</strong><p class="demo-copy">Adapters change. The consent and provenance grammar does not.</p></div>
+      <div class="status-row"><span class="status-chip">TESTED</span><span class="status-chip proto">PROTOTYPE</span><span class="status-chip plan">PLANNED</span></div>
+      <p class="demo-copy"><strong>TESTED</strong> means exercised against its intended system. <strong>PROTOTYPE</strong> means the interaction is demonstrated but may be simulated. <strong>PLANNED</strong> means design intent only.</p>
+    `);
+
+    addIcon('PIXIE','✦','Open PIXIE',()=>win.openWin?.('intake'));
+    addIcon('Intake','↓','Open Intake',()=>win.openWin?.('intake'));
+    addIcon('Projects','▣','Open Projects',()=>win.openWin?.('projects'));
+    addIcon('Receipts','✓','Open Receipts',()=>win.openWin?.('receipts'));
+
+    if(params.get('role')==='admin' || params.get('tool')==='care'){
+      const care=params.get('tool')==='care';
+      const name=care?'care':'control';
+      const route=care?'https://made-sick.org/pixie-care.html':'control-room.html';
+      addWindow('win-'+name,care?'PIXIE // MADE SICK CARE':'PIXIE // CONTROL ROOM',
+        '<iframe src="'+route+'" title="'+(care?'Made Sick care workspace':'PIXIE Control Room')+'" style="width:100%;height:100%;min-height:60vh;border:0"></iframe>');
     }
-    icon.addEventListener('click', openControlRoom);
-    icon.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openControlRoom()}});
-    icons?.appendChild(icon);
 
-    if (!doc.getElementById('icon-made-sick-care')) {
-      const careIcon=doc.createElement('div');
-      careIcon.className='desk-icon'; careIcon.id='icon-made-sick-care';
-      careIcon.setAttribute('role','button'); careIcon.tabIndex=0;
-      careIcon.setAttribute('aria-label','Open Made Sick care cue');
-      careIcon.innerHTML='<div class="icon-face" style="background:rgba(255,107,98,.1);border-color:rgba(255,107,98,.4);color:#ff6b62">♥</div><div class="icon-label">Care<br>Cue</div>';
-      const openCare=()=>frame.contentWindow.openWin?.('care');
-      careIcon.addEventListener('click',openCare);
-      careIcon.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openCare()}});
-      icons?.appendChild(careIcon);
-    }
-    const madeSickWin=doc.createElement('div');
-    madeSickWin.className='window w-pink'; madeSickWin.id='win-made-sick';
-    madeSickWin.style.cssText='left:8vw;top:4vh;width:84vw;height:min(82vh,780px);display:none';
-    madeSickWin.setAttribute('role','dialog'); madeSickWin.setAttribute('aria-label','Made Sick');
-    madeSickWin.innerHTML='<div class="win-bar"><div class="win-dots"><div class="wdot wd-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE // MADE SICK</div></div><div class="win-body" style="padding:0;overflow:hidden;flex:1"><iframe src="https://made-sick.org/join.html" title="Made Sick" style="display:block;width:100%;height:100%;border:0;background:#fff"></iframe></div>';
-    doc.querySelector('.taskbar')?.before(madeSickWin);
-    frame.contentWindow.wireWindow?.('win-made-sick');
-    const madeSickTask=doc.createElement('button');
-    madeSickTask.className='tb-btn t-pink'; madeSickTask.id='tb-made-sick'; madeSickTask.textContent='Made Sick';
-    madeSickTask.addEventListener('click',()=>frame.contentWindow.openWin('made-sick'));
-    doc.querySelector('.taskbar .tb-right')?.before(madeSickTask);
+    projects.querySelector('#open-made-sick')?.addEventListener('click',()=>window.open('https://made-sick.org/','_blank','noopener,noreferrer'));
 
-    const win=doc.createElement('div');
-    win.className='window w-mint'; win.id='win-control';
-    win.style.cssText='left:7vw;top:5vh;width:86vw;display:none';
-    win.setAttribute('role','dialog'); win.setAttribute('aria-label','PIXIE Control Room');
-    win.innerHTML='<div class="win-bar"><div class="win-dots"><div class="wdot wd-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE // CONTROL ROOM</div></div><div class="win-body"><iframe src="control-room.html" title="PIXIE Control Room module"></iframe></div>';
-    doc.querySelector('.taskbar')?.before(win);
-    frame.contentWindow.wireWindow?.('win-control');
     const taskbar=doc.querySelector('.taskbar');
-    const taskButton=doc.createElement('button');
-    taskButton.className='tb-btn t-mint'; taskButton.id='tb-control';
-    taskButton.textContent='Control';
-    taskButton.addEventListener('click',()=>frame.contentWindow.openWin('control'));
-    taskbar?.querySelector('.tb-right')?.before(taskButton);
+    const reset=doc.createElement('button');
+    reset.className='tb-btn t-mint'; reset.textContent='Reset demo'; reset.id='tb-reset-demo';
+    reset.addEventListener('click',()=>{localStorage.removeItem(DEMO_KEY); localStorage.removeItem(DEMO_KEY+'-name'); copyName='pixie-origin-demo.mp4'; renderStage(0); win.openWin?.('intake')});
+    taskbar?.querySelector('.tb-right')?.before(reset);
 
-    const careWin=doc.createElement('div');
-    careWin.className='window w-pink'; careWin.id='win-care';
-    careWin.style.cssText='left:10vw;top:4vh;width:80vw;display:none';
-    careWin.setAttribute('role','dialog'); careWin.setAttribute('aria-label','Made Sick PIXIE care cue');
-    careWin.innerHTML='<div class="win-bar"><div class="win-dots"><div class="wdot wd-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE // MADE SICK CARE</div></div><div class="win-body"><iframe src="https://made-sick.org/pixie-care.html" title="Made Sick PIXIE care workspace"></iframe></div>';
-    doc.querySelector('.taskbar')?.before(careWin);
-    frame.contentWindow.wireWindow?.('win-care');
-    const careTask=doc.createElement('button');
-    careTask.className='tb-btn t-pink'; careTask.id='tb-care'; careTask.textContent='Care';
-    careTask.addEventListener('click',()=>frame.contentWindow.openWin('care'));
-    taskbar?.querySelector('.tb-right')?.before(careTask);
-    const pixieIcon=doc.querySelector('[aria-label="Open PIXIE Agent"] .icon-face');
-    pixieIcon?.classList.add('pixie-breath');
-  }catch(error){console.error('[PIXIE OS] Desktop boot failed:',error)}
+    const howBtn=doc.createElement('button');
+    howBtn.className='tb-btn t-lav'; howBtn.textContent='How this works'; howBtn.id='tb-how';
+    howBtn.addEventListener('click',()=>win.openWin?.('how'));
+    taskbar?.querySelector('.tb-right')?.before(howBtn);
+
+    const originalName='pixie-origin-demo.mp4';
+    let copyName=localStorage.getItem(DEMO_KEY+'-name')||originalName;
+    const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    function saveStage(n){localStorage.setItem(DEMO_KEY,String(n))}
+    function updateReceipt(stage){
+      const status=receipts.querySelector('#receipt-status');
+      if(stage===3 || stage===4) status.innerHTML='<div class="state-label">PROTOTYPE RECEIPT</div><h3>Original unchanged.</h3><p>Working-copy record: <strong>'+escape(copyName)+'</strong></p><p>Explicit approval recorded. No live file mutation.</p>';
+      else if(stage===5) status.innerHTML='<div class="state-label">UNDO RECORDED</div><h3>Simulated working copy undone.</h3><p>Original unchanged. No live file mutation.</p>';
+      else status.innerHTML='<div class="state-label">NO ACTION YET</div><p>Approval and a simulated action are required before a receipt is created.</p>';
+    }
+    function renderStage(stage){
+      saveStage(stage);
+      updateReceipt(stage);
+      const host=intake.querySelector('#demo-stage');
+      if(!host) return;
+      if(stage===0){
+        host.innerHTML=`
+          <div class="state-card"><div class="state-label">OBSERVED</div><strong>1789223454414_instaPV.mp4</strong><p class="demo-copy">Found in Downloads. No project assignment is stored.</p><div class="state-meta">Observed fact · filename and location only</div></div>
+          <div class="demo-actions"><button class="demo-btn" id="next-infer">Ask PIXIE what it thinks</button></div>`;
+        host.querySelector('#next-infer')?.addEventListener('click',()=>renderStage(1));
+      }else if(stage===1){
+        host.innerHTML=`
+          <div class="state-card"><div class="state-label">OBSERVED</div><strong>1789223454414_instaPV.mp4</strong><div class="state-meta">Found in Downloads · no project assignment</div></div>
+          <div class="state-card"><div class="state-label">INFERRED</div><strong>Likely related to the PIXIE project.</strong><p class="demo-copy">Reason: the clip was created during the same session as two PIXIE reference files.</p><div class="state-meta">Confidence: 82% · expires after this demo session</div><div class="demo-actions"><button class="demo-btn secondary" id="see-proposal">See proposal</button><button class="demo-btn ghost" id="dismiss-inference">Dismiss</button></div></div>`;
+        host.querySelector('#see-proposal')?.addEventListener('click',()=>renderStage(2));
+        host.querySelector('#dismiss-inference')?.addEventListener('click',()=>renderStage(0));
+      }else if(stage===2){
+        host.innerHTML=`
+          <div class="state-card"><div class="state-label">PROPOSED</div><strong>Create a working copy. Preserve the source exactly as found.</strong>
+          <div class="diff"><div><strong>BEFORE</strong><br>1789223454414_instaPV.mp4<br><span class="state-meta">Source stays here</span></div><div><strong>AFTER</strong><br><span id="copy-name"></span><br><span class="state-meta">New working copy in PIXIE project</span></div></div>
+          <p class="demo-copy">Also proposed: transcript + private re-entry note. Nothing has changed.</p></div>
+          <div class="state-card"><div class="state-label">PERMISSION</div><strong>I can prepare the change. You decide whether it happens.</strong><p class="demo-copy">PIXIE waits because reversible actions require explicit approval; irreversible actions are prepared and handed back to you.</p>
+          <div class="demo-actions"><button class="demo-btn" id="approve-action">Approve working copy</button><button class="demo-btn secondary" id="edit-action">Edit proposal</button><button class="demo-btn ghost" id="not-now">Not now</button></div></div>`;
+        host.querySelector('#copy-name').textContent=copyName;
+        host.querySelector('#approve-action')?.addEventListener('click',()=>renderStage(3));
+        host.querySelector('#edit-action')?.addEventListener('click',()=>renderStage(6));
+        host.querySelector('#not-now')?.addEventListener('click',()=>renderStage(0));
+      }else if(stage===3){
+        host.innerHTML=`
+          <div class="state-card"><div class="state-label">ACTION</div><strong>Prototype action completed.</strong><p class="demo-copy">In this seeded demo, no real file system was touched. The simulated action creates a working-copy record only.</p></div>
+          <div class="receipt"><div class="state-label">RECEIPT</div><h3>Original unchanged.</h3><div class="trust-line">Working-copy record prepared · approval recorded · undo available</div><div class="state-meta">Prototype data · no live file mutation</div>
+          <div class="demo-actions"><button class="demo-btn secondary" id="undo-demo">Undo</button><button class="demo-btn" id="show-mail">Continue</button></div></div>`;
+        host.querySelector('#undo-demo')?.addEventListener('click',()=>renderStage(5));
+        host.querySelector('#show-mail')?.addEventListener('click',()=>renderStage(4));
+      }else if(stage===5){
+        host.innerHTML='<div class="receipt"><div class="state-label">UNDO RECORDED</div><h3>Simulated working copy undone.</h3><p>Original unchanged. No live file mutation.</p></div><div class="demo-actions"><button class="demo-btn" id="try-again">Review proposal again</button></div>';
+        host.querySelector('#try-again')?.addEventListener('click',()=>renderStage(2));
+      }else if(stage===6){
+        host.innerHTML='<div class="state-card"><div class="state-label">EDIT PROPOSAL</div><label for="edit-copy-name">Working-copy filename</label><input id="edit-copy-name" type="text" maxlength="100" required pattern="[a-zA-Z0-9][a-zA-Z0-9._-]*\\.mp4" style="display:block;width:100%;margin-top:8px;padding:10px;background:#08080f;color:#fff;border:1px solid var(--mborder)"><p class="demo-copy">The original file remains untouched. Save to review the revised proposal before approval.</p><div class="demo-actions"><button class="demo-btn" id="save-edit">Save proposal</button><button class="demo-btn ghost" id="cancel-edit">Cancel</button></div></div>';
+        const input=host.querySelector('#edit-copy-name'); input.value=copyName;
+        host.querySelector('#save-edit')?.addEventListener('click',()=>{if(!input.reportValidity())return;copyName=input.value;localStorage.setItem(DEMO_KEY+'-name',copyName);renderStage(2)});
+        host.querySelector('#cancel-edit')?.addEventListener('click',()=>renderStage(2));
+      }else{
+        host.innerHTML=`
+          <div class="mail-catch"><div class="state-label">SECOND DOMAIN · MAIL</div><h2 style="margin:0 0 8px">Deadline caught before it was missed.</h2><p class="demo-copy"><strong>From:</strong> housing@example.com · <strong>Due:</strong> tomorrow at 5:00 PM</p><p class="demo-copy"><strong>Why PIXIE surfaced it:</strong> explicit deadline language + housing record context.</p><div class="state-meta">Confidence: 94% · seeded message · no live mailbox access</div></div>
+          <div class="state-card"><div class="state-label">PROPOSED</div><strong>Draft a reply for review.</strong><p class="demo-copy">PIXIE prepared the text. There is no send action in this demo.</p></div>
+          <div class="receipt"><div class="state-label">RECEIPT</div><h3>Draft prepared. Not sent.</h3><div class="trust-line">Sending is yours.</div><div class="state-meta">Prototype · seeded mail · no external action</div></div>
+          <div class="how-door"><button class="demo-btn" id="open-how">How this works</button></div>`;
+        host.querySelector('#open-how')?.addEventListener('click',()=>win.openWin?.('how'));
+      }
+    }
+
+    const saved=Number(localStorage.getItem(DEMO_KEY)||0);
+    renderStage(Number.isInteger(saved)&&saved>=0&&saved<=6?saved:0);
+    win.openWin?.(params.get('tool')==='care'?'care':params.get('role')==='admin'?'control':'intake');
+  }catch(error){console.error('[PIXIE OS] First-five demo boot failed:',error)}
 }
+
 frame.addEventListener('load',bootDesktop);
-window.addEventListener('keydown',e=>{
-  if(e.key==='Escape' && !e.defaultPrevented && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)){
-    window.parent.postMessage({type:'pixie:close-os'},window.location.origin);
-  }
-});
 window.addEventListener('message',e=>{
-  if(e.origin!==window.location.origin)return;
-  if(e.data?.type==='pixie:focus-window' && e.data.name) frame.contentWindow.openWin?.(e.data.name);
+  if(e.origin!==location.origin || e.data?.type!=='pixie:focus-window') return;
+  const name=e.data.name;
+  if(['intake','projects','receipts','how','control','care'].includes(name)) frame.contentWindow.openWin?.(name);
 });
-function routeMadeSickHandoff(){
-  const role=pixieParams.get('role');
-  const tool=pixieParams.get('tool');
-  if(tool==='care'){
-    setTimeout(()=>frame.contentWindow.openWin?.('care'),250);
-  }else if(role==='admin'){
-    setTimeout(()=>frame.contentWindow.openWin?.('control'),250);
-  }else if(role==='participant'){
-    setTimeout(()=>frame.contentWindow.openWin?.('made-sick'),250);
-  }
-}
-frame.addEventListener('load',routeMadeSickHandoff);
 if(frame.contentDocument && frame.contentDocument.readyState!=='loading') bootDesktop();
 </script>
 </body>
