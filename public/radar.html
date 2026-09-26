@@ -16,6 +16,7 @@ html,body{width:100%;height:100%;margin:0;background:#080b09;overflow:hidden}
 <script>
 const frame=document.getElementById('pixie-core');
 const DEMO_KEY='pixie-first-five-v1';
+const openControlRoom = () => frame.contentWindow.openWin('control');
 
 function bootDesktop(){
   try{
