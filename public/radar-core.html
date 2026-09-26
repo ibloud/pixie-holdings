@@ -557,7 +557,7 @@ const continuityRepos={
   'pixie-holdings':{tier:0,url:'https://github.com/ibloud/pixie-holdings'},
   'made-sick':{tier:0,url:'https://github.com/ibloud/made-sick'},
   'narrative-provenance':{tier:1,url:'https://github.com/ibloud/narrative-provenance'},
-  'duet-engine-architecture':{tier:2,url:'https://github.com/ibloud/duet-engine-architecture'}
+  'duet-engine-architecture':{tier:2,url:'https://github.com/ibloud/duet_engine_architecture'}
 };
 function updateSitemapAccess(){const access=accessLevels[currentAccessIndex];const status=document.getElementById('sitemap-access-status');if(status)status.textContent='ACCESS: '+access.name.toUpperCase();document.querySelectorAll('[data-sitemap-tier]').forEach(node=>{const tier=Number(node.getAttribute('data-sitemap-tier')),unlocked=currentAccessIndex>=tier;node.classList.toggle('is-locked',!unlocked);const key=node.getAttribute('onclick')||'',match=key.match(/openContinuityRepo\('([^']+)'\)/),repoName=match?match[1]:null,state=repoName?node.querySelector('[data-sitemap-status]'):null;if(state){state.textContent=unlocked?'ACCESSIBLE':'LOCKED';state.style.color=unlocked?'var(--mint2)':'var(--red)';}});}
 function openContinuityRepo(name){const repo=continuityRepos[name];if(!repo)return;if(currentAccessIndex<repo.tier){showNotification('Access Denied',accessLevels[repo.tier].name+' access required for '+name+'.');return;}window.open(repo.url,'_blank','noopener');}
