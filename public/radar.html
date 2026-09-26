@@ -16,9 +16,12 @@ html,body{width:100%;height:100%;margin:0;background:#080b09;overflow:hidden}
 <script>
 const frame=document.getElementById('pixie-core');
 const DEMO_KEY='pixie-first-five-v1';
-const openControlRoom = () => frame.contentWindow.openWin('control');
+const params=new URLSearchParams(location.search);
+// The participant card lives in the canonical core route, outside the seeded demo.
+if(params.get('role')==='participant') frame.src='radar-core.html'+location.search;
 
 function bootDesktop(){
+  if(params.get('role')==='participant') return;
   try{
     const doc=frame.contentDocument;
     const win=frame.contentWindow;
@@ -114,7 +117,7 @@ function bootDesktop(){
       <div class="demo-kicker">PROVENANCE</div>
       <h1 class="demo-title">The receipt is the trust signal.</h1>
       <p class="demo-copy">Every consequential action should leave a human-readable record of what was observed, what PIXIE inferred, what was proposed, what you approved, and what changed.</p>
-      <div class="receipt"><h3>Prototype receipt</h3><div class="trust-line">Original unchanged.</div><div class="state-meta">Seeded demo · no live file mutation occurred.</div><p>Working-copy proposal: <strong>pixie-origin-demo.mp4</strong></p><p>Approval: required before action</p><p>Undo: available for reversible actions</p></div>
+      <div id="receipt-status" class="state-card" role="status" aria-live="polite"></div>
     `);
 
     const how=addWindow('win-how','PIXIE // HOW THIS WORKS',`
@@ -131,12 +134,20 @@ function bootDesktop(){
     addIcon('Projects','▣','Open Projects',()=>win.openWin?.('projects'));
     addIcon('Receipts','✓','Open Receipts',()=>win.openWin?.('receipts'));
 
+    if(params.get('role')==='admin' || params.get('tool')==='care'){
+      const care=params.get('tool')==='care';
+      const name=care?'care':'control';
+      const route=care?'https://made-sick.org/pixie-care.html':'control-room.html';
+      addWindow('win-'+name,care?'PIXIE // MADE SICK CARE':'PIXIE // CONTROL ROOM',
+        '<iframe src="'+route+'" title="'+(care?'Made Sick care workspace':'PIXIE Control Room')+'" style="width:100%;height:100%;min-height:60vh;border:0"></iframe>');
+    }
+
     projects.querySelector('#open-made-sick')?.addEventListener('click',()=>window.open('https://made-sick.org/','_blank','noopener,noreferrer'));
 
     const taskbar=doc.querySelector('.taskbar');
     const reset=doc.createElement('button');
     reset.className='tb-btn t-mint'; reset.textContent='Reset demo'; reset.id='tb-reset-demo';
-    reset.addEventListener('click',()=>{localStorage.removeItem(DEMO_KEY); renderStage(0); win.openWin?.('intake')});
+    reset.addEventListener('click',()=>{localStorage.removeItem(DEMO_KEY); localStorage.removeItem(DEMO_KEY+'-name'); copyName='pixie-origin-demo.mp4'; renderStage(0); win.openWin?.('intake')});
     taskbar?.querySelector('.tb-right')?.before(reset);
 
     const howBtn=doc.createElement('button');
@@ -144,9 +155,19 @@ function bootDesktop(){
     howBtn.addEventListener('click',()=>win.openWin?.('how'));
     taskbar?.querySelector('.tb-right')?.before(howBtn);
 
+    const originalName='pixie-origin-demo.mp4';
+    let copyName=localStorage.getItem(DEMO_KEY+'-name')||originalName;
+    const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     function saveStage(n){localStorage.setItem(DEMO_KEY,String(n))}
+    function updateReceipt(stage){
+      const status=receipts.querySelector('#receipt-status');
+      if(stage===3 || stage===4) status.innerHTML='<div class="state-label">PROTOTYPE RECEIPT</div><h3>Original unchanged.</h3><p>Working-copy record: <strong>'+escape(copyName)+'</strong></p><p>Explicit approval recorded. No live file mutation.</p>';
+      else if(stage===5) status.innerHTML='<div class="state-label">UNDO RECORDED</div><h3>Simulated working copy undone.</h3><p>Original unchanged. No live file mutation.</p>';
+      else status.innerHTML='<div class="state-label">NO ACTION YET</div><p>Approval and a simulated action are required before a receipt is created.</p>';
+    }
     function renderStage(stage){
       saveStage(stage);
+      updateReceipt(stage);
       const host=intake.querySelector('#demo-stage');
       if(!host) return;
       if(stage===0){
@@ -163,20 +184,29 @@ function bootDesktop(){
       }else if(stage===2){
         host.innerHTML=`
           <div class="state-card"><div class="state-label">PROPOSED</div><strong>Create a working copy. Preserve the source exactly as found.</strong>
-          <div class="diff"><div><strong>BEFORE</strong><br>1789223454414_instaPV.mp4<br><span class="state-meta">Source stays here</span></div><div><strong>AFTER</strong><br>pixie-origin-demo.mp4<br><span class="state-meta">New working copy in PIXIE project</span></div></div>
+          <div class="diff"><div><strong>BEFORE</strong><br>1789223454414_instaPV.mp4<br><span class="state-meta">Source stays here</span></div><div><strong>AFTER</strong><br><span id="copy-name"></span><br><span class="state-meta">New working copy in PIXIE project</span></div></div>
           <p class="demo-copy">Also proposed: transcript + private re-entry note. Nothing has changed.</p></div>
           <div class="state-card"><div class="state-label">PERMISSION</div><strong>I can prepare the change. You decide whether it happens.</strong><p class="demo-copy">PIXIE waits because reversible actions require explicit approval; irreversible actions are prepared and handed back to you.</p>
           <div class="demo-actions"><button class="demo-btn" id="approve-action">Approve working copy</button><button class="demo-btn secondary" id="edit-action">Edit proposal</button><button class="demo-btn ghost" id="not-now">Not now</button></div></div>`;
+        host.querySelector('#copy-name').textContent=copyName;
         host.querySelector('#approve-action')?.addEventListener('click',()=>renderStage(3));
-        host.querySelector('#edit-action')?.addEventListener('click',()=>renderStage(1));
+        host.querySelector('#edit-action')?.addEventListener('click',()=>renderStage(6));
         host.querySelector('#not-now')?.addEventListener('click',()=>renderStage(0));
       }else if(stage===3){
         host.innerHTML=`
           <div class="state-card"><div class="state-label">ACTION</div><strong>Prototype action completed.</strong><p class="demo-copy">In this seeded demo, no real file system was touched. The simulated action creates a working-copy record only.</p></div>
-          <div class="receipt"><div class="state-label">RECEIPT</div><h3>Original unchanged.</h3><div class="trust-line">Working copy prepared · approval recorded · undo available</div><div class="state-meta">Prototype data · no live file mutation</div>
+          <div class="receipt"><div class="state-label">RECEIPT</div><h3>Original unchanged.</h3><div class="trust-line">Working-copy record prepared · approval recorded · undo available</div><div class="state-meta">Prototype data · no live file mutation</div>
           <div class="demo-actions"><button class="demo-btn secondary" id="undo-demo">Undo</button><button class="demo-btn" id="show-mail">Continue</button></div></div>`;
-        host.querySelector('#undo-demo')?.addEventListener('click',()=>renderStage(2));
+        host.querySelector('#undo-demo')?.addEventListener('click',()=>renderStage(5));
         host.querySelector('#show-mail')?.addEventListener('click',()=>renderStage(4));
+      }else if(stage===5){
+        host.innerHTML='<div class="receipt"><div class="state-label">UNDO RECORDED</div><h3>Simulated working copy undone.</h3><p>Original unchanged. No live file mutation.</p></div><div class="demo-actions"><button class="demo-btn" id="try-again">Review proposal again</button></div>';
+        host.querySelector('#try-again')?.addEventListener('click',()=>renderStage(2));
+      }else if(stage===6){
+        host.innerHTML='<div class="state-card"><div class="state-label">EDIT PROPOSAL</div><label for="edit-copy-name">Working-copy filename</label><input id="edit-copy-name" type="text" maxlength="100" required pattern="[a-zA-Z0-9][a-zA-Z0-9._-]*\\.mp4" style="display:block;width:100%;margin-top:8px;padding:10px;background:#08080f;color:#fff;border:1px solid var(--mborder)"><p class="demo-copy">The original file remains untouched. Save to review the revised proposal before approval.</p><div class="demo-actions"><button class="demo-btn" id="save-edit">Save proposal</button><button class="demo-btn ghost" id="cancel-edit">Cancel</button></div></div>';
+        const input=host.querySelector('#edit-copy-name'); input.value=copyName;
+        host.querySelector('#save-edit')?.addEventListener('click',()=>{if(!input.reportValidity())return;copyName=input.value;localStorage.setItem(DEMO_KEY+'-name',copyName);renderStage(2)});
+        host.querySelector('#cancel-edit')?.addEventListener('click',()=>renderStage(2));
       }else{
         host.innerHTML=`
           <div class="mail-catch"><div class="state-label">SECOND DOMAIN · MAIL</div><h2 style="margin:0 0 8px">Deadline caught before it was missed.</h2><p class="demo-copy"><strong>From:</strong> housing@example.com · <strong>Due:</strong> tomorrow at 5:00 PM</p><p class="demo-copy"><strong>Why PIXIE surfaced it:</strong> explicit deadline language + housing record context.</p><div class="state-meta">Confidence: 94% · seeded message · no live mailbox access</div></div>
@@ -187,12 +217,18 @@ function bootDesktop(){
       }
     }
 
-    renderStage(Number(localStorage.getItem(DEMO_KEY)||0));
-    win.openWin?.('intake');
+    const saved=Number(localStorage.getItem(DEMO_KEY)||0);
+    renderStage(Number.isInteger(saved)&&saved>=0&&saved<=6?saved:0);
+    win.openWin?.(params.get('tool')==='care'?'care':params.get('role')==='admin'?'control':'intake');
   }catch(error){console.error('[PIXIE OS] First-five demo boot failed:',error)}
 }
 
 frame.addEventListener('load',bootDesktop);
+window.addEventListener('message',e=>{
+  if(e.origin!==location.origin || e.data?.type!=='pixie:focus-window') return;
+  const name=e.data.name;
+  if(['intake','projects','receipts','how','control','care'].includes(name)) frame.contentWindow.openWin?.(name);
+});
 if(frame.contentDocument && frame.contentDocument.readyState!=='loading') bootDesktop();
 </script>
 </body>
