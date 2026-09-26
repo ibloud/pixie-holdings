@@ -41,6 +41,8 @@ function bootDesktop(){
       .seed-banner strong{color:var(--mint2)}
       .demo-window{left:18vw;top:7vh;width:min(760px,76vw);height:min(78vh,760px)}
       .demo-window .win-body{overflow:auto!important;padding:24px!important}
+      .creator-panel .win-body,.radar-panel .win-body{padding:0!important;overflow:hidden!important}
+      .creator-panel iframe,.radar-panel iframe{display:block;width:100%;height:100%;border:0;background:#08080f}
       .demo-kicker{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--mint2);margin-bottom:10px}
       .demo-title{font-size:30px;line-height:1.1;margin:0 0 12px}
       .demo-copy{color:var(--muted);line-height:1.55;max-width:680px}
@@ -130,21 +132,26 @@ function bootDesktop(){
       <p class="demo-copy"><strong>TESTED</strong> means exercised against its intended system. <strong>PROTOTYPE</strong> means the interaction is demonstrated but may be simulated. <strong>PLANNED</strong> means design intent only.</p>
     `);
 
-    addIcon('PIXIE','✦','Open PIXIE',()=>win.openWin?.('intake'));
+    const creatorControl=addWindow('win-creator-control','PIXIE // CREATOR CONTROL ROOM',
+      '<a href="https://ibloud.github.io/pixie-creator-os/?from=superme" target="_blank" rel="noopener noreferrer" style="display:block;padding:7px 12px;color:var(--mint2)">Open full Creator OS ↗</a><iframe src="https://ibloud.github.io/pixie-creator-os/?from=superme" title="PIXIE Creator OS Control Room" style="height:calc(100% - 36px)" loading="lazy"></iframe>');
+    creatorControl.classList.add('creator-panel');
+    const radarControl=addWindow('win-control','PIXIE // RADAR CONTROL ROOM',
+      '<iframe src="control-room.html" title="PIXIE interactive radar" loading="lazy"></iframe>');
+    radarControl.classList.add('radar-panel');
+
+    addIcon('PIXIE','✦','Open PIXIE Creator Control Room',()=>win.openWin?.('creator-control'));
     addIcon('Intake','↓','Open Intake',()=>win.openWin?.('intake'));
     addIcon('Projects','▣','Open Projects',()=>win.openWin?.('projects'));
     addIcon('Receipts','✓','Open Receipts',()=>win.openWin?.('receipts'));
+    addIcon('Radar','◉','Open interactive radar',()=>win.openWin?.('control'));
     if(trainingIcon){
       trainingIcon.querySelector('.icon-label').textContent='Training';
       icons.appendChild(trainingIcon);
     }
 
-    if(params.get('role')==='admin' || params.get('tool')==='care'){
-      const care=params.get('tool')==='care';
-      const name=care?'care':'control';
-      const route=care?'https://made-sick.org/pixie-care.html':'control-room.html';
-      addWindow('win-'+name,care?'PIXIE // MADE SICK CARE':'PIXIE // CONTROL ROOM',
-        '<iframe src="'+route+'" title="'+(care?'Made Sick care workspace':'PIXIE Control Room')+'" style="width:100%;height:100%;min-height:60vh;border:0"></iframe>');
+    if(params.get('tool')==='care'){
+      addWindow('win-care','PIXIE // MADE SICK CARE',
+        '<iframe src="https://made-sick.org/pixie-care.html" title="Made Sick care workspace" style="width:100%;height:100%;min-height:60vh;border:0"></iframe>');
     }
 
     projects.querySelector('#open-made-sick')?.addEventListener('click',()=>window.open('https://made-sick.org/','_blank','noopener,noreferrer'));
@@ -222,6 +229,8 @@ function bootDesktop(){
       }
     }
 
+    // The core shell opens its legacy ecosystem window by default; start this desktop clean.
+    doc.querySelectorAll('.window:not(.demo-window)').forEach(w=>win.closeWin?.(w.id));
     const saved=Number(localStorage.getItem(DEMO_KEY)||0);
     renderStage(Number.isInteger(saved)&&saved>=0&&saved<=6?saved:0);
     win.openWin?.(params.get('tool')==='care'?'care':params.get('role')==='admin'?'control':'intake');
@@ -232,7 +241,7 @@ frame.addEventListener('load',bootDesktop);
 window.addEventListener('message',e=>{
   if(e.origin!==location.origin || e.data?.type!=='pixie:focus-window') return;
   const name=e.data.name;
-  if(['intake','projects','receipts','how','control','care'].includes(name)) frame.contentWindow.openWin?.(name);
+  if(['intake','projects','receipts','how','creator-control','control','care'].includes(name)) frame.contentWindow.openWin?.(name);
 });
 if(frame.contentDocument && frame.contentDocument.readyState!=='loading') bootDesktop();
 </script>
