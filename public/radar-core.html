@@ -629,6 +629,7 @@ function initMadeSickHandoff(){
           <div class="doors-label">MILESTONE</div><div style="font-size:14px;color:var(--white);line-height:1.6">${safe(milestone||'No milestone supplied.')}</div>
         </div>
         <p class="about-p" style="margin-top:16px">The card remains participant-controlled. PIXIE OS does not rewrite it merely by opening this workspace.</p>
+        <p class="about-p"><a href="https://made-sick.org/join.html?pixie_return=1" style="color:var(--mint2)">Return to Made Sick →</a></p>
       </div>`;
   }else{
     win.innerHTML=`<div class="win-bar"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" id="ms-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">MADE SICK // CREATE PARTICIPANT CARD</div></div>
@@ -643,6 +644,7 @@ function initMadeSickHandoff(){
           <button class="abtn abtn-pink" type="submit">CREATE CARD &amp; RETURN TO MADE SICK</button>
         </form>
         <p class="about-p" style="margin-top:14px">PIXIE OS prepares the card. Made Sick performs the authenticated repository write after you return.</p>
+        <p class="about-p"><a href="https://made-sick.org/join.html?pixie_return=1" style="color:var(--mint2)">Return to Made Sick without publishing →</a></p>
       </div>`;
   }
   document.querySelector('.taskbar')?.before(win);
