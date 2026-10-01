@@ -18,9 +18,9 @@ Status date: 2026-09-13
 |---|---:|---:|---|
 | Hosting, HTTPS, and Alexa+ MCP validation | 18–30 | $0–$300 | Live tool call |
 | Obsidian plugin adapter and reversible move test | 20–35 | $0–$500 | Preview, approval, rollback |
-| Paid accessibility/co-design review | 12–20 | $600–$1,800 | Documented participant observations |
+| Voluntary accessibility/co-design review (no cash compensation currently offered) | 12–20 | $0 committed | Documented participant observations |
 | Captioned demo and Devpost submission | 15–25 | $0–$400 | Under-three-minute demo and complete entry |
-| **Total** | **65–110** | **$600–$3,000** | Submission ready |
+| **Total** | **65–110** | **$0–$1,200 estimated; no review compensation committed** | Submission ready |
 
 At a planning rate of $75 per development hour, remaining labor is worth
 $4,875–$8,250 before cash costs. This is a cost model, not an invoice or promise.
@@ -29,8 +29,8 @@ treated as free.
 
 ## Prize logic
 
-Prize funding would first pay for accessibility testing and compensated co-design,
-then production hosting and security review, then further Obsidian/AT Protocol
+If awarded and allocated, prize funding could fund separately agreed accessibility testing and compensated co-design. This is a future funding priority, not an offer of payment to current participants. Remaining priorities include
+production hosting and security review, then further Obsidian/AT Protocol
 integration. It would not fund clinical inference, autonomous ordering, location
 surveillance, or unlicensed franchise content.
 
