@@ -41,3 +41,7 @@ A demo should distinguish:
 ## Boundary
 
 This document describes a prototype architecture. It does not claim universal support for every iPhone, iPad, operating-system version, repair path, accessibility feature, or recycling program. It also does not authorize handling of clinical records or other protected data.
+
+## Shared hardware pathways
+
+Use the [PIXIE hardware reference](https://github.com/ibloud/pixie-device-stewardship/blob/main/docs/HARDWARE-PATHWAYS.md) for device reuse, iPad bootloader/driver limits, OCLP model eligibility and disk-patch/SIP implications, Intel/T2 Linux, Asahi support and repair/recovery. It includes the requested iFixit right-to-repair perspective and checked primary sources. Keep the guidance linked rather than duplicating compatibility tables in Holdings. Holdings owns its actual device-test evidence; the [stewardship example](https://ibloud.github.io/pixie-device-stewardship/) remains a separate simulation.
