@@ -1,16 +1,71 @@
 {
-  "$schema": "https://pixieos.local/schemas/continuity.json",
-  "did": "did:plc:ibloudpixiecontinuity01",
+  "did": null,
   "atp_endpoint": "https://bsky.social",
   "repositories": [
-    { "name": "pixie-device-stewardship", "tier": 0, "status": "active", "path": "/pixie" },
-    { "name": "pixie-holdings", "tier": 0, "status": "active", "path": "/holdings" },
-    { "name": "made-sick", "tier": 0, "status": "active", "path": "/made-sick" },
-    { "name": "duet-engine-architecture", "tier": 2, "status": "staged", "path": "/duet" },
-    { "name": "narrative-provenance", "tier": 1, "status": "private", "path": "/provenance" }
+    {
+      "name": "pixie-device-stewardship",
+      "tier": 0,
+      "status": "active",
+      "path": "/pixie",
+      "source_url": "https://github.com/ibloud/pixie-device-stewardship",
+      "web_url": "https://ibloud.github.io/pixie-device-stewardship/"
+    },
+    {
+      "name": "pixie-holdings",
+      "tier": 0,
+      "status": "active",
+      "path": "/holdings",
+      "source_url": "https://github.com/ibloud/pixie-holdings",
+      "web_url": "https://holdings.loptrlab.com/"
+    },
+    {
+      "name": "made-sick",
+      "tier": 0,
+      "status": "active",
+      "path": "/made-sick",
+      "source_url": "https://github.com/ibloud/made-sick"
+    },
+    {
+      "name": "duet_engine_architecture",
+      "tier": 2,
+      "status": "staged",
+      "path": "/duet",
+      "source_url": "https://github.com/ibloud/duet_engine_architecture"
+    },
+    {
+      "name": "narrative-provenance",
+      "tier": 1,
+      "status": "active",
+      "path": "/provenance",
+      "source_url": "https://github.com/ibloud/narrative-provenance",
+      "privacy_note": "Repository is public; creator vault contents remain private."
+    },
+    {
+      "name": "pixie-creator-os",
+      "status": "active",
+      "source_url": "https://github.com/ibloud/pixie-creator-os",
+      "web_url": "https://ibloud.github.io/pixie-creator-os/",
+      "role": "Local artist workspace; manual sharing"
+    },
+    {
+      "name": "tarantula-clone-hero",
+      "status": "active",
+      "source_url": "https://github.com/ibloud/tarantula-clone-hero",
+      "web_url": "https://ibloud.github.io/tarantula-clone-hero/",
+      "role": "Learning and find-your-fit pathways"
+    },
+    {
+      "name": "duet-solo-hackathon",
+      "status": "active",
+      "source_url": "https://github.com/Loptr-Lab/duet-solo-hackathon",
+      "role": "Duet implementation; separate maintainer governance"
+    }
   ],
   "consent_policy": {
     "rollback_receipts": true,
     "silent_inference": false
-  }
+  },
+  "schema_version": "pixie-continuity/v1",
+  "identity_status": "not-configured",
+  "route_note": "path values are logical labels, not deployed web routes; use source_url and web_url."
 }
