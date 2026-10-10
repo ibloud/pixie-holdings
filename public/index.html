@@ -61,7 +61,7 @@
   const open = document.getElementById('open-pixie-radar');
   const close = document.getElementById('close-pixie-radar');
   let previousFocus = null;
-  function showRadar(){ previousFocus=document.activeElement; const frame=overlay.querySelector('.pixie-radar-frame'); const target='radar.html?role=admin'; if(frame.getAttribute('src')!==target) frame.setAttribute('src',target); overlay.classList.add('open'); overlay.setAttribute('aria-hidden','false'); open.setAttribute('aria-expanded','true'); close.focus(); document.body.style.overflow='hidden'; }
+  function showRadar(){ previousFocus=document.activeElement; const frame=overlay.querySelector('.pixie-radar-frame'); if(frame.getAttribute('src')!=='radar.html?role=admin') frame.src = 'radar.html?role=admin'; overlay.classList.add('open'); overlay.setAttribute('aria-hidden','false'); open.setAttribute('aria-expanded','true'); close.focus(); document.body.style.overflow='hidden'; }
   function hideRadar(){ overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); open.setAttribute('aria-expanded','false'); document.body.style.overflow=''; if(previousFocus) previousFocus.focus(); }
   document.querySelectorAll('[data-market]').forEach(node => node.addEventListener('click', () => {
     document.querySelectorAll('[data-market]').forEach(item => item.setAttribute('aria-pressed', String(item === node)));
