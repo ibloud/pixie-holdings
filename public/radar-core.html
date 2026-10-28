@@ -1,301 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-holdings-surface="radar-core" lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>PIXIE OS — Loptr Lab</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg:          #08080f;
-    --desk:        #0b0b14;
-    --win:         #101018;
-    --win2:        #141420;
 
-    --pink:        #ff6eb4;
-    --pink2:       #ffadd6;
-    --pink3:       rgba(255,110,180,0.08);
-    --pink-glow:   rgba(255,110,180,0.18);
-
-    --lav:         #c084fc;
-    --lav2:        #e0b0ff;
-    --lav3:        rgba(192,132,252,0.08);
-
-    --mint:        #7fffd4;
-    --mint2:       #b2ffe8;
-    --mint3:       rgba(127,255,212,0.08);
-
-    --yellow:      #ffe600;
-    --red:         #ff4444;
-
-    --white:       #f0eaff;
-    --muted:       rgba(240,234,255,0.42);
-    --dimmer:      rgba(240,234,255,0.2);
-
-    --border:      rgba(255,110,180,0.22);
-    --lborder:     rgba(192,132,252,0.18);
-    --mborder:     rgba(127,255,212,0.18);
-
-    --mono: 'JetBrains Mono', monospace;
-    --sans: 'Space Grotesk', sans-serif;
-
-    --radius-win: 10px;
-    --radius-sm:  5px;
-  }
-
-  html, body {
-    height: 100%;
-    font-family: var(--sans);
-    background: var(--bg);
-    color: var(--white);
-    overflow: hidden;
-  }
-
-  .desktop {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    background: var(--desk);
-    overflow: hidden;
-  }
-
-  .wallpaper {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .taskbar {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 46px;
-    background: rgba(8,8,15,0.94);
-    border-top: 1px solid var(--border);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    gap: 8px;
-    z-index: 500;
-  }
-
-  .tb-logo {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--pink);
-    letter-spacing: 0.05em;
-    margin-right: 6px;
-    text-shadow: 0 0 20px rgba(255,110,180,0.55);
-    user-select: none;
-  }
-
-  .tb-div { width: 1px; height: 22px; background: var(--border); flex-shrink: 0; }
-
-  .tb-btn {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    padding: 5px 11px;
-    border: 1px solid transparent;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    letter-spacing: 0.04em;
-    transition: color 0.15s, border-color 0.15s, background 0.15s;
-    white-space: nowrap;
-    user-select: none;
-  }
-  .tb-btn:hover { color: var(--pink); border-color: var(--border); }
-  .tb-btn.active { color: var(--pink); border-color: var(--border); background: var(--pink3); }
-  .tb-btn.t-lav:hover { color: var(--lav); border-color: var(--lborder); }
-  .tb-btn.t-lav.active { color: var(--lav); border-color: var(--lborder); background: var(--lav3); }
-  .tb-btn.t-mint:hover { color: var(--mint); border-color: var(--mborder); }
-  .tb-btn.t-mint.active { color: var(--mint); border-color: var(--mborder); background: var(--mint3); }
-
-  .tb-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-
-  .access-pill {
-    font-family: var(--mono);
-    font-size: 9px;
-    padding: 4px 11px;
-    border-radius: 14px;
-    border: 1px solid;
-    cursor: pointer;
-    transition: all 0.2s;
-    user-select: none;
-    letter-spacing: 0.06em;
-  }
-  .ap-guest { border-color: var(--dimmer); color: var(--muted); }
-  .ap-member { border-color: var(--lborder); color: var(--lav2); }
-  .ap-insider { border-color: var(--mborder); color: var(--mint2); }
-  .ap-admin { border-color: var(--border); color: var(--pink2); }
-  .tb-clock { font-family: var(--mono); font-size: 11px; color: var(--muted); user-select: none; }
-
-  .icon-grid {
-    position: absolute;
-    top: 16px; left: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    z-index: 1;
-  }
-
-  .desk-icon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-    width: 68px;
-    padding: 7px 4px;
-    border-radius: 8px;
-    transition: background 0.15s;
-    user-select: none;
-  }
-  .desk-icon:hover { background: rgba(255,110,180,0.09); }
-  .desk-icon:active { background: rgba(255,110,180,0.16); }
-  .icon-face { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 22px; border: 1px solid; transition: box-shadow 0.2s; }
-  .desk-icon:hover .icon-face { box-shadow: 0 0 14px rgba(255,110,180,0.2); }
-  .icon-label { font-size: 9px; color: var(--muted); text-align: center; font-family: var(--mono); letter-spacing: 0.02em; line-height: 1.4; }
-
-  .window {
-    position: absolute;
-    background: var(--win);
-    border-radius: var(--radius-win);
-    border: 1px solid rgba(255,110,180,0.18);
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    min-width: 240px;
-    box-shadow: 0 10px 48px rgba(0,0,0,0.65);
-    transition: box-shadow 0.15s;
-  }
-  .window.focused { z-index: 50; }
-  .w-pink.focused { border-color: rgba(255,110,180,0.45); box-shadow: 0 10px 48px rgba(255,110,180,0.08); }
-  .w-lav.focused { border-color: rgba(192,132,252,0.45); box-shadow: 0 10px 48px rgba(192,132,252,0.07); }
-  .w-mint.focused { border-color: rgba(127,255,212,0.38); box-shadow: 0 10px 48px rgba(127,255,212,0.06); }
-  .w-yellow.focused { border-color: rgba(255,230,0,0.38); box-shadow: 0 10px 48px rgba(255,230,0,0.05); }
-  .win-bar { display: flex; align-items: center; gap: 8px; padding: 10px 13px; cursor: move; flex-shrink: 0; border-bottom: 1px solid rgba(255,255,255,0.05); border-radius: var(--radius-win) var(--radius-win) 0 0; }
-  .win-dots { display: flex; gap: 6px; }
-  .wdot { width: 11px; height: 11px; border-radius: 50%; cursor: pointer; flex-shrink: 0; transition: opacity 0.15s, transform 0.1s; }
-  .wdot:hover { opacity: 0.8; transform: scale(1.1); }
-  .wd-close { background: #ff5f57; }
-  .wd-min { background: #febc2e; }
-  .wd-max { background: #28c840; }
-  .win-title { font-family: var(--mono); font-size: 10px; color: var(--muted); flex: 1; text-align: center; letter-spacing: 0.08em; pointer-events: none; }
-  .win-body { flex: 1; overflow: hidden; border-radius: 0 0 var(--radius-win) var(--radius-win); }
-
-  .about-body { padding: 22px; display: flex; flex-direction: column; gap: 16px; }
-  .about-eyebrow { font-family: var(--mono); font-size: 9px; color: var(--pink); letter-spacing: 0.16em; }
-  .about-h1 { font-size: 28px; font-weight: 700; color: var(--white); line-height: 1.15; }
-  .about-h1 .accent { color: var(--pink); }
-  .about-p { font-size: 13px; color: var(--muted); line-height: 1.72; max-width: 56ch; }
-  .pill-row { display: flex; gap: 6px; flex-wrap: wrap; }
-  .pill { font-family: var(--mono); font-size: 9px; padding: 4px 11px; border-radius: 20px; border: 1px solid; letter-spacing: 0.04em; }
-  .p-pink { border-color: var(--border); color: var(--pink2); background: var(--pink3); }
-  .p-lav { border-color: var(--lborder); color: var(--lav2); background: var(--lav3); }
-  .p-mint { border-color: var(--mborder); color: var(--mint2); background: var(--mint3); }
-  .doors-label { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 9px; }
-  .doors-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-  .door-card { padding: 10px 12px; border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-sm); cursor: pointer; transition: border-color 0.15s, background 0.15s; background: rgba(255,255,255,0.02); }
-  .door-card:hover { border-color: var(--border); background: var(--pink3); }
-  .door-name { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 3px; }
-  .door-sub { font-family: var(--mono); font-size: 9px; color: var(--muted); }
-  .door-card.locked { opacity: 0.45; cursor: not-allowed; }
-  .door-card.locked:hover { border-color: rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); }
-  .door-card.locked .door-name { color: var(--muted); }
-  .about-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-  .abtn { font-size: 12px; font-weight: 600; padding: 9px 18px; border-radius: var(--radius-sm); border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: opacity 0.15s, transform 0.1s; user-select: none; }
-  .abtn:hover { opacity: 0.88; }
-  .abtn:active { transform: scale(0.97); }
-  .abtn-pink { background: var(--pink); color: #08080f; }
-  .abtn-ghost { background: transparent; color: var(--lav2); border: 1px solid var(--lborder); font-family: var(--mono); font-size: 11px; font-weight: 400; }
-
-  .radar-body { padding: 14px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-  .radar-access-bar { width: 100%; display: flex; align-items: center; justify-content: space-between; }
-  .rab-label { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.1em; }
-  .rab-level { font-family: var(--mono); font-size: 9px; padding: 2px 9px; border-radius: 10px; border: 1px solid; letter-spacing: 0.06em; transition: color 0.2s, border-color 0.2s; }
-  .radar-tt { width: 100%; padding: 10px 12px; border-left: 2px solid var(--mint); background: var(--mint3); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; min-height: 60px; }
-  .rtt-name { font-size: 13px; font-weight: 600; color: var(--mint2); transition: color 0.2s; }
-  .rtt-access { font-family: var(--mono); font-size: 9px; color: var(--muted); margin-top: 2px; letter-spacing: 0.08em; }
-  .rtt-desc { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.55; }
-
-  /* DID continuity sitemap */
-  .sitemap-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; max-height: 420px; overflow-y: auto; }
-  .sitemap-body::-webkit-scrollbar { width: 3px; }
-  .sitemap-body::-webkit-scrollbar-thumb { background: var(--lborder); }
-  .sitemap-intro { font-size: 11px; color: var(--muted); line-height: 1.55; }
-  .sitemap-tree { display: flex; flex-direction: column; gap: 7px; }
-  .tree-root { font-family: var(--mono); font-size: 10px; color: var(--lav2); padding: 8px 10px; border: 1px solid var(--lborder); background: var(--lav3); border-radius: var(--radius-sm); }
-  .tree-branch { display: flex; flex-direction: column; gap: 6px; padding-left: 12px; border-left: 1px solid rgba(192,132,252,0.22); }
-  .tree-node { padding: 9px 10px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); border-radius: var(--radius-sm); cursor: pointer; transition: border-color 0.15s, background 0.15s; }
-  .tree-node:hover { border-color: var(--lborder); background: var(--lav3); }
-  .tree-node.is-locked { opacity: 0.45; cursor: not-allowed; }
-  .tree-node.is-locked:hover { border-color: rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); }
-  .t-icon { margin-right: 4px; }
-  .t-sub { display: block; margin: 4px 0 0 23px; font-family: var(--mono); font-size: 8px; color: var(--muted); }
-  .tree-subbranch { display: flex; flex-direction: column; gap: 4px; padding: 0 0 2px 24px; }
-  .tree-leaf { font-family: var(--mono); font-size: 8px; color: var(--muted); line-height: 1.5; }
-  .badge { display: inline-block; margin-left: 5px; padding: 1px 5px; border: 1px solid rgba(192,132,252,0.2); color: var(--lav2); background: rgba(192,132,252,0.04); }
-  .sitemap-status { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px; border: 1px solid var(--mborder); background: var(--mint3); border-radius: var(--radius-sm); font-family: var(--mono); font-size: 8px; color: var(--mint2); letter-spacing: 0.05em; }
-  .sitemap-footer { display: flex; justify-content: space-between; gap: 8px; font-family: var(--mono); font-size: 8px; color: var(--muted); letter-spacing: 0.06em; }
-
-  .holdings-body { padding: 12px; display: flex; flex-direction: column; gap: 9px; overflow-y: auto; max-height: 360px; }
-  .holdings-body::-webkit-scrollbar { width: 3px; }
-  .holdings-body::-webkit-scrollbar-thumb { background: var(--lborder); }\n  .market-frame { width:100%; height:100%; border:0; background:#0b0b14; }
-  .hcard { padding: 12px; border: 1px solid var(--lborder); background: var(--lav3); border-radius: 6px; }
-  .hcard-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
-  .hcard-name { font-size: 15px; font-weight: 600; color: var(--white); line-height: 1.2; }
-  .hcard-badge { font-family: var(--mono); font-size: 8px; padding: 2px 8px; border-radius: 10px; border: 1px solid; flex-shrink: 0; margin-top: 3px; letter-spacing: 0.06em; }
-  .hcard-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 9px; }
-  .hcard-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
-  .htag { font-family: var(--mono); font-size: 8px; padding: 2px 6px; border: 1px solid var(--lborder); color: var(--lav2); background: rgba(192,132,252,0.05); letter-spacing: 0.04em; }
-  .hcard-status { font-family: var(--mono); font-size: 9px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
-  .sdot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
-  .s-on { background: var(--mint); }
-  .s-warn { background: var(--yellow); }
-  .s-off { background: rgba(240,234,255,0.18); }
-
-  .meters-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-  .mrow { display: flex; align-items: center; gap: 10px; }
-  .ml { font-size: 12px; color: var(--muted); width: 96px; flex-shrink: 0; }
-  .mbar { flex: 1; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
-  .mfill { height: 100%; border-radius: 2px; transition: width 1.2s ease; }
-  .f-mint { background: var(--mint); }
-  .f-lav { background: var(--lav); }
-  .f-yellow { background: var(--yellow); }
-  .f-red { background: var(--red); }
-  .mv { font-family: var(--mono); font-size: 11px; color: var(--white); width: 38px; text-align: right; flex-shrink: 0; }
-
-  .chat-body { display: flex; flex-direction: column; height: 300px; }
-  .chat-log { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
-  .chat-log::-webkit-scrollbar { width: 3px; }
-  .chat-log::-webkit-scrollbar-thumb { background: var(--border); }
-  .msg { display: flex; flex-direction: column; gap: 4px; }
-  .msg-from { font-family: var(--mono); font-size: 9px; color: var(--pink); letter-spacing: 0.1em; }
-  .msg-from.you { color: var(--lav); }
-  .msg-text { font-size: 12px; color: var(--white); line-height: 1.65; padding: 9px 11px; border-radius: 6px; max-width: 92%; }
-  .msg-text.pixie { background: var(--pink3); border: 1px solid var(--border); align-self: flex-start; }
-  .msg-text.you { background: var(--lav3); border: 1px solid var(--lborder); align-self: flex-end; }
-  .chat-input-row { display: flex; border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; border-radius: 0 0 var(--radius-win) var(--radius-win); overflow: hidden; }
-  .chat-input { flex: 1; background: transparent; border: none; outline: none; font-family: var(--sans); font-size: 12px; color: var(--white); padding: 11px 13px; }
-  .chat-input::placeholder { color: var(--dimmer); }
-  .chat-send { background: var(--pink); color: #08080f; border: none; font-family: var(--mono); font-size: 10px; font-weight: 500; padding: 0 16px; cursor: pointer; letter-spacing: 0.04em; transition: opacity 0.15s; }
-  .chat-send:hover { opacity: 0.85; }
-
-  .notify { position: absolute; top: 16px; right: 16px; background: var(--win2); border: 1px solid var(--border); border-radius: 8px; padding: 11px 15px; max-width: 230px; z-index: 999; pointer-events: none; animation: notifyIn 0.22s ease; }
-  @keyframes notifyIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-  .notify-title { font-family: var(--mono); font-size: 9px; color: var(--pink); letter-spacing: 0.1em; margin-bottom: 4px; }
-  .notify-body { font-size: 11px; color: var(--muted); line-height: 1.55; }
-
-  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-</style>
 
 <link rel="canonical" href="https://holdings.loptrlab.com/radar-core.html">
 <meta name="description" content="PIXIE Holdings — a consent-first portfolio-economics game and multi-door ARG ecosystem.">
@@ -308,6 +21,7 @@
 <meta name="twitter:title" content="PIXIE OS — Loptr Lab">
 <meta name="twitter:description" content="PIXIE Holdings — a consent-first portfolio-economics game and multi-door ARG ecosystem.">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "PIXIE OS — Loptr Lab", "url": "https://holdings.loptrlab.com/radar-core.html", "description": "PIXIE Holdings — a consent-first portfolio-economics game and multi-door ARG ecosystem."}</script>
+<link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
@@ -329,29 +43,29 @@
 
   <nav class="icon-grid" aria-label="Desktop applications">
     <div class="desk-icon" role="button" tabindex="0" aria-label="Open PIXIE Holdings" onclick="openWin('about')" onkeydown="if(event.key==='Enter')openWin('about')">
-      <div class="icon-face" style="background:rgba(255,110,180,0.1);border-color:rgba(255,110,180,0.3)">🎴</div><div class="icon-label">PIXIE<br>Holdings</div>
+      <div class="icon-face hs-static-9">🎴</div><div class="icon-label">PIXIE<br>Holdings</div>
     </div>
     <div class="desk-icon" role="button" tabindex="0" aria-label="Open Repo Radar" onclick="openWin('radar')" onkeydown="if(event.key==='Enter')openWin('radar')">
-      <div class="icon-face" style="background:rgba(127,255,212,0.08);border-color:rgba(127,255,212,0.25)">📡</div><div class="icon-label">Repo<br>Radar</div>
+      <div class="icon-face hs-static-10">📡</div><div class="icon-label">Repo<br>Radar</div>
     </div>
     <div class="desk-icon" role="button" tabindex="0" aria-label="Open Holdings" onclick="openWin('holdings')" onkeydown="if(event.key==='Enter')openWin('holdings')">
-      <div class="icon-face" style="background:rgba(192,132,252,0.1);border-color:rgba(192,132,252,0.3)">🗂</div><div class="icon-label">Holdings</div>
+      <div class="icon-face hs-static-11">🗂</div><div class="icon-label">Holdings</div>
     </div>
     <div class="desk-icon" role="button" tabindex="0" aria-label="Open Resource Meters" onclick="openWin('meters')" onkeydown="if(event.key==='Enter')openWin('meters')">
-      <div class="icon-face" style="background:rgba(255,230,0,0.08);border-color:rgba(255,230,0,0.25)">📊</div><div class="icon-label">Resources</div>
+      <div class="icon-face hs-static-12">📊</div><div class="icon-label">Resources</div>
     </div>
     <div class="desk-icon" role="button" tabindex="0" aria-label="Open PIXIE Agent" onclick="openWin('pixie')" onkeydown="if(event.key==='Enter')openWin('pixie')">
-      <div class="icon-face" style="background:rgba(255,110,180,0.12);border-color:rgba(255,110,180,0.4)">🤖</div><div class="icon-label">PIXIE<br>Agent</div>
+      <div class="icon-face hs-static-13">🤖</div><div class="icon-label">PIXIE<br>Agent</div>
     </div>
     <div class="desk-icon" role="button" tabindex="0" aria-label="Open Sitemap" onclick="openWin('sitemap')" onkeydown="if(event.key==='Enter')openWin('sitemap')">
-      <div class="icon-face" style="background:rgba(192,132,252,0.1);border-color:rgba(192,132,252,0.3)">🗺️</div><div class="icon-label">DID<br>Sitemap</div>
+      <div class="icon-face hs-static-14">🗺️</div><div class="icon-label">DID<br>Sitemap</div>
     </div>
     <div class="desk-icon" role="button" tabindex="0" aria-label="Open Onboarding — Find Your Path" onclick="openWin('onboarding')" onkeydown="if(event.key==='Enter')openWin('onboarding')">
-      <div class="icon-face" style="background:rgba(183,212,138,0.1);border-color:rgba(183,212,138,0.3)">🧭</div><div class="icon-label">Find Your<br>Path</div>
+      <div class="icon-face hs-static-15">🧭</div><div class="icon-label">Find Your<br>Path</div>
     </div>
   </nav>
 
-  <div class="window w-pink focused" id="win-about" style="left:96px;top:20px;width:400px" role="dialog" aria-label="PIXIE Holdings Ecosystem">
+  <div class="window w-pink focused hs-static-16" id="win-about" role="dialog" aria-label="PIXIE Holdings Ecosystem">
     <div class="win-bar" onmousedown="startDrag(event,'win-about')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-about')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE Holdings — ecosystem</div></div>
     <div class="win-body"><div class="about-body">
       <div class="about-eyebrow">portfolio economics · consent-first · multi-door ARG</div>
@@ -368,12 +82,12 @@
     </div></div>
   </div>
 
-  <div class="window w-mint" id="win-radar" style="left:96px;top:20px;width:330px;display:none" role="dialog" aria-label="Repository Radar">
+  <div class="window w-mint hs-static-17" id="win-radar" role="dialog" aria-label="Repository Radar">
     <div class="win-bar" onmousedown="startDrag(event,'win-radar')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-radar')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">repo radar</div></div>
-    <div class="win-body"><div class="radar-body"><div class="radar-access-bar"><span class="rab-label">Repository map</span><span class="rab-level" id="radar-level-badge" style="border-color:var(--dimmer);color:var(--muted)">Guest view</span></div><canvas id="rc" width="298" height="240" style="cursor:pointer;display:block" aria-label="Interactive repository radar — tap nodes to learn more"></canvas><div class="radar-tt" role="status" aria-live="polite"><div class="rtt-name" id="tt-name" style="color:rgba(127,255,212,0.35);font-style:italic">Tap a node</div><div class="rtt-access" id="tt-access"></div><div class="rtt-desc" id="tt-desc"></div></div></div></div>
+    <div class="win-body"><div class="radar-body"><div class="radar-access-bar"><span class="rab-label">Repository map</span><span class="rab-level hs-static-18" id="radar-level-badge">Guest view</span></div><canvas id="rc" width="298" height="240" class="hs-static-19" aria-label="Interactive repository radar — tap nodes to learn more"></canvas><div class="radar-tt" role="status" aria-live="polite"><div class="rtt-name hs-static-20" id="tt-name">Tap a node</div><div class="rtt-access" id="tt-access"></div><div class="rtt-desc" id="tt-desc"></div></div></div></div>
   </div>
 
-  <div class="window w-lav" id="win-sitemap" style="left:160px;top:80px;width:480px;display:none" role="dialog" aria-label="DID Sitemap Navigator">
+  <div class="window w-lav hs-static-21" id="win-sitemap" role="dialog" aria-label="DID Sitemap Navigator">
     <div class="win-bar" onmousedown="startDrag(event,'win-sitemap')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-sitemap')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">SITEMAP // DID: IBLOUD.XYZ</div></div>
     <div class="win-body"><div class="sitemap-body">
       <div class="sitemap-intro">DID continuity navigator for the PIXIE ecosystem. Canonical research, executable test bench, public campaign, and staged/private supporting modules remain separate doors.</div>
@@ -389,26 +103,26 @@
     </div></div>
   </div>
 
-  <div class="window w-lav" id="win-holdings" style="left:5vw;top:5vh;width:90vw;height:min(82vh,760px);display:none" role="dialog" aria-label="Holdings">
+  <div class="window w-lav hs-static-22" id="win-holdings" role="dialog" aria-label="Holdings">
     <div class="win-bar" onmousedown="startDrag(event,'win-holdings')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-holdings')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">holdings // new economy market</div></div>
-    <div class="win-body" style="padding:0;overflow:hidden;flex:1"><iframe src="market.html" title="PIXIE Holdings New Economy Market" style="display:block;width:100%;height:100%;border:0;background:#0b0b14"></iframe></div>
+    <div class="win-body hs-static-23"><iframe src="market.html" title="PIXIE Holdings New Economy Market" class="hs-static-24"></iframe></div>
   </div>
 
-  <div class="window w-yellow" id="win-meters" style="right:16px;bottom:62px;width:262px;display:none" role="dialog" aria-label="Resource Meters">
+  <div class="window w-yellow hs-static-25" id="win-meters" role="dialog" aria-label="Resource Meters">
     <div class="win-bar" onmousedown="startDrag(event,'win-meters')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-meters')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">system resources</div></div>
-    <div class="win-body"><div class="meters-body"><div class="mrow"><span class="ml">Network</span><div class="mbar"><div class="mfill f-mint" style="width:72%"></div></div><span class="mv">72%</span></div><div class="mrow"><span class="ml">Memory</span><div class="mbar"><div class="mfill f-lav" style="width:56%"></div></div><span class="mv">56%</span></div><div class="mrow"><span class="ml">Compute</span><div class="mbar"><div class="mfill f-yellow" style="width:35%"></div></div><span class="mv">35%</span></div><div class="mrow"><span class="ml">Consent</span><div class="mbar"><div class="mfill f-mint" style="width:100%"></div></div><span class="mv">100%</span></div></div></div>
+    <div class="win-body"><div class="meters-body"><div class="mrow"><span class="ml">Network</span><div class="mbar"><div class="mfill f-mint hs-static-26"></div></div><span class="mv">72%</span></div><div class="mrow"><span class="ml">Memory</span><div class="mbar"><div class="mfill f-lav hs-static-27"></div></div><span class="mv">56%</span></div><div class="mrow"><span class="ml">Compute</span><div class="mbar"><div class="mfill f-yellow hs-static-28"></div></div><span class="mv">35%</span></div><div class="mrow"><span class="ml">Consent</span><div class="mbar"><div class="mfill f-mint hs-static-29"></div></div><span class="mv">100%</span></div></div></div>
   </div>
 
-  <div class="window w-pink" id="win-pixie" style="left:96px;top:20px;width:340px;display:none" role="dialog" aria-label="PIXIE Agent Chat">
+  <div class="window w-pink hs-static-30" id="win-pixie" role="dialog" aria-label="PIXIE Agent Chat">
     <div class="win-bar" onmousedown="startDrag(event,'win-pixie')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-pixie')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE agent</div></div>
     <div class="win-body"><div class="chat-body"><div class="chat-log" id="chat-log" aria-live="polite" aria-label="Chat messages"><div class="msg"><span class="msg-from">PIXIE</span><div class="msg-text pixie">Hello. I'm PIXIE — your consent-first portfolio steward.<br><br>I show before I act. I don't infer without permission. I don't move files without giving you source, destination, and a rollback receipt.<br><br>Ask me about the ecosystem, the holdings, the ARG, access levels, or consent rules.</div></div></div><div class="chat-input-row"><input class="chat-input" id="chat-input" type="text" placeholder="Ask PIXIE something…" aria-label="Chat input" onkeydown="if(event.key==='Enter')sendMsg()"/><button class="chat-send" onclick="sendMsg()" aria-label="Send message">Send</button></div></div></div>
   </div>
 
-  <div class="window w-mint" id="win-onboarding" style="left:520px;top:80px;width:430px;display:none" role="dialog" aria-label="Find Your Path onboarding">
+  <div class="window w-mint hs-static-31" id="win-onboarding" role="dialog" aria-label="Find Your Path onboarding">
     <div class="win-bar" onmousedown="startDrag(event,'win-onboarding')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-onboarding')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">FIND YOUR PATH // ONBOARDING</div></div>
     <div class="win-body"><div class="about-body">
-      <div class="about-eyebrow" style="color:var(--mint)">LOPTR LAB · ONBOARDING · CHOOSE YOUR DOOR</div>
-      <h1 class="about-h1">Find your <span class="accent" style="color:var(--mint)">path.</span></h1>
+      <div class="about-eyebrow hs-static-32">LOPTR LAB · ONBOARDING · CHOOSE YOUR DOOR</div>
+      <h1 class="about-h1">Find your <span class="accent hs-static-33">path.</span></h1>
       <p class="about-p">You do not need a job title or a plan. Start with the kind of work, learning, or participation you want to explore. The routes below are starting doors, not rankings.</p>
       <div class="doors-grid">
         <div class="door-card" onclick="routePath('learn')"><div class="door-name">LEARN / DEVELOP</div><div class="door-sub">Build skills through an experimental project.</div></div>
@@ -422,7 +136,7 @@
         <button class="abtn abtn-ghost" onclick="openWin('radar')">Open Radar</button>
         <button class="abtn abtn-ghost" onclick="openWin('sitemap')">DID Sitemap</button>
       </div>
-      <div class="door-sub" style="line-height:1.6">Privacy boundary: this prototype routes locally in your browser. It does not send questionnaire answers to Loptr Lab or place job-loss/support information in a public record.</div>
+      <div class="door-sub hs-static-34">Privacy boundary: this prototype routes locally in your browser. It does not send questionnaire answers to Loptr Lab or place job-loss/support information in a public record.</div>
     </div></div>
   </div>
 
@@ -632,31 +346,31 @@ function initMadeSickHandoff(){
   const safe=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   if(card==='existing'){
     win.innerHTML=`<div class="win-bar"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" id="ms-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">MADE SICK // PARTICIPANT CARD</div></div>
-      <div class="win-body" style="overflow:auto;padding:22px">
+      <div class="win-body hs-static-35">
         <div class="about-eyebrow">AT PROTOCOL · CARD FOUND</div>
         <h2 class="about-h1">Welcome back, <span class="accent">${safe(displayName||'participant')}</span>.</h2>
         <p class="about-p">Your Made Sick participant card already exists in your own AT Protocol repository. PIXIE OS is loading the existing card; no new card is required.</p>
         <div class="pill-row"><span class="pill p-lav">DID ${safe(did)}</span><span class="pill p-mint">CARD: EXISTING</span></div>
-        <div style="margin-top:18px;padding:14px;border:1px solid var(--lborder);background:var(--lav3);border-radius:6px">
-          <div class="doors-label">MILESTONE</div><div style="font-size:14px;color:var(--white);line-height:1.6">${safe(milestone||'No milestone supplied.')}</div>
+        <div class="hs-static-36">
+          <div class="doors-label">MILESTONE</div><div class="hs-static-37">${safe(milestone||'No milestone supplied.')}</div>
         </div>
-        <p class="about-p" style="margin-top:16px">The card remains participant-controlled. PIXIE OS does not rewrite it merely by opening this workspace.</p>
-        <p class="about-p"><a href="https://made-sick.org/join.html?pixie_return=1" style="color:var(--mint2)">Return to Made Sick →</a></p>
+        <p class="about-p hs-static-38">The card remains participant-controlled. PIXIE OS does not rewrite it merely by opening this workspace.</p>
+        <p class="about-p"><a href="https://made-sick.org/join.html?pixie_return=1" class="hs-static-39">Return to Made Sick →</a></p>
       </div>`;
   }else{
     win.innerHTML=`<div class="win-bar"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" id="ms-close"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">MADE SICK // CREATE PARTICIPANT CARD</div></div>
-      <div class="win-body" style="overflow:auto;padding:22px">
+      <div class="win-body hs-static-40">
         <div class="about-eyebrow">AT PROTOCOL · NO CARD FOUND</div>
         <h2 class="about-h1">Let's make your <span class="accent">Made Sick card</span>.</h2>
         <p class="about-p">Your AT Protocol identity is connected, but no <code>org.made-sick.participant/self</code> record was found. PIXIE OS will ask what you want the public card to say. Nothing is published until you explicitly consent.</p>
-        <form id="ms-onboarding" style="display:flex;flex-direction:column;gap:12px;margin-top:18px">
-          <label style="font-size:12px;color:var(--muted)">Public display name<input id="ms-name" required maxlength="80" value="${safe(displayName)}" placeholder="The name you want people to see" style="display:block;width:100%;margin-top:6px;padding:10px;background:#08080f;color:var(--white);border:1px solid var(--lborder);border-radius:5px;font:inherit"></label>
-          <label style="font-size:12px;color:var(--muted)">Milestone or short description<input id="ms-milestone" maxlength="500" value="${safe(milestone)}" placeholder="What are you celebrating, making, learning, or sharing?" style="display:block;width:100%;margin-top:6px;padding:10px;background:#08080f;color:var(--white);border:1px solid var(--lborder);border-radius:5px;font:inherit"></label>
-          <label style="display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--white)"><input id="ms-consent" type="checkbox" required style="margin-top:3px"> I consent to publish this participant card in my AT Protocol repository and for Made Sick to index it in the directory.</label>
+        <form id="ms-onboarding" class="hs-static-41">
+          <label class="hs-static-42">Public display name<input id="ms-name" required maxlength="80" value="${safe(displayName)}" placeholder="The name you want people to see" class="hs-static-43"></label>
+          <label class="hs-static-44">Milestone or short description<input id="ms-milestone" maxlength="500" value="${safe(milestone)}" placeholder="What are you celebrating, making, learning, or sharing?" class="hs-static-45"></label>
+          <label class="hs-static-46"><input id="ms-consent" type="checkbox" required class="hs-static-47"> I consent to publish this participant card in my AT Protocol repository and for Made Sick to index it in the directory.</label>
           <button class="abtn abtn-pink" type="submit">CREATE CARD &amp; RETURN TO MADE SICK</button>
         </form>
-        <p class="about-p" style="margin-top:14px">PIXIE OS prepares the card. Made Sick performs the authenticated repository write after you return.</p>
-        <p class="about-p"><a href="https://made-sick.org/join.html?pixie_return=1" style="color:var(--mint2)">Return to Made Sick without publishing →</a></p>
+        <p class="about-p hs-static-48">PIXIE OS prepares the card. Made Sick performs the authenticated repository write after you return.</p>
+        <p class="about-p"><a href="https://made-sick.org/join.html?pixie_return=1" class="hs-static-49">Return to Made Sick without publishing →</a></p>
       </div>`;
   }
   document.querySelector('.taskbar')?.before(win);
