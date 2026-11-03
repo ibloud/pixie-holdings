@@ -25,3 +25,14 @@ test("radar handoff does not trust URL identity or consent", async () => {
   assert.doesNotMatch(html, /params\.get\(['"](?:did|displayName|milestone)['"]/);
   assert.match(html, /function initMadeSickHandoff/);
 });
+
+
+test('static desktop entry points suppress referrers before loading resources', async () => {
+  const {readFile} = await import('node:fs/promises');
+  for (const path of ['radar.html','radar-core.html']) {
+    const html = await readFile(new URL('../public/'+path,import.meta.url),'utf8');
+    const policy = html.indexOf('<meta name="referrer" content="no-referrer">');
+    assert.ok(policy >= 0, path);
+    assert.ok(policy < html.indexOf('<link'), path + ' policy precedes resource links');
+  }
+});

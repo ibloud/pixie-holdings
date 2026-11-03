@@ -1,0 +1,38 @@
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,15 @@
++# Ecosystem agent instructions
++
++This repository is the canonical ecosystem governance and public portfolio source. Before any ecosystem assignment, read docs/ECOSYSTEM_ARCHITECTURE.md and the current owning repository instructions. Reuse existing implementations, reviews and unpublished work; do not restart assignments.
++
++## Design and onboarding — owner direction, 28 October 2026
++
++- Follow the design/onboarding section in docs/ECOSYSTEM_ARCHITECTURE.md. One main stylesheet per owned application/site, with one maintained source of truth. Tokens → shared components → minimal justified page exceptions. Do not force independent products into a shared runtime or copy drifting themes across repositories.
++- Adapt Material 3 to approved brand guidelines. Readable tracking and line height, balanced gutters, semantic labels, accessible text/surface pairs, keyboard focus and responsive layouts are required. Do not compress every heading or introduce competing theme settings.
++- State the intended audience and one first useful task. Keep source, attribution, permission, uncertainty and manual handoff limits visible. Do not present synthetic records as live results.
++- Holdings is the owner-directed business/command review surface for Creator OS results on the Atmosphere; Made-Sick owns its join flow. This is product direction, not proof of implemented report ingestion, cross-site accounts, automatic publication or a VR/metaverse runtime.
++- Preserve the current project scope. A reference or relationship does not authorize changes to another product. Do not transfer private data, identity or consent flags through URLs.
++- Update authoritative brand guidelines and the change record. Create reviewable changes and a verified Vercel preview before release. Do not merge, publish or change production configuration until Dominique explicitly authorizes that release.
++- Report code, deployed behavior and physical iPad/Safari/VoiceOver verification separately. Passing browser emulation or tests is not physical-device acceptance.
++
++Local portfolio design choices are recorded in docs/PORTFOLIO_DESIGN.md. These instructions do not authorize migrations or changes to unrelated project code.
+--- a/docs/ECOSYSTEM_ARCHITECTURE.md
++++ b/docs/ECOSYSTEM_ARCHITECTURE.md
+@@ -156,3 +156,17 @@
+ Bluesky and other applications retain their own terms and privacy practices. Public AT Protocol records can be replicated and indexed outside the EU. EU PDS hosting does not establish EU-only distribution, confidential storage, blanket EU jurisdiction or GDPR compliance for all projects. Assess each project's processing and applicable law separately. Private health records, credentials, recovery keys and private participant contact information must not be placed in public records.
+ 
+ This section is the canonical ecosystem hosting note. Other repositories link here and retain only their local integration requirements.
++
++## Shared design and onboarding principles — owner direction, 28 October 2026
++
++These principles apply to all agents working on the ecosystem; each owning repository retains its implementation and release authority. Inspect current instructions, open assignments and existing brand guidelines first. A shared principle is not authorization to modify every project.
++
++**Audience and purpose.** Holdings is PIXIE’s business-facing, command-led review surface for people inspecting the results of Creator OS work on the Atmosphere. Made-Sick is the existing community/join destination. This updates intended audience positioning; it does not establish a connected report pipeline, a shipped CLI, shared accounts, membership or automatic publication. The original AetherOS design reference is owner-supplied lineage, not a shared runtime or affiliation. The Metaverse business article is contextual reference, not a claim that the AT Protocol Atmosphere is VR.
++
++**Top-down design.** Each owned site/application has one authoritative main stylesheet and a maintained source of truth: semantic tokens first, shared typography/components second, the smallest justified page exception last. Avoid inline/page/injected style systems, stacked theme overrides and independently maintained copies. Essential runtime window position, visibility and canvas dimensions are interaction state, not separate design themes. Separate products retain their identities; do not impose a cross-domain CSS dependency or shared runtime merely to satisfy consistency.
++
++**Material and brand.** Adapt Material 3 foundations for typography roles, color pairs, interaction states, shape and responsive layout to the approved brand guidelines. The PIXIE palette is midnight #071923, velvet plum #211823, slate #354955, mist #93999F, parchment #F2E5CE, aged gold #D5AB68 and glacial teal #A9E2E5. Readable semantic variants are allowed. Guiding Star, Winged Spark and PIXIE Cameo are complementary approved identity directions; do not fabricate a chronology or replace them arbitrarily. Prefer normal, readable heading spacing and line height, balanced container gutters, clear label semantics, visible keyboard focus, sufficient contrast and usable touch targets. Avoid bright beige backgrounds, compressed letters, oversized panels with narrow left-aligned text and competing page-level settings.
++
++**Onboarding.** Explain who a surface serves and demonstrate one useful task: result → evidence → next action. Prefer clear sample content, command help with accessible button equivalents and progressive disclosure over a tour of every subsystem. Keep originals, provenance, permission, rights and uncertainty attached. Distinguish sample, proposed, implemented and verified states. Joining occurs through the owning service’s explicit sign-in/consent flow; never infer membership from opening a page or move identity/consent/private report content in URLs.
++
++**Review and record.** Register changes in existing authoritative brand guidelines; label proposed designs and outstanding verification. Provide a tested Vercel preview before owner release review. Do not merge to main, promote, publish, alter domains or change hosting configuration without explicit authorization for that release. Report source changes, preview readiness, live behavior and physical iPad/Safari/VoiceOver acceptance separately. Apply these instructions through each repository’s normal review path; do not claim that every external repository or installed agent has been updated automatically.
