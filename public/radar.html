@@ -2,6 +2,7 @@
 <html data-holdings-surface="radar" lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>PIXIE OS — First Five Minutes</title>
@@ -21,16 +22,14 @@
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<iframe id="pixie-core" src="radar-core.html?shell=1" title="PIXIE OS Desktop"></iframe>
+<iframe id="pixie-core" referrerpolicy="no-referrer" src="radar-core.html?shell=1" title="PIXIE OS Desktop"></iframe>
 <script>
 const frame=document.getElementById('pixie-core');
 const DEMO_KEY='pixie-first-five-v1';
 const params=new URLSearchParams(location.search);
-// The participant card lives in the canonical core route, outside the seeded demo.
-if(params.get('role')==='participant') frame.src='radar-core.html'+location.search;
+// Keep the fixed synthetic desktop route; never forward identity or consent URLs.
 
 function bootDesktop(){
-  if(params.get('role')==='participant') return;
   try{
     const doc=frame.contentDocument;
     const win=frame.contentWindow;
