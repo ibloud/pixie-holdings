@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="referrer" content="no-referrer">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>PIXIE OS — Loptr Lab</title>
 
@@ -23,6 +23,7 @@
 <meta name="twitter:description" content="PIXIE Holdings — a consent-first portfolio-economics game and multi-door ARG ecosystem.">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "PIXIE OS — Loptr Lab", "url": "https://holdings.loptrlab.com/radar-core.html", "description": "PIXIE Holdings — a consent-first portfolio-economics game and multi-door ARG ecosystem."}</script>
 <link rel="stylesheet" href="/styles.css">
+<script src="/pixie-guide.js" defer></script>
 </head>
 <body>
 
@@ -56,7 +57,7 @@
       <div class="icon-face hs-static-12">📊</div><div class="icon-label">Resources</div>
     </div>
     <div class="desk-icon" role="button" tabindex="0" aria-label="Open PIXIE Agent" onclick="openWin('pixie')" onkeydown="if(event.key==='Enter')openWin('pixie')">
-      <div class="icon-face hs-static-13">🤖</div><div class="icon-label">PIXIE<br>Agent</div>
+      <div class="icon-face hs-static-13"><img class="pixie-desktop-mark" src="/pixie-companion-sigil.png" alt="" width="40" height="40"></div><div class="icon-label">PIXIE<br>Agent</div>
     </div>
     <div class="desk-icon" role="button" tabindex="0" aria-label="Open Sitemap" onclick="openWin('sitemap')" onkeydown="if(event.key==='Enter')openWin('sitemap')">
       <div class="icon-face hs-static-14">🗺️</div><div class="icon-label">DID<br>Sitemap</div>
@@ -114,9 +115,9 @@
     <div class="win-body"><div class="meters-body"><div class="mrow"><span class="ml">Network</span><div class="mbar"><div class="mfill f-mint hs-static-26"></div></div><span class="mv">72%</span></div><div class="mrow"><span class="ml">Memory</span><div class="mbar"><div class="mfill f-lav hs-static-27"></div></div><span class="mv">56%</span></div><div class="mrow"><span class="ml">Compute</span><div class="mbar"><div class="mfill f-yellow hs-static-28"></div></div><span class="mv">35%</span></div><div class="mrow"><span class="ml">Consent</span><div class="mbar"><div class="mfill f-mint hs-static-29"></div></div><span class="mv">100%</span></div></div></div>
   </div>
 
-  <div class="window w-pink hs-static-30" id="win-pixie" role="dialog" aria-label="PIXIE Agent Chat">
-    <div class="win-bar" onmousedown="startDrag(event,'win-pixie')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-pixie')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE agent</div></div>
-    <div class="win-body"><div class="chat-body"><div class="chat-log" id="chat-log" aria-live="polite" aria-label="Chat messages"><div class="msg"><span class="msg-from">PIXIE</span><div class="msg-text pixie">Hello. I'm PIXIE — your consent-first portfolio steward.<br><br>I show before I act. I don't infer without permission. I don't move files without giving you source, destination, and a rollback receipt.<br><br>Ask me about the ecosystem, the holdings, the ARG, access levels, or consent rules.</div></div></div><div class="chat-input-row"><input class="chat-input" id="chat-input" type="text" placeholder="Ask PIXIE something…" aria-label="Chat input" onkeydown="if(event.key==='Enter')sendMsg()"/><button class="chat-send" onclick="sendMsg()" aria-label="Send message">Send</button></div></div></div>
+  <div class="window w-pink hs-static-30" id="win-pixie" role="dialog" aria-label="PIXIE guidance · scripted desktop demo">
+    <div class="win-bar" onmousedown="startDrag(event,'win-pixie')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-pixie')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE guidance · demo</div></div>
+    <div class="win-body"><div class="chat-body"><div class="chat-log" id="chat-log" aria-live="polite" aria-label="Chat messages"><div class="msg"><span class="msg-from">PIXIE</span><div class="msg-text pixie">Scripted local demo · no live assistant or connected actions.<br><br>Hello. I'm PIXIE — your consent-first portfolio steward.<br><br>I show before I act. I don't infer without permission. I don't move files without giving you source, destination, and a rollback receipt.<br><br>Ask me about the ecosystem, the holdings, the ARG, access levels, or consent rules.</div></div></div><div class="chat-input-row"><input class="chat-input" id="chat-input" type="text" placeholder="Ask PIXIE something…" aria-label="Chat input" onkeydown="if(event.key==='Enter')sendMsg()"/><button class="chat-send" onclick="sendMsg()" aria-label="Send message">Send</button></div></div></div>
   </div>
 
   <div class="window w-mint hs-static-31" id="win-onboarding" role="dialog" aria-label="Find Your Path onboarding">

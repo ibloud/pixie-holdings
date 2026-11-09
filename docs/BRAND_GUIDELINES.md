@@ -37,3 +37,64 @@ World@Meta, 3 July 2023: https://medium.com/@worldatmetateam/the-metaverse-a-bus
 ## Change record — review branch only
 
 28 October 2026: proposed business-facing entry and sample console; existing test bench retained below a disclosure; explicit Made-Sick and Creator OS handoffs. Static presentation consolidated into one scoped stylesheet; desktop taskbar button colors specified and notice moved away from the working window. Existing 44 tests pass. Review is not approval to merge or deploy production.
+
+## Persistent PIXIE amendment — 9 November 2026
+
+PR #61 is merged (`1b23162`), so this amendment uses a focused follow-up review
+branch stacked on the existing, unmerged privacy PR #60 (`a9ca912`). The privacy
+branch remains a separate dependency; its query/referrer protections are retained.
+No canonical guideline, other product, synthetic economy or production setting is
+changed by this amendment.
+
+Current canonical sources inspected: `ibloud/ibloud.github.io` at
+`6286726ca8b9443a328337877a039b985e1857fc`, especially
+`docs/ECOSYSTEM_ARCHITECTURE.md`, `docs/PORTFOLIO_DESIGN.md`, the continuity audit,
+`assets/portfolio-foundation.css`, and the existing ecosystem/Violet's Revenge
+PIXIE launchers. Canonical project-specific colors and contextual symbol variants
+remain distinct. Holdings retains its business-review/desktop identity and the
+Gods of Mayhem name; this is not a site-wide palette replacement.
+
+The exact approved `assets/pixie-companion-sigil.png` is copied without editing to
+`public/pixie-companion-sigil.png`. SHA-256:
+`8900781e2d0c5f8873ccc975395253fb5c609a92077a74940af121c9317eed12`.
+It is the existing gold/teal guidance sigil, not a generated replacement, generic
+chat icon or emoji. The desktop's PIXIE icon uses the same asset. Winged Spark,
+Cameo and evolved/shimmer artwork are not substituted into an unrelated role.
+
+`public/styles.css` remains the sole stylesheet. Shared semantic PIXIE surface,
+text, accent, focus and geometry tokens implement the approved midnight/parchment/
+gold/teal roles. The persistent control uses a 40px mark, at least 64px hit area,
+fixed 16px edge gutter plus safe-area insets, normal tracking, visible focus and
+system type. Root-scoped component selectors avoid legacy page resets silently
+changing its size or padding. The image's approved seven-second opacity breathing
+pattern is reused from Companion (`pixie-sigil-breathe`); reduced motion disables
+it. No new illustration, stylesheet, theme or dependency is introduced.
+
+`pixie-guide.js` provides one persistent launcher per top-level Holdings experience.
+Wrapper pages leave it to their desktop iframe; nested desktop/market windows do
+not create duplicate launchers. Its stacking stays above windows/notices, and a
+ResizeObserver supplies only the measured taskbar height as runtime geometry.
+Taskbar safe-area padding, horizontal scrolling and 48px buttons preserve mobile
+operation. Standalone pages link directly to the canonical Project Companion
+with no query or referrer. Desktop pages open the existing scripted local PIXIE
+window, focus its input, and return focus to the launcher on Escape. The local
+window explicitly discloses its simulated behavior. Control-room views whose
+legacy desktop is hidden use the existing external Companion route instead.
+
+The new discovery card, existing sitemap and seeded Projects window expose Gods
+of Mayhem at `https://loptrlab.com/mayhem/`, with its 2013 lineage, competitive/
+community role, free starter-kit and developing four-player game boundaries.
+Business report review and desktop guidance offer explicit return to discovery.
+The Threshold remains owned by Training. No published standalone reader was found
+in its current source, so the interim route names Mayhem's introduction and the
+Training entrance honestly, without opening raw Markdown for general readers.
+PIXIE pckt identity/article discovery remains inactive: the proposed website and
+verification endpoint were unretrieved, and standard handle resolution returned
+"Unable to resolve handle". This does not prove the publication is absent. No
+newsletter, membership, publishing scope, remote importer or new application is
+introduced.
+
+See the dated amendment section in `HOLDINGS_ONBOARDING_REVIEW_2026-10-28.md` for
+before/after captures, exact browser states, destination verification and remaining
+physical-device acceptance gates. Source and local/browser checks are separate
+from any preview or production release.

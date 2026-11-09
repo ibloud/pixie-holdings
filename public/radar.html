@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="referrer" content="no-referrer">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>PIXIE OS — First Five Minutes</title>
 
@@ -20,6 +20,7 @@
 <meta name="twitter:description" content="PIXIE OS — first five minutes stewardship demo from Loptr Lab.">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "PIXIE OS — First Five Minutes", "url": "https://holdings.loptrlab.com/radar.html", "description": "PIXIE OS — first five minutes stewardship demo from Loptr Lab."}</script>
 <link rel="stylesheet" href="/styles.css">
+<script src="/pixie-guide.js" defer></script>
 </head>
 <body>
 <iframe id="pixie-core" referrerpolicy="no-referrer" src="radar-core.html?shell=1" title="PIXIE OS Desktop"></iframe>
@@ -53,7 +54,7 @@ function bootDesktop(){
     const addIcon=(label,emoji,aria,openFn)=>{
       const el=doc.createElement('div');
       el.className='desk-icon'; el.setAttribute('role','button'); el.tabIndex=0; el.setAttribute('aria-label',aria);
-      el.innerHTML='<div class="icon-face hs-static-2">'+emoji+'</div><div class="icon-label">'+label+'</div>';
+      el.innerHTML='<div class="icon-face hs-static-2">'+(label==='PIXIE'?'<img class="pixie-desktop-mark" src="/pixie-companion-sigil.png" alt="" width="40" height="40">':emoji)+'</div><div class="icon-label">'+label+'</div>';
       el.addEventListener('click',openFn);
       el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openFn()}});
       icons?.appendChild(el);
@@ -69,6 +70,8 @@ function bootDesktop(){
       return w;
     };
 
+    const localGuide=doc.querySelector('#win-pixie .win-body');if(localGuide){const back=doc.createElement('a');back.className='pixie-discovery-link';back.href='/#project-discovery';back.target='_top';back.textContent='Return to project discovery →';localGuide.appendChild(back);}
+
     const intake=addWindow('win-intake','PIXIE // INTAKE',`
       <div class="demo-kicker">SEEDED PERSONA · CREATOR WORKSPACE</div>
       <h1 class="demo-title">I found something you may want to keep.</h1>
@@ -79,10 +82,12 @@ function bootDesktop(){
 
     const projects=addWindow('win-projects','PIXIE // PROJECTS',`
       <div class="demo-kicker">PROJECT CONTEXT</div>
-      <h1 class="demo-title">Two active projects. One source of truth each.</h1>
+      <h1 class="demo-title">Choose a project. Each keeps its own source of truth.</h1>
       <div class="state-card"><div class="state-label">PROJECT 01</div><strong>PIXIE Device Stewardship</strong><p class="demo-copy">Artist File Protocol · consent loop · provenance receipts.</p><div class="status-row"><span class="status-chip">TESTED: UI SHELL</span><span class="status-chip proto">PROTOTYPE: FILE ACTIONS</span></div></div>
       <div class="state-card"><div class="state-label">PROJECT 02</div><strong>Made Sick</strong><p class="demo-copy">Community experience connected through PIXIE, not duplicated inside the desktop.</p><div class="demo-actions"><button class="demo-btn secondary" id="open-made-sick">Open Made Sick</button></div></div>
     `);
+
+    projects.querySelector('.win-body').insertAdjacentHTML('beforeend','<div class="state-card"><h2>Gods of Mayhem — Play, Read, Test, Contribute</h2><p class="demo-copy">Established as a competitive gaming team in 2013; now Loptr Lab’s competitive division and community pathway. Veiled Dominion is an asymmetric four-player strategy game under development. Read the rules, try the free starter kit, playtest or propose a bounded contribution. No ranked multiplayer, automatic membership or appointments are implied.</p><a class="pixie-discovery-link" href="https://loptrlab.com/mayhem/" target="_top" rel="noreferrer">Explore Gods of Mayhem →</a></div><a class="pixie-discovery-link" href="/#project-discovery" target="_top">Return to project discovery →</a>');
 
     const receipts=addWindow('win-receipts','PIXIE // RECEIPTS',`
       <div class="demo-kicker">PROVENANCE</div>
@@ -125,6 +130,7 @@ function bootDesktop(){
     projects.querySelector('#open-made-sick')?.addEventListener('click',()=>window.open('https://made-sick.org/','_blank','noopener,noreferrer'));
 
     const taskbar=doc.querySelector('.taskbar');
+    const projectBtn=doc.createElement('button');projectBtn.className='tb-btn';projectBtn.textContent='Project discovery';projectBtn.addEventListener('click',()=>win.openWin?.('projects'));taskbar?.querySelector('.tb-right')?.before(projectBtn);
     const reset=doc.createElement('button');
     reset.className='tb-btn t-mint'; reset.textContent='Reset demo'; reset.id='tb-reset-demo';
     reset.addEventListener('click',()=>{localStorage.removeItem(DEMO_KEY); localStorage.removeItem(DEMO_KEY+'-name'); copyName='pixie-origin-demo.mp4'; renderStage(0); win.openWin?.('intake')});

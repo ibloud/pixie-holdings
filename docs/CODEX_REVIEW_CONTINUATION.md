@@ -1,3 +1,17 @@
+## Current continuation — 9 November 2026
+
+PR #61 is merged (`1b23162`). Its persistent-PIXIE amendment is on
+`review/holdings-persistent-pixie`, stacked on the existing PR #60 privacy branch
+`fix/no-identity-in-urls` at `a9ca912`. Keep the privacy change separate; do not
+merge, publish production or manually deploy. Review the dated additions to
+BRAND_GUIDELINES.md and HOLDINGS_ONBOARDING_REVIEW_2026-10-28.md, including the
+before/after screenshots and 40 browser entry/viewport checks. Physical Safari /
+VoiceOver and the proposed pckt identity remain unverified. Source authority and
+asset hashes are recorded there. Do not attempt to amend the closed PR or recreate
+the sigil. Existing automatic PR previews, if available, are review artifacts.
+
+## Historical continuation — 28 October 2026
+
 Continue Holdings PR #61 on review/business-onboarding-2026-10-28. Read AGENTS.md, docs/BRAND_GUIDELINES.md and the onboarding review. Amend existing work only; preserve the business-facing command identity and the sample-versus-connected distinction. Keep one main stylesheet, accessible typography and balanced spacing. Preserve existing synthetic scenarios. Do not mix in privacy PR #60, restore URL-carried identity/consent, or modify other products.
 
 Current preview: https://pixie-holdings-p88zqz2yz-niquedevereaux-6363.vercel.app
