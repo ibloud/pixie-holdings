@@ -80,9 +80,13 @@ function bootDesktop(){
       <div id="demo-stage"></div>
     `);
 
+    const discovery=doc.createElement('a');discovery.className='pixie-discovery-link';discovery.href='/#project-discovery';discovery.target='_top';discovery.textContent='Return to project discovery →';intake.querySelector('.win-body').appendChild(discovery);
+
     const projects=addWindow('win-projects','PIXIE // PROJECTS',`
       <div class="demo-kicker">PROJECT CONTEXT</div>
       <h1 class="demo-title">Choose a project. Each keeps its own source of truth.</h1>
+      <div class="state-card"><h2>Project Companion</h2><p class="demo-copy">Project plans, tasks and reviewed references belong to Companion’s authorized workspace. This desktop does not access that private store or synchronize records.</p><a class="pixie-discovery-link" href="https://pixie-project-companion-production.up.railway.app/" target="_top" rel="noreferrer">Open Project Companion →</a></div>
+      <div class="state-card"><h2>Creator OS</h2><p class="demo-copy">Prepare media context, credits and accessibility text locally. Reviewed manual handoffs are separate from this synthetic Holdings exercise; no report ingestion is connected here.</p><a class="pixie-discovery-link" href="https://ibloud.github.io/pixie-creator-os/" target="_top" rel="noreferrer">Open Creator OS →</a></div>
       <div class="state-card"><div class="state-label">PROJECT 01</div><strong>PIXIE Device Stewardship</strong><p class="demo-copy">Artist File Protocol · consent loop · provenance receipts.</p><div class="status-row"><span class="status-chip">TESTED: UI SHELL</span><span class="status-chip proto">PROTOTYPE: FILE ACTIONS</span></div></div>
       <div class="state-card"><div class="state-label">PROJECT 02</div><strong>Made Sick</strong><p class="demo-copy">Community experience connected through PIXIE, not duplicated inside the desktop.</p><div class="demo-actions"><button class="demo-btn secondary" id="open-made-sick">Open Made Sick</button></div></div>
     `);
@@ -212,6 +216,8 @@ function bootDesktop(){
 }
 
 frame.addEventListener('load',bootDesktop);
+// Relay only explicit navigation/focus messages from the known core and its host.
+window.addEventListener('message',event=>{if(event.origin!==location.origin)return;if(event.source===frame.contentWindow&&['pixie:close-os','pixie:focus-close'].includes(event.data?.type)){if(window.parent!==window)window.parent.postMessage({type:event.data.type},location.origin);}else if(event.source===window.parent&&event.data?.type==='pixie:focus-desktop'){const target=event.data.edge==='last'?frame.contentDocument?.querySelector('.pixie-launcher'):frame.contentDocument?.querySelector('.window.focused .wd-close');target?.focus();}});
 window.addEventListener('message',e=>{
   if(e.origin!==location.origin || e.data?.type!=='pixie:focus-window') return;
   const name=e.data.name;

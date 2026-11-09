@@ -1,0 +1,57 @@
+{
+  "fixture": "Local actual landing → embedded desktop; external services blocked",
+  "physicalSafari": "NOT RUN",
+  "physicalVoiceOver": "NOT RUN",
+  "results": [
+    {
+      "width": 1366,
+      "height": 1024,
+      "visibleGuides": 1,
+      "consentEditApproveUndo": true,
+      "maximizeRestore": true,
+      "minimizeReopen": true,
+      "closeFocusReturn": true,
+      "currentDestinations": true
+    },
+    {
+      "width": 1024,
+      "height": 1366,
+      "visibleGuides": 1,
+      "consentEditApproveUndo": true,
+      "maximizeRestore": true,
+      "minimizeReopen": true,
+      "closeFocusReturn": true,
+      "currentDestinations": true
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "visibleGuides": 1,
+      "consentEditApproveUndo": true,
+      "maximizeRestore": true,
+      "minimizeReopen": true,
+      "closeFocusReturn": true,
+      "currentDestinations": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "visibleGuides": 1,
+      "consentEditApproveUndo": true,
+      "maximizeRestore": true,
+      "minimizeReopen": true,
+      "closeFocusReturn": true,
+      "currentDestinations": true
+    },
+    {
+      "width": 320,
+      "height": 800,
+      "visibleGuides": 1,
+      "consentEditApproveUndo": true,
+      "maximizeRestore": true,
+      "minimizeReopen": true,
+      "closeFocusReturn": true,
+      "currentDestinations": true
+    }
+  ]
+}

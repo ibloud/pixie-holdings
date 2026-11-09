@@ -98,3 +98,14 @@ See the dated amendment section in `HOLDINGS_ONBOARDING_REVIEW_2026-10-28.md` fo
 before/after captures, exact browser states, destination verification and remaining
 physical-device acceptance gates. Source and local/browser checks are separate
 from any preview or production release.
+
+### Embedded experience correction — 9 November 2026
+
+The persistent guide belongs to the active experience, not simultaneously to its
+background page and foreground desktop. Opening the landing's desktop overlay
+hides the background launcher; closing it restores that launcher. The desktop
+retains its approved sigil and safe-area/taskbar placement. The separate demo
+launch action is inline, not a competing fixed bottom-right control. No new symbol,
+assistant, stylesheet, theme or asset is introduced. See the embedded-launch
+correction in the onboarding review for the owner's Safari finding and corrected
+before/after evidence. Direct-entry checks alone are not end-to-end acceptance.
