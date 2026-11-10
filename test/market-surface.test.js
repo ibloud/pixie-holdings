@@ -13,6 +13,6 @@ test('home market exposes the synthetic ledger and a reachable radar', async () 
     assert.ok(html.includes(`<span>${label}</span><strong class="${key === 'pressure' ? 'warn' : 'good'}">${value}</strong>`));
   }
   assert.match(html, /id="open-market-radar"/);
-  assert.match(html, /frame\.src = 'radar\.html\?role=admin'/);
+  assert.match(html, /frame\.src = 'radar\.html'/);
   assert.match(html, /data-market=/);
 });

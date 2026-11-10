@@ -29,3 +29,146 @@ Chromium browser: review/source/next shortcut paths, typed next command and outp
 ## Release boundary
 
 Review branch and Vercel preview only. No main merge, production promotion or domain changes. No other product repository changed. Owner reviews the onboarding direction before connected reporting work or broader brand migration.
+
+## Amendment review — 9 November 2026
+
+### Existing work and review ancestry
+
+PR #61 is already merged at `1b23162`; it cannot receive another open-review
+amendment. The focused follow-up is based on PR #60's `a9ca912` security branch,
+without merging or rewriting either PR. Existing business commands, synthetic
+ledger/model, Creator desktop panels, intake consent steps and privacy safeguards
+are retained. Only Holdings implementation/assets/tests/docs are changed.
+
+### Before / after evidence
+
+The baseline is the exact PR #60 source (`a9ca912`), which already includes merged
+#61. Both baseline and amended source were served locally with external services
+blocked. Captures use the same 1440×1000 and 390×1000 Chromium viewports. These
+are code-review evidence, not screenshots of a newly deployed production site.
+
+| State | Before | After |
+| --- | --- | --- |
+| Landing, desktop width | [Before](evidence/holdings-pixie-2026-11-09/before-landing-1440.png) | [After](evidence/holdings-pixie-2026-11-09/after-landing-1440.png) |
+| PIXIE OS, desktop width | [Before](evidence/holdings-pixie-2026-11-09/before-desktop-1440.png) | [After](evidence/holdings-pixie-2026-11-09/after-desktop-1440.png) |
+| Landing, mobile width | [Before](evidence/holdings-pixie-2026-11-09/before-landing-390.png) | [After](evidence/holdings-pixie-2026-11-09/after-landing-390.png) |
+| PIXIE OS, mobile width | [Before](evidence/holdings-pixie-2026-11-09/before-desktop-390.png) | [After](evidence/holdings-pixie-2026-11-09/after-desktop-390.png) |
+
+Asset authority and checksum are recorded in `BRAND_GUIDELINES.md`. All eight
+HTML entries use one shared launcher script and the existing one stylesheet.
+There is no new assistant panel: the desktop launcher opens the existing scripted
+PIXIE window; standalone/control-room routes use the existing Project Companion.
+Keyboard Enter opens the local guide, its input receives focus, and Escape closes
+it and restores launcher focus. The guide cannot be hidden behind the desktop's
+open/maximized/minimized windows. Nested windows do not grow another launcher.
+
+### Onboarding and destinations
+
+The existing fictional business sequence remains result → source evidence →
+consequence → explicit next step. The `next` response now includes returning to
+project discovery; button and typed-command equivalents remain. Mayhem discovery
+uses the landing's existing section/card architecture, sitemap and Projects
+window. A taskbar discovery button supplies a usable route when a mobile Intake
+window covers desktop icons. No membership, payment or synthetic economy change
+is triggered by navigation.
+
+| Destination | Evidence and limit |
+| --- | --- |
+| `https://loptrlab.com/mayhem/` | Owning engine's `mayhem/index.html` and `starter-kit.html` inspected; canonical source explains 2013 lineage, free play/read/test/contribute paths and development status. Correct href and desktop discovery path exercised locally. Live HTTP retrieval was blocked by this environment's CONNECT policy; not claimed as live acceptance. |
+| `https://loptr-lab.github.io/training/` | Existing reader-facing entrance returned HTTP 200. Training main's `THE_THRESHOLD.md` inspected; no dedicated published reader route found. Interim link is explicitly labelled, not presented as the full text. |
+| Canonical Project Companion Railway origin | Existing portfolio launcher destination reused without identity/query/referrer. Navigation target checked; no private sign-in or live backend acceptance performed. |
+| Made-Sick joining / Creator OS | Existing separate routes preserved. No automatic handoff of participant data, membership, consent or private report. No live join/ingestion claim. |
+| Proposed `https://pixie.pckt.blog/` | Website and standard publication verification endpoint unretrieved; public ATproto resolveHandle failed. No DID, schema instance or useful article verified. Integration stays inactive; no fabricated feed/articles/subscriber access. Current Standard.site interoperability does not establish this particular publication's identity or legacy `blog.pckt.document` records. |
+
+The reading-circle relationship remains a proposal: Training owns The Threshold,
+Mayhem supplies narrative/community context, pckt is a possible external editorial
+destination, and Holdings routes discovery. No new reader app, publication,
+subscriber database or sign-in was created.
+
+### Verification and release limits
+
+`npm test`: 54 passing tests, including all PR #60 security tests and four new
+contracts for asset identity, entry coverage, source routing and shared
+accessibility styling. The synthetic economic implementation is unchanged.
+
+`PIXIE_PLAYWRIGHT_MODULE=<external test harness> node scripts/check-pixie-browser.cjs`
+checks all eight entries at 320, 390, 768, 1024 and 1440 CSS pixels. It separates
+placement/hit-testing from behavior: bottom/right geometry, unobscured hit target,
+40px mark, minimum 64px control, visible keyboard focus, Enter/Escape/focus return,
+window open/maximize/minimize, project route, review/source/next buttons and
+reduced-motion animation suppression. Machine-readable results:
+[browser-checks.json](evidence/holdings-pixie-2026-11-09/browser-checks.json).
+No runtime dependency was added. New controls use semantic names and native links/
+buttons. Chromium viewport tests and labels do **not** establish physical iPad
+Safari, VoiceOver reading order/announcements or hardware safe-area acceptance;
+those remain NOT RUN. Legacy typography/palette outside the amended component
+remains the previously documented migration debt.
+
+Follow-up review only. No merge, production promotion, manual deployment, domain
+change or authenticated integration is performed. An existing automatic PR preview,
+if generated by hosting checks, is a review artifact and must be verified
+separately; it does not authorize production deployment or close physical-device
+acceptance gates.
+
+## Embedded-launch correction — owner Safari report, 9 November 2026
+
+The owner's Safari screenshot exposed a gap in the first amendment's validation:
+the 40 page/viewport checks opened the individual entry URLs, but did not launch
+the desktop overlay **from the landing page**. That composition retained the
+landing launcher above the overlay and also displayed the desktop launcher. The
+previous checks did not justify an end-to-end completion claim.
+
+Reproduction used the exact prior review head `d5cbaca`, not a reconstructed mock.
+[Before: two guides in the embedded demo](evidence/holdings-pixie-2026-11-09/before-embedded-demo.png).
+[After: one guide, Intake entry](evidence/holdings-pixie-2026-11-09/after-embedded-demo.png).
+[After: project discovery inside the demo](evidence/holdings-pixie-2026-11-09/after-embedded-demo-projects.png).
+The comparison uses a 1366×1024 local Chromium viewport; the supplied physical
+Safari screenshot is the owner's bug evidence, not physical acceptance of this fix.
+
+Corrections in the same review branch:
+
+- The open overlay hides the **background** landing launcher through the existing
+  stylesheet. Its own desktop guide remains. Closing the overlay restores the
+  landing launcher. Nested Radar/control-room frames do not add another guide.
+- The desktop launch button is an ordinary inline action beside the sample review,
+  rather than another fixed control competing for the bottom-right corner.
+- Launch starts with the seeded Intake consent exercise, rather than automatically
+  selecting the mock admin/Radar dashboard. Radar is still explicitly available.
+- The core already implemented pointer dragging and window controls; the enhancement
+  layer duplicated maximize/minimize/keyboard handlers. The duplicate implementation
+  is removed. Maximize/restore also clears blank inline geometry so stylesheet-led
+  dimensions are actually restored. Existing mouse/pointer and native button paths
+  now share the core implementation.
+- The Radar enhancement also transformed click coordinates a second time although the core already handled canvas scaling. That wrapper is removed, and the existing selection status is visible beside the canvas. Scaled-canvas hit testing is covered by the embedded test. The visible Radar review action was a non-interactive strong label. It is now a
+  real link to the existing fictional business review, with the overlay dismissed.
+  Same-fragment returns to project discovery also dismiss the overlay correctly.
+- Modal keyboard entry/exit and close messages are tied to the known iframe source;
+  parent/child focus transitions and Escape are exercised. Window controls are no
+  longer hidden from accessibility APIs by an aria-hidden control group.
+- The primary Ecosystem and Projects windows use current Companion, Creator OS, Made-Sick and
+  Mayhem routes. The old Companion Site link is replaced with the canonical Railway
+  route. Training/creative navigation uses reader-facing entrances. Static PDS
+  “synced” and live-signal wording are removed or explicitly labelled simulated.
+  Local guidance no longer claims it recorded an inquiry or grants real permissions.
+
+### Functional result and scope
+
+`node scripts/check-embedded-demo.cjs` exercises the actual landing → nested desktop
+path at 1366×1024, 1024×1366, 768×1024, 390×844 and 320×800. It first reproduces two
+visible launchers at `d5cbaca`, then requires exactly one across all loaded local
+frames throughout the amended flow. It checks actual hit-testing and keyboard
+focus, decline → proposal edit → approval → receipt → undo, precise maximize/
+restore geometry, minimize/reopen, scripted guidance, Escape/close focus return,
+reopening, Mayhem/discovery routing, the working Radar report link, business review
+buttons, reduced motion and absence of page script errors. External requests are
+blocked; no real files, mail, private accounts or permissions are changed.
+Results: [embedded-demo-checks.json](evidence/holdings-pixie-2026-11-09/embedded-demo-checks.json).
+The existing eight-entry/five-width checks are rerun separately. `npm test` now
+passes 56 tests, including explicit restore and embedded-entry regressions, while
+retaining all PR #60 privacy checks. No synthetic economy implementation changes.
+
+The corrected **synthetic demo** functions in these tested Chromium flows. This
+does not establish a live integrated Creator/Companion backend, authenticated report
+ingestion, private repository access, publishing or physical Safari/VoiceOver
+acceptance. The Threshold reader and proposed PIXIE pckt publication retain their
+previously documented gaps. No merge or manual/production deployment is performed.

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="referrer" content="no-referrer">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>PIXIE OS — Loptr Lab</title>
 
@@ -23,6 +23,7 @@
 <meta name="twitter:description" content="PIXIE Holdings — a consent-first portfolio-economics game and multi-door ARG ecosystem.">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "PIXIE OS — Loptr Lab", "url": "https://holdings.loptrlab.com/radar-core.html", "description": "PIXIE Holdings — a consent-first portfolio-economics game and multi-door ARG ecosystem."}</script>
 <link rel="stylesheet" href="/styles.css">
+<script src="/pixie-guide.js" defer></script>
 </head>
 <body>
 
@@ -56,7 +57,7 @@
       <div class="icon-face hs-static-12">📊</div><div class="icon-label">Resources</div>
     </div>
     <div class="desk-icon" role="button" tabindex="0" aria-label="Open PIXIE Agent" onclick="openWin('pixie')" onkeydown="if(event.key==='Enter')openWin('pixie')">
-      <div class="icon-face hs-static-13">🤖</div><div class="icon-label">PIXIE<br>Agent</div>
+      <div class="icon-face hs-static-13"><img class="pixie-desktop-mark" src="/pixie-companion-sigil.png" alt="" width="40" height="40"></div><div class="icon-label">PIXIE<br>Agent</div>
     </div>
     <div class="desk-icon" role="button" tabindex="0" aria-label="Open Sitemap" onclick="openWin('sitemap')" onkeydown="if(event.key==='Enter')openWin('sitemap')">
       <div class="icon-face hs-static-14">🗺️</div><div class="icon-label">DID<br>Sitemap</div>
@@ -67,60 +68,60 @@
   </nav>
 
   <div class="window w-pink focused hs-static-16" id="win-about" role="dialog" aria-label="PIXIE Holdings Ecosystem">
-    <div class="win-bar" onmousedown="startDrag(event,'win-about')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-about')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE Holdings — ecosystem</div></div>
+    <div class="win-bar" onmousedown="startDrag(event,'win-about')"><div class="win-dots"><div class="wdot wd-close" onclick="closeWin('win-about')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE Holdings — ecosystem</div></div>
     <div class="win-body"><div class="about-body">
       <div class="about-eyebrow">portfolio economics · consent-first · multi-door ARG</div>
       <h1 class="about-h1">Our ecosystem has<br><span class="accent">many doors.</span></h1>
-      <p class="about-p">No matter which one you enter — PIXIE can help you. A consent-first portfolio-economics game that keeps communities together long after the press run ends.</p>
+      <p class="about-p">Holdings is the synthetic consequence-review demo. Companion owns private projects, Creator OS prepares creative work, Made-Sick owns its join flow, and Mayhem owns its participation path. Opening a link does not share accounts, synchronize records or grant membership.</p>
       <div class="pill-row"><span class="pill p-pink">consent-first</span><span class="pill p-lav">AT Protocol</span><span class="pill p-mint">open ARG engine</span><span class="pill p-pink">Rocky Horror model</span><span class="pill p-lav">fan-forkable</span></div>
       <div><div class="doors-label">Ecosystem doors — tap to enter</div><div class="doors-grid">
-        <div class="door-card" onclick="enterDoor('loptr')" role="button" tabindex="0"><div class="door-name">Loptr Lab</div><div class="door-sub">holdings.loptrlab.com</div></div>
-        <div class="door-card" onclick="enterDoor('inpatient')" role="button" tabindex="0"><div class="door-name">Inpatient Asylum</div><div class="door-sub">inpatient.world — soon</div></div>
-        <div class="door-card" onclick="enterDoor('sicksick')" role="button" tabindex="0"><div class="door-name">Sick Sick Soul</div><div class="door-sub">Skinner Bros + Ren</div></div>
-        <div class="door-card locked" onclick="enterDoor('locked')" role="button" tabindex="0" aria-disabled="true"><div class="door-name">??? · locked</div><div class="door-sub">access level required</div></div>
+        <a class="door-card" href="https://pixie-project-companion-production.up.railway.app/" target="_top" rel="noreferrer"><div class="door-name">Project Companion</div><div class="door-sub">Private projects and reviewed context · separate authorization</div></a>
+        <a class="door-card" href="https://ibloud.github.io/pixie-creator-os/" target="_top" rel="noreferrer"><div class="door-name">Creator OS</div><div class="door-sub">Local creative preparation and reviewed manual handoffs</div></a>
+        <a class="door-card" href="https://made-sick.org/join.html" target="_top" rel="noreferrer"><div class="door-name">Made-Sick</div><div class="door-sub">Its own joining, identity and consent flow</div></a>
+        <a class="door-card" href="https://loptrlab.com/mayhem/" target="_top" rel="noreferrer"><div class="door-name">Gods of Mayhem</div><div class="door-sub">Play · read · test · contribute · game under development</div></a>
       </div></div>
       <div class="about-btns"><a class="abtn abtn-pink" href="https://github.com/ibloud/pixie-holdings" target="_blank" rel="noopener">GitHub ↗</a><button class="abtn abtn-ghost" onclick="openWin('pixie')">Talk to PIXIE</button><button class="abtn abtn-ghost" onclick="openWin('radar')">Radar ↗</button></div>
     </div></div>
   </div>
 
   <div class="window w-mint hs-static-17" id="win-radar" role="dialog" aria-label="Repository Radar">
-    <div class="win-bar" onmousedown="startDrag(event,'win-radar')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-radar')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">repo radar</div></div>
+    <div class="win-bar" onmousedown="startDrag(event,'win-radar')"><div class="win-dots"><div class="wdot wd-close" onclick="closeWin('win-radar')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">repo radar</div></div>
     <div class="win-body"><div class="radar-body"><div class="radar-access-bar"><span class="rab-label">Repository map</span><span class="rab-level hs-static-18" id="radar-level-badge">Guest view</span></div><canvas id="rc" width="298" height="240" class="hs-static-19" aria-label="Interactive repository radar — tap nodes to learn more"></canvas><div class="radar-tt" role="status" aria-live="polite"><div class="rtt-name hs-static-20" id="tt-name">Tap a node</div><div class="rtt-access" id="tt-access"></div><div class="rtt-desc" id="tt-desc"></div></div></div></div>
   </div>
 
   <div class="window w-lav hs-static-21" id="win-sitemap" role="dialog" aria-label="DID Sitemap Navigator">
-    <div class="win-bar" onmousedown="startDrag(event,'win-sitemap')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-sitemap')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">SITEMAP // DID: IBLOUD.XYZ</div></div>
+    <div class="win-bar" onmousedown="startDrag(event,'win-sitemap')"><div class="win-dots"><div class="wdot wd-close" onclick="closeWin('win-sitemap')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">SITEMAP // DID: IBLOUD.XYZ</div></div>
     <div class="win-body"><div class="sitemap-body">
       <div class="sitemap-intro">DID continuity navigator for the PIXIE ecosystem. Canonical research, executable test bench, public campaign, and staged/private supporting modules remain separate doors.</div>
-      <div class="sitemap-tree" id="sitemap-tree"><div class="tree-root">did:plc:ibloud (ibloud.xyz)</div><div class="tree-branch">
+      <div class="sitemap-tree" id="sitemap-tree"><div class="tree-root">Example identity · not authenticated</div><div class="tree-branch">
         <div class="tree-node" data-sitemap-tier="0" onclick="openContinuityRepo('pixie-device-stewardship')"><span class="t-icon">🧭</span> <strong>/pixie-device-stewardship</strong><span class="t-sub">canonical PIXIE research &amp; specification · Tier 0 · <span data-sitemap-status="pixie-device-stewardship">ACTIVE</span></span></div>
         <div class="tree-node" data-sitemap-tier="0" onclick="openContinuityRepo('pixie-holdings')"><span class="t-icon">📂</span> <strong>/pixie-holdings</strong><span class="t-sub">executable PIXIE OS test bench &amp; control room · Tier 0 · <span data-sitemap-status="pixie-holdings">ACTIVE</span></span></div>
         <div class="tree-node" data-sitemap-tier="0" onclick="openContinuityRepo('made-sick')"><span class="t-icon">🌐</span> <strong>/made-sick</strong><span class="t-sub">public campaign &amp; participation surface · Tier 0 · <span data-sitemap-status="made-sick">ACTIVE</span></span></div>
         <div class="tree-node" data-sitemap-tier="1" onclick="openContinuityRepo('narrative-provenance')"><span class="t-icon">🔒</span> <strong>/narrative-provenance</strong><span class="t-sub">creator-controlled private memory layer · Tier 1 · <span data-sitemap-status="narrative-provenance">LOCKED</span></span></div>
         <div class="tree-node" data-sitemap-tier="2" onclick="openContinuityRepo('duet-engine-architecture')"><span class="t-icon">🧩</span> <strong>/duet-engine-architecture</strong><span class="t-sub">Duet engine architecture · Tier 2 · <span data-sitemap-status="duet-engine-architecture">LOCKED</span></span></div>
-        <div class="tree-subbranch"><div class="tree-leaf">📄 continuity policy <span class="badge">rollback receipts: ON</span></div><div class="tree-leaf">🛡 consent guard <span class="badge">silent inference: OFF</span></div><div class="tree-leaf">🔗 PDS <span class="badge">ATPROTO/STABLE</span></div></div>
+        <div class="tree-subbranch"><div class="tree-leaf">📄 continuity policy <span class="badge">rollback receipts: ON</span></div><div class="tree-leaf">🛡 consent guard <span class="badge">silent inference: OFF</span></div><div class="tree-leaf">🔗 PDS <span class="badge">NOT CONNECTED</span></div></div>
       </div></div>
-      <div class="sitemap-status"><span>PDS STATUS: SYNCED</span><span id="sitemap-access-status">ACCESS: GUEST</span></div><div class="sitemap-footer"><span>DID CONTINUUM NODE</span><span>PIXIE OS // CONTINUITY</span></div>
+      <div class="sitemap-status"><span>PDS: NOT CONNECTED</span><span id="sitemap-access-status">ACCESS: GUEST</span></div><div class="sitemap-footer"><span>DID CONTINUUM NODE</span><span>PIXIE OS // CONTINUITY</span></div>
     </div></div>
   </div>
 
   <div class="window w-lav hs-static-22" id="win-holdings" role="dialog" aria-label="Holdings">
-    <div class="win-bar" onmousedown="startDrag(event,'win-holdings')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-holdings')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">holdings // new economy market</div></div>
+    <div class="win-bar" onmousedown="startDrag(event,'win-holdings')"><div class="win-dots"><div class="wdot wd-close" onclick="closeWin('win-holdings')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">holdings // new economy market</div></div>
     <div class="win-body hs-static-23"><iframe src="market.html" title="PIXIE Holdings New Economy Market" class="hs-static-24"></iframe></div>
   </div>
 
   <div class="window w-yellow hs-static-25" id="win-meters" role="dialog" aria-label="Resource Meters">
-    <div class="win-bar" onmousedown="startDrag(event,'win-meters')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-meters')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">system resources</div></div>
+    <div class="win-bar" onmousedown="startDrag(event,'win-meters')"><div class="win-dots"><div class="wdot wd-close" onclick="closeWin('win-meters')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">system resources</div></div>
     <div class="win-body"><div class="meters-body"><div class="mrow"><span class="ml">Network</span><div class="mbar"><div class="mfill f-mint hs-static-26"></div></div><span class="mv">72%</span></div><div class="mrow"><span class="ml">Memory</span><div class="mbar"><div class="mfill f-lav hs-static-27"></div></div><span class="mv">56%</span></div><div class="mrow"><span class="ml">Compute</span><div class="mbar"><div class="mfill f-yellow hs-static-28"></div></div><span class="mv">35%</span></div><div class="mrow"><span class="ml">Consent</span><div class="mbar"><div class="mfill f-mint hs-static-29"></div></div><span class="mv">100%</span></div></div></div>
   </div>
 
-  <div class="window w-pink hs-static-30" id="win-pixie" role="dialog" aria-label="PIXIE Agent Chat">
-    <div class="win-bar" onmousedown="startDrag(event,'win-pixie')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-pixie')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE agent</div></div>
-    <div class="win-body"><div class="chat-body"><div class="chat-log" id="chat-log" aria-live="polite" aria-label="Chat messages"><div class="msg"><span class="msg-from">PIXIE</span><div class="msg-text pixie">Hello. I'm PIXIE — your consent-first portfolio steward.<br><br>I show before I act. I don't infer without permission. I don't move files without giving you source, destination, and a rollback receipt.<br><br>Ask me about the ecosystem, the holdings, the ARG, access levels, or consent rules.</div></div></div><div class="chat-input-row"><input class="chat-input" id="chat-input" type="text" placeholder="Ask PIXIE something…" aria-label="Chat input" onkeydown="if(event.key==='Enter')sendMsg()"/><button class="chat-send" onclick="sendMsg()" aria-label="Send message">Send</button></div></div></div>
+  <div class="window w-pink hs-static-30" id="win-pixie" role="dialog" aria-label="PIXIE guidance · scripted desktop demo">
+    <div class="win-bar" onmousedown="startDrag(event,'win-pixie')"><div class="win-dots"><div class="wdot wd-close" onclick="closeWin('win-pixie')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">PIXIE guidance · demo</div></div>
+    <div class="win-body"><div class="chat-body"><div class="chat-log" id="chat-log" aria-live="polite" aria-label="Chat messages"><div class="msg"><span class="msg-from">PIXIE</span><div class="msg-text pixie">Scripted local demo · no live assistant or connected actions.<br><br>Hello. I'm PIXIE — your consent-first portfolio steward.<br><br>I show before I act. I don't infer without permission. I don't move files without giving you source, destination, and a rollback receipt.<br><br>Ask me about the ecosystem, the holdings, the ARG, access levels, or consent rules.</div></div></div><div class="chat-input-row"><input class="chat-input" id="chat-input" type="text" placeholder="Ask PIXIE something…" aria-label="Chat input" onkeydown="if(event.key==='Enter')sendMsg()"/><button class="chat-send" onclick="sendMsg()" aria-label="Send message">Send</button></div></div></div>
   </div>
 
   <div class="window w-mint hs-static-31" id="win-onboarding" role="dialog" aria-label="Find Your Path onboarding">
-    <div class="win-bar" onmousedown="startDrag(event,'win-onboarding')"><div class="win-dots" aria-hidden="true"><div class="wdot wd-close" onclick="closeWin('win-onboarding')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">FIND YOUR PATH // ONBOARDING</div></div>
+    <div class="win-bar" onmousedown="startDrag(event,'win-onboarding')"><div class="win-dots"><div class="wdot wd-close" onclick="closeWin('win-onboarding')"></div><div class="wdot wd-min"></div><div class="wdot wd-max"></div></div><div class="win-title">FIND YOUR PATH // ONBOARDING</div></div>
     <div class="win-body"><div class="about-body">
       <div class="about-eyebrow hs-static-32">LOPTR LAB · ONBOARDING · CHOOSE YOUR DOOR</div>
       <h1 class="about-h1">Find your <span class="accent hs-static-33">path.</span></h1>
@@ -222,10 +223,7 @@ function maximizeWin(winId){
   if(!win)return;
   if(win.dataset.maximized==='1'){
     const previous=JSON.parse(win.dataset.previousRect||'{}');
-    if(previous.left)win.style.left=previous.left;
-    if(previous.top)win.style.top=previous.top;
-    if(previous.width)win.style.width=previous.width;
-    if(previous.height)win.style.height=previous.height;
+    for(const key of ['left','top','width','height'])win.style[key]=previous[key]||'';
     win.dataset.maximized='0';
   }else{
     win.dataset.previousRect=JSON.stringify({
@@ -240,6 +238,7 @@ function wireWindow(winId){
   const win=document.getElementById(winId);
   if(!win)return;
   win.setAttribute('aria-hidden',win.style.display==='none'?'true':'false');
+  if(win.dataset.controlsWired)return;win.dataset.controlsWired='true';
   win.querySelectorAll('.wdot').forEach(dot=>{
     const kind=dot.classList.contains('wd-close')?'close':dot.classList.contains('wd-min')?'min':'max';
     dot.setAttribute('role','button');
@@ -276,13 +275,12 @@ function startDrag(e,winId){
 function onDrag(e){if(!dragWin)return;dragWin.style.left=Math.max(0,e.clientX-dragOffsetX)+'px';dragWin.style.top=Math.max(0,e.clientY-dragOffsetY)+'px';}
 function stopDrag(){dragWin=null;document.removeEventListener('pointermove',onDrag);}
 
-function cycleAccess(){currentAccessIndex=(currentAccessIndex+1)%accessLevels.length;const access=accessLevels[currentAccessIndex];const pill=document.getElementById('access-pill');pill.className='access-pill '+access.class;pill.textContent=access.label;const radarBadge=document.getElementById('radar-level-badge');if(radarBadge){radarBadge.textContent=access.name+' view';radarBadge.style.color=access.color;radarBadge.style.borderColor=access.color;}showNotification('Access Level Changed','Switched to '+access.name+' access privileges.');if(document.getElementById('win-radar').style.display!=='none')drawRadar();if(document.getElementById('win-sitemap').style.display!=='none')updateSitemapAccess();}
-function enterDoor(doorKey){if(doorKey==='locked'){showNotification('Access Denied','Elevated permission level required to unlock this door.');return;}showNotification('Entering Door','Navigating to '+doorKey+' portal...');}
+function cycleAccess(){currentAccessIndex=(currentAccessIndex+1)%accessLevels.length;const access=accessLevels[currentAccessIndex];const pill=document.getElementById('access-pill');pill.className='access-pill '+access.class;pill.textContent=access.label;const radarBadge=document.getElementById('radar-level-badge');if(radarBadge){radarBadge.textContent=access.name+' view';radarBadge.style.color=access.color;radarBadge.style.borderColor=access.color;}showNotification('Access Level Changed','Simulated '+access.name+' view only. No permissions were granted.');if(document.getElementById('win-radar').style.display!=='none')drawRadar();if(document.getElementById('win-sitemap').style.display!=='none')updateSitemapAccess();}
 
 const continuityRepos={
   'pixie-device-stewardship':{tier:0,url:'https://github.com/ibloud/pixie-device-stewardship'},
   'pixie-holdings':{tier:0,url:'https://github.com/ibloud/pixie-holdings'},
-  'made-sick':{tier:0,url:'https://github.com/ibloud/made-sick'},
+  'made-sick':{tier:0,url:'https://made-sick.org/'},
   'narrative-provenance':{tier:1,url:'https://github.com/ibloud/narrative-provenance'},
   'duet-engine-architecture':{tier:2,url:'https://github.com/ibloud/duet_engine_architecture'}
 };
@@ -295,7 +293,7 @@ function initRadar(){const canvas=document.getElementById('rc');if(!canvas)retur
     canvas.addEventListener('pointermove',e=>{const rect=canvas.getBoundingClientRect();radarPointer.x=(e.clientX-rect.left)/rect.width;radarPointer.y=(e.clientY-rect.top)/rect.height;radarPointer.active=true;});
     canvas.addEventListener('pointerleave',()=>{radarPointer.active=false;});
   }
-  canvas.onclick=function(e){const rect=canvas.getBoundingClientRect(),mx=(e.clientX-rect.left)*canvas.width/rect.width,my=(e.clientY-rect.top)*canvas.height/rect.height;let found=null;repos.forEach((r,index)=>{const p=radarNodePosition(r,index,canvas.width,canvas.height,performance.now());if(Math.hypot(mx-p.x,my-p.y)<14)found=r;});if(found){activeNode=found;const accessReq=accessLevels[found.min].name,isUnlocked=currentAccessIndex>=found.min;document.getElementById('tt-name').textContent=found.name;document.getElementById('tt-name').style.color=isUnlocked?'var(--mint2)':'var(--red)';document.getElementById('tt-access').textContent='Access: '+accessReq+(isUnlocked?' [Granted]':' [Restricted]');document.getElementById('tt-desc').textContent=isUnlocked?found.desc:'Encrypted content. Switch access profile to unlock.';}};
+  canvas.onclick=function(e){const rect=canvas.getBoundingClientRect(),mx=(e.clientX-rect.left)*canvas.width/rect.width,my=(e.clientY-rect.top)*canvas.height/rect.height;let found=null;repos.forEach((r,index)=>{const p=radarNodePosition(r,index,canvas.width,canvas.height,performance.now());if(Math.hypot(mx-p.x,my-p.y)<14)found=r;});if(found){activeNode=found;const accessReq=accessLevels[found.min].name,isUnlocked=currentAccessIndex>=found.min;document.getElementById('tt-name').textContent=found.name;document.getElementById('tt-name').style.color=isUnlocked?'var(--mint2)':'var(--red)';document.getElementById('tt-access').textContent='Access: '+accessReq+(isUnlocked?' [Simulated view]':' [Demo-filtered]');document.getElementById('tt-desc').textContent=isUnlocked?found.desc:'Hidden by the demo view filter. This is not authentication or evidence of private access.';}};
   if(!animFrameId)animateRadar();
 }
 function animateRadar(){angle+=0.015;drawRadar();animFrameId=requestAnimationFrame(animateRadar);}
@@ -308,11 +306,11 @@ function drawRadar(){const canvas=document.getElementById('rc');if(!canvas||canv
 
 function routePath(path){
   const routes={
-    learn:{title:'LEARN / DEVELOP',body:'Start with Battle the Beast and other experimental/training projects where the learning surface is the work itself.',url:'https://ibloud.github.io/battle-the-beast/'},
+    learn:{title:'LEARN / DEVELOP',body:'Start with the existing Training entrance and its published exercises. Each project keeps its own contribution process.',url:'https://loptr-lab.github.io/training/'},
     build:{title:'BUILD / CONTRIBUTE',body:'The Veiled Dominion Engine is the current engineering contribution surface. Check the repository status, issues, and documented path before choosing a task.',url:'https://github.com/Loptr-Lab/veiled-dominion-engine'},
-    story:{title:'STORY / WORLDBUILDING',body:'Explore narrative and provenance work, beginning with the public campaign and story-oriented projects.',url:'https://github.com/ibloud/made-sick'},
+    story:{title:'STORY / WORLDBUILDING',body:'Explore narrative and provenance work, beginning with the public campaign and story-oriented projects.',url:'https://made-sick.org/'},
     access:{title:'ACCESSIBILITY / SYSTEMS',body:'Explore PIXIE Device Stewardship and the Veiled Dominion Engine for accessibility, consent, rules, and systems work.',url:'https://github.com/ibloud/pixie-device-stewardship'},
-    creative:{title:'MUSIC / CREATIVE PRODUCTION',body:'Explore creator capture and production-oriented projects in the public ecosystem.',url:'https://github.com/ibloud/pixie-creator-os'},
+    creative:{title:'MUSIC / CREATIVE PRODUCTION',body:'Explore creator capture and production-oriented projects in the public ecosystem.',url:'https://ibloud.github.io/pixie-creator-os/'},
     explore:{title:'EXPLORE',body:'Open the public holdings site, then use the Radar or Sitemap to inspect the ecosystem at your own pace.',url:'https://holdings.loptrlab.com/'}
   };
   const route=routes[path];
@@ -322,7 +320,7 @@ function routePath(path){
 }
 
 function sendMsg(){const input=document.getElementById('chat-input'),text=input.value.trim();if(!text)return;const chatLog=document.getElementById('chat-log'),uMsg=document.createElement('div');uMsg.className='msg';uMsg.innerHTML='<span class="msg-from you">YOU</span><div class="msg-text you">'+escapeHtml(text)+'</div>';chatLog.appendChild(uMsg);input.value='';chatLog.scrollTop=chatLog.scrollHeight;setTimeout(()=>{const pMsg=document.createElement('div');pMsg.className='msg';pMsg.innerHTML='<span class="msg-from">PIXIE</span><div class="msg-text pixie">'+getPixieResponse(text)+'</div>';chatLog.appendChild(pMsg);chatLog.scrollTop=chatLog.scrollHeight;},600);}
-function getPixieResponse(input){const q=input.toLowerCase();if(q.includes('radar')||q.includes('repo'))return'The Repo Radar tracks open and restricted projects. Change access levels on the taskbar to inspect restricted repositories.';else if(q.includes('consent')||q.includes('rule'))return'Consent Rule #1: Every dynamic state change requires direct user verification. All file operations append a rollback entry.';else if(q.includes('arg')||q.includes('door'))return'The ecosystem features multiple doors across domains (Loptr Lab, Inpatient Asylum, Sick Sick Soul). Access keys unlock deeper layers.';return"I've recorded your inquiry. I act strictly with consent — ask me to inspect holdings, check system meters, or cycle your access level.";}
+function getPixieResponse(input){const q=input.toLowerCase();if(q.includes('radar')||q.includes('repo'))return'This is a local, scripted repository-map demonstration. Access labels simulate views; they do not grant membership or private repository access. Use Project discovery for current participation routes.';else if(q.includes('consent')||q.includes('rule'))return'The seeded Intake exercise previews a proposal, asks permission and records a simulated receipt. It does not read or move real files, connect an account or publish anything.';else if(q.includes('arg')||q.includes('door'))return'Use Project discovery for Gods of Mayhem, Training and the separate Made-Sick and Creator OS routes. Opening a route grants no membership, account access or publishing permission.';return"This is scripted local guidance, not a connected assistant. Try the Intake proposal/approval/undo exercise or Project discovery. No inquiry was sent or saved to an external service.";}
 function escapeHtml(str){return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function showNotification(title,body){const old=document.querySelector('.notify');if(old)old.remove();const n=document.createElement('div');n.className='notify';n.innerHTML='<div class="notify-title">'+title+'</div><div class="notify-body">'+body+'</div>';document.getElementById('desk').appendChild(n);setTimeout(()=>{n.remove();},3500);}
 function updateClock(){const now=new Date(),hrs=String(now.getHours()).padStart(2,'0'),mins=String(now.getMinutes()).padStart(2,'0');document.getElementById('clock').textContent=hrs+':'+mins;}
@@ -335,9 +333,19 @@ function initMadeSickHandoff(){
 }
 initMadeSickHandoff();
 document.querySelectorAll('.window').forEach(w=>wireWindow(w.id));
+// Same-origin return links close the existing host overlay before normal navigation,
+// including repeated navigation to the same fragment (which emits no hashchange).
+document.addEventListener('click',event=>{
+  const link=event.target.closest('a[target="_top"][href]');if(!link)return;
+  const target=new URL(link.href,location.href);
+  if(target.origin===location.origin&&target.pathname==='/'&&['#project-discovery','#review'].includes(target.hash)){
+    try{window.top.document.getElementById('close-pixie-radar')?.click();}catch{/* External hosts simply follow the explicit link. */}
+  }
+});
 window.addEventListener('keydown',e=>{
-  if(e.key==='Escape' && !e.defaultPrevented && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)){
-    window.top.postMessage({type:'pixie:close-os'},window.location.origin);
+  if(e.key==='Tab'&&!e.shiftKey&&document.activeElement?.classList.contains('pixie-launcher')&&window.parent!==window){e.preventDefault();window.parent.postMessage({type:'pixie:focus-close'},window.location.origin);}
+  if(e.key==='Escape' && !e.defaultPrevented){
+    window.parent.postMessage({type:'pixie:close-os'},window.location.origin);
   }
 });
 setInterval(updateClock,1000);updateClock();

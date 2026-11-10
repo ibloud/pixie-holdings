@@ -37,3 +37,19 @@ for (const query of [
     assert.equal(frame.src,'radar-core.html?shell=1');
   });
 }
+
+test('maximizing twice restores stylesheet-controlled window geometry', async()=>{
+ const html=await readFile(new URL('../public/radar-core.html',import.meta.url),'utf8');
+ const source=html.slice(html.indexOf('function maximizeWin('),html.indexOf('function wireWindow('));
+ const win={style:{left:'',top:'',width:'',height:''},dataset:{}};let opened=0;
+ const context={document:{getElementById:()=>win},openWin:()=>opened++};vm.runInNewContext(source+'\nmaximizeWin("win-intake");',context);assert.equal(win.dataset.maximized,'1');assert.match(win.style.width,/100vw/);
+ vm.runInNewContext('maximizeWin("win-intake");',context);assert.deepEqual(win.style,{left:'',top:'',width:'',height:''});assert.equal(opened,2);
+});
+
+test('embedded launch starts the consent exercise and hides only the background guide',async()=>{
+ const html=await readFile(new URL('../public/index.html',import.meta.url),'utf8'),css=await readFile(new URL('../public/styles.css',import.meta.url),'utf8'),enhancements=await readFile(new URL('../public/radar-enhancements.js',import.meta.url),'utf8');
+ assert.doesNotMatch(html,/radar\.html\?role=admin|pixie-project-companion\.ibloud-ivxx\.chatgpt\.site/);
+ assert.match(css,/\.pixie-radar-overlay\.open ~ \.pixie-launcher \{ display: none; \}/);
+ assert.doesNotMatch(enhancements,/function maximizeWindow|function minimizeWindow|querySelectorAll\('\.window'\)|canvas\.onclick|new MouseEvent/);
+ assert.match(html,/e\.source !== overlay\.querySelector\('\.pixie-radar-frame'\)\.contentWindow/);
+});

@@ -2,7 +2,7 @@
 <html data-holdings-surface="control-room" lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>PIXIE OS — Radar</title>
 
@@ -19,6 +19,7 @@
 <meta name="twitter:description" content="PIXIE OS — balanced retro radar interface from Loptr Lab.">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "PIXIE OS — Radar", "url": "https://holdings.loptrlab.com/control-room.html", "description": "PIXIE OS — balanced retro radar interface from Loptr Lab."}</script>
 <link rel="stylesheet" href="/styles.css">
+<script src="/pixie-guide.js" defer></script>
 </head>
 <body>
 <iframe id="pixie-core" src="radar-core.html" title="PIXIE OS Radar"></iframe>
@@ -36,28 +37,29 @@ function tuneRadar(){
     room.innerHTML = `
       <header class="cr-head">
         <div><span class="cr-brand">PIXIE // LOPTR LAB</span><h1>CONTROL ROOM</h1></div>
-        <div class="cr-live"><i></i> SIGNAL ONLINE <small>LOCAL ONLY</small></div>
+        <div class="cr-live"><i></i> SEEDED DEMO <small>NO LIVE FEED</small></div>
       </header>
       <section class="cr-grid">
-        <div class="cr-radar"><div class="cr-label">LIVE RADAR // SIGNAL FIELD</div><div class="cr-canvas"></div></div>
+        <div class="cr-radar"><div class="cr-label">SAMPLE RADAR // SIGNAL FIELD</div><div class="cr-canvas"></div></div>
         <aside class="cr-target">
           <span class="cr-label">CURRENT TARGET</span>
           <h2>Rising Developer<br>Activity — Indie Tools</h2>
-          <div class="cr-confidence">CONFIDENCE <b>92%</b></div>
+          <div class="cr-confidence">ILLUSTRATIVE CONFIDENCE <b>92%</b></div>
           <div class="cr-risk">MEDIUM RISK</div>
           <p>Growing momentum in indie tooling. Potential partnership opportunity.</p>
-          <strong class="cr-action">REVIEW &amp; EXPLORE →</strong>
-          <small>HUMAN REVIEW: PENDING</small>
+          <a class="cr-action pixie-discovery-link" href="/#review" target="_top">Review a fictional business report →</a>
+          <small>FICTIONAL SIGNAL · NO SOURCE RETRIEVED</small>
         </aside>
         <section class="cr-narrative"><span>SIGNAL NARRATIVE</span><p>“I've identified three emerging signals. One requires your review.”</p><b>— SIGNAL</b></section>
         <section class="cr-pipeline"><span class="cr-label">RECON PIPELINE</span><div class="cr-stages"><b>DRAFT</b><b>QUEUED</b><b class="sweep">SWEEP</b><b class="flagged">FLAGGED</b><b class="cleared">CLEARED</b><b>BROADCAST</b></div></section>
-        <section class="cr-feed"><span class="cr-label">SYSTEM FEED</span><p>● 12:34 &nbsp; New signal detected: indie tool — developer activity rising</p><p>● 12:28 &nbsp; Source added to memory: @tooling-trend-2025</p><p>● 12:21 &nbsp; Recon pipeline: 1 item moved to <b>FLAGGED</b></p><aside>NEXT REVIEW TARGET <b>→</b></aside></section>
+        <section class="cr-feed"><span class="cr-label">SAMPLE SYSTEM FEED</span><p>● 12:34 &nbsp; New signal detected: indie tool — developer activity rising</p><p>● 12:28 &nbsp; Source added to memory: @tooling-trend-2025</p><p>● 12:21 &nbsp; Recon pipeline: 1 item moved to <b>FLAGGED</b></p><aside>NEXT REVIEW TARGET <b>→</b></aside></section>
       </section>
     `;
     doc.body.appendChild(room);
     const canvas = doc.getElementById('rc');
     const mount = room.querySelector('.cr-canvas');
     if (canvas && mount) mount.appendChild(canvas);
+    const selection=doc.querySelector('.radar-tt');if(selection)room.querySelector('.cr-radar').appendChild(selection);
     doc.querySelector('.desktop')?.setAttribute('aria-hidden','true');
     doc.documentElement.dataset.holdingsControl='true';
     const script=doc.createElement('script');
