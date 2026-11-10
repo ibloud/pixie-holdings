@@ -109,3 +109,23 @@ launch action is inline, not a competing fixed bottom-right control. No new symb
 assistant, stylesheet, theme or asset is introduced. See the embedded-launch
 correction in the onboarding review for the owner's Safari finding and corrected
 before/after evidence. Direct-entry checks alone are not end-to-end acceptance.
+
+
+## Threshold reading-circle release — 10 November 2026
+
+The Threshold now links directly to Training’s own human-readable reader at
+`https://loptr-lab.github.io/training/threshold.html`, from both Holdings project
+discovery and the desktop Projects window. The old interim Mayhem fallback is
+removed from the reading card; Gods of Mayhem retains its separate identity and
+entry. The reading practice is fifteen minutes a day with seven existing titles,
+library-first access, optional written questions and original-work proposals.
+Training owns its reader, notebook and facilitator handbook; Holdings only
+provides discovery. See Training’s `THRESHOLD_BOOK_CLUB.md` for contribution roles,
+facilitation and review boundaries. No scheduled group or automatic membership
+is implied.
+
+This change adds no theme, asset, stylesheet, assistant, runtime dependency or
+identity-bearing URL. `public/styles.css`, the approved PIXIE sigil, single
+persistent control and PR #60 privacy protections remain in place. Owner
+authorized release after rollout documentation and verification on November 10;
+release evidence is recorded in `docs/THRESHOLD_RELEASE.md`.
