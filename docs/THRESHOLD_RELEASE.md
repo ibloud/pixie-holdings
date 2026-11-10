@@ -54,7 +54,13 @@ Protected fetches of `https://pixie-holdings.vercel.app/`, `/radar.html` and
 `/pixie-guide.js` returned 200. Both entry pages contain the correct reader URL;
 the old Mayhem reading fallback is absent.
 
-Custom-domain verification is limited: this environment blocks direct access
+The custom domain is served by GitHub Pages, rather than the Vercel project.
+The Pages API confirms `holdings.loptrlab.com`; workflow `static.yml` uploads
+`./public`. Release run `42782603382` completed successfully from the exact
+Holdings merge SHA above:
+https://github.com/ibloud/pixie-holdings/actions/runs/42782603382
+
+Direct custom-domain response verification is limited: this environment blocks direct access
 to `holdings.loptrlab.com`, and Vercel's share-resolution lookup returned 404
 before an origin fetch. This is not evidence of an origin 404. Domain and DNS
 settings were not changed; confirm the custom address in an external browser.
