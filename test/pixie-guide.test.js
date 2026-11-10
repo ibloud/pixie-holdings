@@ -14,7 +14,7 @@ test('approved canonical sigil is reused byte-identically rather than replaced',
 });
 test('guidance routes use existing surfaces and cannot forward navigation identity',async()=>{
  const js=await read('pixie-guide.js');assert.match(js,/https:\/\/pixie-project-companion-production.up.railway.app\//);assert.doesNotMatch(js,/location\.search|URLSearchParams|fetch\(|innerHTML/);assert.match(js,/no-referrer/);
- const index=await read('index.html');assert.match(index,/Gods of Mayhem — Play, Read, Test, Contribute/);assert.match(index,/href="https:\/\/loptrlab.com\/mayhem\/"/);assert.doesNotMatch(index,/href="https:\/\/pixie.pckt.blog/);assert.match(index,/a dedicated published reader page was not found/);
+ const index=await read('index.html');assert.match(index,/Gods of Mayhem — Play, Read, Test, Contribute/);assert.match(index,/href="https:\/\/loptrlab.com\/mayhem\/"/);assert.doesNotMatch(index,/href="https:\/\/pixie.pckt.blog/);assert.match(index,/href="https:\/\/loptr-lab.github.io\/training\/threshold.html"/);assert.match(index,/read for 15 minutes a day/);assert.doesNotMatch(index,/Read the Mayhem introduction/);
 });
 test('launcher geometry and accessibility are centralized, including safe areas and reduced motion',async()=>{
  const css=await read('styles.css');assert.match(css,/--pixie-edge: 16px/);assert.match(css,/env\(safe-area-inset-right\)/);assert.match(css,/env\(safe-area-inset-bottom\)/);assert.match(css,/\.pixie-launcher:focus-visible/);assert.match(css,/@media \(prefers-reduced-motion: reduce\)[^}]*\.pixie-launcher/);
