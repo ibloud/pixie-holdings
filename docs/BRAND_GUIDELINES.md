@@ -143,3 +143,15 @@ is created. The sample visibly marks sharing unavailable; it has no verifier or
 publishing control. No live intake, clearance approval, contact, payment or data
 transfer is introduced. Charlie J's unapproved services concept remains separate
 from fictional Charlie/NIGHT BUS. 
+
+## Provider explanation correction — owner direction, 15 November 2026
+
+PIXIE remains the product and user-facing assistant; OpenAI is preferred. The
+public sample review console is deterministic and contacts no provider. Existing
+legacy server code in src/ai/gemini.js and its optional route in src/lib/app.js
+were inspected, not activated, replaced or represented as a newly approved
+fallback. No evidence for changing the preferred provider was established in this
+copy review. That legacy endpoint requires a separately reviewed provider/permission
+decision before treating it as the intended connected PIXIE assistant. No new
+hosting, credential, authentication, model dependency or provider integration is
+introduced. A compatible API shape is not verified provider acceptance.
