@@ -155,3 +155,7 @@ copy review. That legacy endpoint requires a separately reviewed provider/permis
 decision before treating it as the intended connected PIXIE assistant. No new
 hosting, credential, authentication, model dependency or provider integration is
 introduced. A compatible API shape is not verified provider acceptance.
+
+## Adaptive participation and repair research — 15 November 2026
+
+Existing sample console and discovery sections now explain adaptive work and the fictional teenage instrument case. No live AI provider, purchase, funding determination, contact or data collection is added. Resource ownership stays with Made-Sick; Training owns lessons and Device Stewardship owns hardware safety. Source/date/uncertainty travel with the guidance. Buttons focus the existing result region; table containment uses only public/styles.css. Approved assets, ethnic representation, single persistent launcher and PR #60 protections are preserved. Professional work is distinguished from voluntary learning and playtesting; movement-data consent is separate from public participation.

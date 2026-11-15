@@ -172,3 +172,7 @@ does not establish a live integrated Creator/Companion backend, authenticated re
 ingestion, private repository access, publishing or physical Safari/VoiceOver
 acceptance. The Threshold reader and proposed PIXIE pckt publication retain their
 previously documented gaps. No merge or manual/production deployment is performed.
+
+## Adaptive participation and repair amendment — 15 November 2026
+
+See the [existing canonical consolidation handoff](https://github.com/ibloud/ibloud.github.io/blob/review/ifixit-pilot-record/docs/PIXIE_CONSOLIDATION.md#adaptive-employment--implementation-and-source-record-15-november-2026) for source register, continuity audit, file inventory, tests, preview/release record and remaining acceptance gates. This review adds no live provider, affiliation, data collection, employment promise or third-party outreach. Existing approval gates remain.

@@ -702,3 +702,9 @@ html[data-holdings-surface="radar-core"] .window .win-body { scroll-padding-bott
 @media (forced-colors: active) { :root .pixie-launcher { border-color: ButtonText; } :root .pixie-launcher:focus-visible { outline-color: Highlight; } }
 @media (prefers-reduced-motion: reduce) { :root .pixie-launcher, :root .pixie-launcher img { animation: none; transition: none; } }
 @media print { :root .pixie-launcher { display: none; } }
+
+/* Content-only research comparisons reuse the index surface and semantic roles. */
+html[data-holdings-surface="index"] .table-wrap{max-width:100%;overflow-x:auto}
+html[data-holdings-surface="index"] .table-wrap table{width:100%;border-collapse:collapse}
+html[data-holdings-surface="index"] .table-wrap th,html[data-holdings-surface="index"] .table-wrap td{padding:.75rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--pixie-outline,#405661);overflow-wrap:anywhere}
+html[data-holdings-surface="index"] #review-output:focus-visible{outline:3px solid var(--pixie-focus,#a9e2e5);outline-offset:4px}
