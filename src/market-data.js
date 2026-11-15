@@ -40,6 +40,13 @@ function requireKey(name) {
   return key;
 }
 
+function percentChange(quote) {
+  const raw = typeof quote.changePercentage === "number" ? quote.changePercentage
+    : typeof quote.changesPercentage === "number" ? quote.changesPercentage
+    : null;
+  return raw === null ? null : raw / 100;
+}
+
 async function fetchFmp(symbol, id, assetType) {
   const key = requireKey("FMP_API_KEY");
   const url = new URL("https://financialmodelingprep.com/stable/quote");
@@ -52,7 +59,7 @@ async function fetchFmp(symbol, id, assetType) {
     id, symbol, assetType,
     price: quote.price,
     previousClose: typeof quote.previousClose === "number" ? quote.previousClose : null,
-    changePct: typeof quote.changesPercentage === "number" ? quote.changesPercentage / 100 : null,
+    changePct: percentChange(quote),
     currency: quote.currency || "USD",
     marketState: null,
     asOf: quote.timestamp ? new Date(quote.timestamp * 1000).toISOString() : null,
@@ -107,6 +114,12 @@ export async function getMarketData(symbols) {
     const hit = getCached(key);
     return hit || cached(key, await fetchFred(seriesId, id));
   }));
+
+  results.forEach((result, index) => {
+    if (result.status === "rejected") {
+      console.warn(`market-data: ${requested[index]} unavailable: ${result.reason?.message || result.reason}`);
+    }
+  });
 
   const quotes = results.filter(result => result.status === "fulfilled").map(result => result.value);
   if (!quotes.length) throw new Error("External market data is temporarily unavailable.");
