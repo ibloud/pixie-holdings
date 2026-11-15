@@ -172,3 +172,18 @@ does not establish a live integrated Creator/Companion backend, authenticated re
 ingestion, private repository access, publishing or physical Safari/VoiceOver
 acceptance. The Threshold reader and proposed PIXIE pckt publication retain their
 previously documented gaps. No merge or manual/production deployment is performed.
+
+## Adaptive participation and repair amendment — 15 November 2026
+
+See the [existing canonical consolidation handoff](https://github.com/ibloud/ibloud.github.io/blob/review/ifixit-pilot-record/docs/PIXIE_CONSOLIDATION.md#adaptive-employment--implementation-and-source-record-15-november-2026) for source register, continuity audit, file inventory, tests, preview/release record and remaining acceptance gates. This review adds no live provider, affiliation, data collection, employment promise or third-party outreach. Existing approval gates remain.
+
+### Placement evidence (Chromium, 820 × 1000, reduced motion)
+
+Baseline is PR #65 parent revision 6efdc1f, not a reconstruction of the older duplicate-launcher defect. The new content preserves the already-corrected single persistent launcher.
+
+| State | Before | After |
+| --- | --- | --- |
+| Landing / research discovery | [Before](review-evidence/2026-11-15-before-landing.png) | [After](review-evidence/2026-11-15-after-landing.png) |
+| Embedded desktop | [Before](review-evidence/2026-11-15-before-desktop.png) | [After](review-evidence/2026-11-15-after-desktop.png) |
+
+Approved source asset: public/pixie-companion-sigil.png, unchanged SHA-256 `8900781e2d0c5f8873ccc975395253fb5c609a92077a74940af121c9317eed12`. Tested destinations: existing console output, embedded radar desktop, canonical Training adaptive-work and maker repair fragments, Made-Sick record anchors, and Device Stewardship repair fragment. Cross-repository targets were checked against owning review source, not claimed published on production. Physical-device acceptance remains pending.

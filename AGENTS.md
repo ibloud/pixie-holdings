@@ -16,3 +16,10 @@ Holdings is PIXIE’s business-facing, command-led review surface for people ins
 - Record design changes and proposed versus implemented behavior in docs/BRAND_GUIDELINES.md. Prefer existing canonical guidelines in future; do not create competing sources.
 - Produce a Vercel PREVIEW and verify it before requesting owner review. Do not push to main, merge, promote or change production/domain configuration without explicit owner authorization for that release.
 - Check desktop and narrow widths, command keyboard/button paths, invalid input, links and existing tests. State physical iPad/Safari/VoiceOver and live-service limits honestly.
+
+## Owner direction — visual representation (15 November 2026)
+
+- Loptr Lab and PIXIE visual storytelling is explicitly ethnic and multicultural. Do not default to white women or white-coded stock characters in generated promotional imagery, illustrations, avatars, or PIXIE character portrayals.
+- When imagery depicts a creator or PIXIE's human-like representation, prioritize visibly ethnically diverse people, including Black and brown representation, in line with the owner's direction. Avoid tokenism, stereotypes, exoticization, or arbitrarily changing an already approved character's appearance.
+- PIXIE's established character identity and approved repo image assets take precedence over newly invented representations. For brand illustrations, first reuse approved references/assets; if an exact canonical appearance is not established, avoid inventing a specific ethnicity as a biographical claim.
+- Apply this guidance to article covers and social images as well as site artwork. Review outputs for representation before publication; preserve the existing palette, accessibility, and asset/rights rules.

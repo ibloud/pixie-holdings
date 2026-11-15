@@ -129,3 +129,33 @@ identity-bearing URL. `public/styles.css`, the approved PIXIE sigil, single
 persistent control and PR #60 privacy protections remain in place. Owner
 authorized release after rollout documentation and verification on November 10;
 release evidence is recorded in `docs/THRESHOLD_RELEASE.md`.
+
+## Product explanation alignment — review 15 November 2026
+
+PR #61 (business onboarding) and privacy PR #60 are merged. This is a focused
+follow-up, not an update to those closed review branches or a duplicate assignment.
+Existing onboarding, sample commands/buttons, desktop, shared public/styles.css,
+brand assets and no-identity-in-URLs protections are preserved. The same landing
+now explains Johnson's pre-hire producer-fit role, Companion's scoped assistance,
+Creator's preparation/clearance requirements, Holdings' business-facing review
+and Device Stewardship's repair/reuse goal. No second onboarding or product map
+is created. The sample visibly marks sharing unavailable; it has no verifier or
+publishing control. No live intake, clearance approval, contact, payment or data
+transfer is introduced. Charlie J's unapproved services concept remains separate
+from fictional Charlie/NIGHT BUS. 
+
+## Provider explanation correction — owner direction, 15 November 2026
+
+PIXIE remains the product and user-facing assistant; OpenAI is preferred. The
+public sample review console is deterministic and contacts no provider. Existing
+legacy server code in src/ai/gemini.js and its optional route in src/lib/app.js
+were inspected, not activated, replaced or represented as a newly approved
+fallback. No evidence for changing the preferred provider was established in this
+copy review. That legacy endpoint requires a separately reviewed provider/permission
+decision before treating it as the intended connected PIXIE assistant. No new
+hosting, credential, authentication, model dependency or provider integration is
+introduced. A compatible API shape is not verified provider acceptance.
+
+## Adaptive participation and repair research — 15 November 2026
+
+Existing sample console and discovery sections now explain adaptive work and the fictional teenage instrument case. No live AI provider, purchase, funding determination, contact or data collection is added. Resource ownership stays with Made-Sick; Training owns lessons and Device Stewardship owns hardware safety. Source/date/uncertainty travel with the guidance. Buttons focus the existing result region; table containment uses only public/styles.css. Approved assets, ethnic representation, single persistent launcher and PR #60 protections are preserved. Professional work is distinguished from voluntary learning and playtesting; movement-data consent is separate from public participation.
