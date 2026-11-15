@@ -129,3 +129,17 @@ identity-bearing URL. `public/styles.css`, the approved PIXIE sigil, single
 persistent control and PR #60 privacy protections remain in place. Owner
 authorized release after rollout documentation and verification on November 10;
 release evidence is recorded in `docs/THRESHOLD_RELEASE.md`.
+
+## Product explanation alignment — review 15 November 2026
+
+PR #61 (business onboarding) and privacy PR #60 are merged. This is a focused
+follow-up, not an update to those closed review branches or a duplicate assignment.
+Existing onboarding, sample commands/buttons, desktop, shared public/styles.css,
+brand assets and no-identity-in-URLs protections are preserved. The same landing
+now explains Johnson's pre-hire producer-fit role, Companion's scoped assistance,
+Creator's preparation/clearance requirements, Holdings' business-facing review
+and Device Stewardship's repair/reuse goal. No second onboarding or product map
+is created. The sample visibly marks sharing unavailable; it has no verifier or
+publishing control. No live intake, clearance approval, contact, payment or data
+transfer is introduced. Charlie J's unapproved services concept remains separate
+from fictional Charlie/NIGHT BUS. Android/REAPER configuration remains unverified.
