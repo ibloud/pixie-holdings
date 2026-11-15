@@ -708,3 +708,4 @@ html[data-holdings-surface="index"] .table-wrap{max-width:100%;overflow-x:auto}
 html[data-holdings-surface="index"] .table-wrap table{width:100%;border-collapse:collapse}
 html[data-holdings-surface="index"] .table-wrap th,html[data-holdings-surface="index"] .table-wrap td{padding:.75rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--pixie-outline,#405661);overflow-wrap:anywhere}
 html[data-holdings-surface="index"] #review-output:focus-visible{outline:3px solid var(--pixie-focus,#a9e2e5);outline-offset:4px}
+html[data-holdings-surface="index"] #adaptive-work button,html[data-holdings-surface="index"] #hardware-creator button{font:inherit;font-weight:650}
