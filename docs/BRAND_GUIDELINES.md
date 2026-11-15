@@ -142,4 +142,4 @@ and Device Stewardship's repair/reuse goal. No second onboarding or product map
 is created. The sample visibly marks sharing unavailable; it has no verifier or
 publishing control. No live intake, clearance approval, contact, payment or data
 transfer is introduced. Charlie J's unapproved services concept remains separate
-from fictional Charlie/NIGHT BUS. Android/REAPER configuration remains unverified.
+from fictional Charlie/NIGHT BUS. 
