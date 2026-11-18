@@ -159,3 +159,7 @@ introduced. A compatible API shape is not verified provider acceptance.
 ## Adaptive participation and repair research — 15 November 2026
 
 Existing sample console and discovery sections now explain adaptive work and the fictional teenage instrument case. No live AI provider, purchase, funding determination, contact or data collection is added. Resource ownership stays with Made-Sick; Training owns lessons and Device Stewardship owns hardware safety. Source/date/uncertainty travel with the guidance. Buttons focus the existing result region; table containment uses only public/styles.css. Approved assets, ethnic representation, single persistent launcher and PR #60 protections are preserved. Professional work is distinguished from voluntary learning and playtesting; movement-data consent is separate from public participation.
+
+## Collective production research — review 18 November 2026
+
+Adds a sourced collective-production and full-cost review section to the existing landing, with a navigation anchor. NOT A TOY is a creative collective; provider descriptions are attributed and no identities are inferred from a photo. Made-Sick retains resource ownership and 50 Ways retains the learning exercise. Related additions are labelled pending release. No new console commands, intake, contact, purchase, artwork, CSS, dependencies or automatic cross-site handoff. The remote studio and zero-additional-cash direction remains; unknown costs are not zero. Source checks, tests, preview readiness and physical-device acceptance remain separate.
