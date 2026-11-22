@@ -128,4 +128,4 @@ Invite feedback from ATProto ecosystem stewards, app developers, hardware/creati
 
 Delivery gates: (1) audit current Holdings, Creator OS, Companion and registry contracts; (2) map capability, data ownership, and consent; (3) demonstrate one vertical slice from device/context through PIXIE identity and Creator OS to one app adapter, with user-approved handoff; (4) test denied permissions, disconnect/recovery, wrong destination, stale catalog entries, and private-data leakage; (5) publish reproducible evidence, limits, and a focused review request. No live integration or hardware support is claimed until tested.
 
-See the [Creator OS coordination contract](https://github.com/ibloud/pixie-creator-os) and [ecosystem guide breadcrumb](https://github.com/Loptr-Lab/pixie-ecosystem-guide).
+See the [Creator OS coordination contract](https://github.com/ibloud/pixie-creator-os), [ecosystem guide breadcrumb](https://github.com/Loptr-Lab/pixie-ecosystem-guide), and [hardware research bibliography + ATProto community review resources](public/hardware-research.html).
