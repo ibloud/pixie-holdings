@@ -159,3 +159,8 @@ introduced. A compatible API shape is not verified provider acceptance.
 ## Adaptive participation and repair research — 15 November 2026
 
 Existing sample console and discovery sections now explain adaptive work and the fictional teenage instrument case. No live AI provider, purchase, funding determination, contact or data collection is added. Resource ownership stays with Made-Sick; Training owns lessons and Device Stewardship owns hardware safety. Source/date/uncertainty travel with the guidance. Buttons focus the existing result region; table containment uses only public/styles.css. Approved assets, ethnic representation, single persistent launcher and PR #60 protections are preserved. Professional work is distinguished from voluntary learning and playtesting; movement-data consent is separate from public participation.
+
+
+## Organizational support and financial-status disclosure — 22 November 2026
+
+The Holdings landing page now exposes the four owner-designated Loptr Lab support routes as optional ways to sustain shared work. They are not Holdings or Mayhem access tiers, contributor ranks, governance privileges, or a claim that PIXIE Holdings is a formed legal holding company. Platform-specific terms remain at each provider. The linked funding/status record distinguishes intended use from verified receipts, accounting, entity formation, and tax reporting. No private payment accounts, tax records, or bank records are represented as inspected. The public page uses the existing discovery-card presentation and preserves the shared stylesheet and responsive layout.
