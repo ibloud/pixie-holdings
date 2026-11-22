@@ -8,6 +8,8 @@ Current open review and contribution opportunities are voluntary and unpaid. Bef
 
 Financial support is optional and sustains infrastructure, maintenance, accessibility work, and documented development. Paying does not buy contributor status, canon authority, approvals, ownership, or employment. Participation and accessibility are not sponsorship rewards. Project-specific licenses and existing signed agreements continue to apply.
 
+Current owner-designated support routes are Buy Me a Coffee, Patreon, GitHub Sponsors, and PayPal.me/ibloud. Platform-specific tiers and terms remain on their respective provider pages; they are not a unified Mayhem membership ladder. See [`docs/FUNDING-AND-ENTITY-STATUS.md`](docs/FUNDING-AND-ENTITY-STATUS.md) for the evidence-qualified financial and legal status. No entity-level financial statements or reconciled payout records are established in the public materials reviewed; this does not determine whether private records or a legal entity exist.
+
 [Full mission and participation terms](https://github.com/ibloud/ibloud.github.io/blob/main/MISSION.md).
 
 
