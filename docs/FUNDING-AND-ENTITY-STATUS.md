@@ -38,6 +38,17 @@ This is a statement about the public materials reviewed, not a conclusion that n
 
 The labels “Loptr Lab,” “PIXIE Holdings,” “Gods of Mayhem,” and repository/domain names do not identify the legal payee or establish a legal entity. Do not describe these payments as charitable or tax-deductible, or issue an entity invoice or tax receipt, unless the actual recipient, legal status, and applicable requirements have been verified.
 
+## Evidence-backed legal, recipient and reporting work
+
+The outstanding fact-finding is tracked separately in [Issue #74: Evidence-backed entity, payment-recipient and tax-reporting review](https://github.com/ibloud/pixie-holdings/issues/74). Its work is **not started / unresolved** until source records are inspected. It covers four distinct evidence sets:
+
+1. **Formation and jurisdiction:** confirm which jurisdictions have actually been used; inspect official active and inactive registry records and original formation/assumed-name documents for those jurisdictions. Minnesota is a possible search location, not an assumed formation state. The [Minnesota Secretary of State Business Filings search](https://mblsportal.sos.state.mn.us/Business/Search) is a primary-source lookup if Minnesota is confirmed as relevant; a name search alone is not a legal opinion.
+2. **Payment recipient:** verify the account owner, legal payee, tax profile and payout destination separately for Buy Me a Coffee, Patreon, GitHub Sponsors and PayPal.me/ibloud. A public support URL does not establish the legal recipient.
+3. **Actual accounting:** privately reconcile provider statements, gross receipts, platform fees, refunds/chargebacks, net payouts, receiving-account deposits, expenses and unmatched variances by tax year. No private statements or bank records were inspected for this update.
+4. **Professional review:** obtain qualified legal and tax/accounting review of the actual facts before making entity, filing, charitable, tax-deductibility or financial-statement claims.
+
+Keep statements, bank records, tax forms, account identifiers, addresses, EINs and professional advice in an appropriately access-controlled private location. Do not upload them to this public issue or repository. Publish only non-sensitive conclusions, evidence dates and official source links after review.
+
 ## Reporting readiness and next evidence
 
 Before presenting consolidated financials or making entity-specific tax claims, reconcile each support channel separately:
