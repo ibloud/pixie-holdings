@@ -104,3 +104,28 @@ The economic figures are synthetic scenario data, not valuations, investment adv
 ## Attribution
 
 Concept, architecture, writing, and direction: Dominique Devereaux / Loptr Lab. Development assistance: OpenAI Codex. Tool assistance does not transfer authorship or ownership.
+
+
+## PIXIE Control Plane — concept validation and delivery
+
+**Breadcrumb:** [PIXIE Holdings](README.md) → Control Plane → [Creator OS](https://github.com/ibloud/pixie-creator-os) → [PIXIE Ecosystem Guide](https://github.com/Loptr-Lab/pixie-ecosystem-guide).
+
+Holdings is the hardware-aware stewardship and decision surface in the proposed PIXIE control plane. It must not imply device access that has not been granted or tested. The first review slice should surface discovered hardware, capability evidence, permission state, connection status, and user-approved actions—with clear local, adapter-ready, connected, blocked, and unverified states. Hardware access stays behind explicit browser/native capability checks and consent.
+
+The coordinated concept has three distinct ownership planes:
+
+- **Holdings / device stewardship:** hardware and resource context, capability and permission boundaries, safety/consent decisions, and evidence of what was actually tested.
+- **Creator OS:** project and creative-work coordination, a curated app/service directory, reviewed handoffs, and user-controlled launch/connection preferences. Discovery is not installation; launch is not authorization; a listing is not an integration.
+- **My PIXIE / Companion:** private identity, project index, user consent, and private persistence. Portable PDS records are an optional interoperability layer, not a private file store. Never put sensitive private project data in public records.
+
+### Curated discovery and validation layer
+
+Build the source distribution organically from app/service directories, official docs and developer APIs, repository activity/releases, hardware specifications, ecosystem discussions, user submissions, and our own reproducible tests. Every entry records its source/provenance, discovery date, last checked date, confidence, capabilities, compatibility notes, and status. Use the states **Discovered → Evaluated → Verified → Adapter available → User connected**; do not collapse them. Stale or unverified records remain visibly unverified. Avoid scraping or automated outreach without a documented source/permission policy.
+
+### Decision-maker review and proof sequence
+
+Invite feedback from ATProto ecosystem stewards, app developers, hardware/creative-tool developers, MCP implementers, accessibility practitioners, and developer-relations/ecosystem leads. Ask whether the interoperability and permission model solves a concrete problem; do not imply endorsement or ask for access to private systems.
+
+Delivery gates: (1) audit current Holdings, Creator OS, Companion and registry contracts; (2) map capability, data ownership, and consent; (3) demonstrate one vertical slice from device/context through PIXIE identity and Creator OS to one app adapter, with user-approved handoff; (4) test denied permissions, disconnect/recovery, wrong destination, stale catalog entries, and private-data leakage; (5) publish reproducible evidence, limits, and a focused review request. No live integration or hardware support is claimed until tested.
+
+See the [Creator OS coordination contract](https://github.com/ibloud/pixie-creator-os) and [ecosystem guide breadcrumb](https://github.com/Loptr-Lab/pixie-ecosystem-guide).
