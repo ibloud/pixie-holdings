@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 const read=name=>readFile(new URL('../public/'+name,import.meta.url),'utf8');
 test('every Holdings entry reuses the single stylesheet and shared persistent guide',async()=>{
  const pages=(await readdir(new URL('../public/',import.meta.url))).filter(n=>n.endsWith('.html'));
- assert.equal(pages.length,8);
+ assert.equal(pages.length,9);
  for(const page of pages){const html=await read(page);assert.equal((html.match(/src="\/pixie-guide.js" defer/g)||[]).length,1,page);assert.equal((html.match(/rel="stylesheet"/g)||[]).length,1,page);assert.doesNotMatch(html,/<style\b|\sstyle=/i,page);}
 });
 test('approved canonical sigil is reused byte-identically rather than replaced',async()=>{

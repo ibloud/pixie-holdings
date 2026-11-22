@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" data-holdings-surface="hardware-research">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PIXIE Holdings — Hardware Research Bibliography</title>
+<link rel="canonical" href="https://holdings.loptrlab.com/hardware-research.html">
+<meta name="description" content="Annotated research sources and a permission-first protocol for legacy hardware discovery, reverse engineering, reproducible builds and PIXIE capability validation.">
+<meta property="og:title" content="PIXIE Holdings — Hardware Research Bibliography">
+<meta property="og:description" content="Research maps for Android, CyanogenMod, LineageOS, iOS jailbreak history, hardware interfaces and safe validation.">
+<meta property="og:url" content="https://holdings.loptrlab.com/hardware-research.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PIXIE Holdings · Loptr Lab">
+<link rel="stylesheet" href="/styles.css">
+<script src="/pixie-guide.js" defer></script>
+<script type="application/ld+json" id="site-breadcrumbs">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"PIXIE Holdings","item":"https://holdings.loptrlab.com/"},{"@type":"ListItem","position":2,"name":"Hardware Research","item":"https://holdings.loptrlab.com/hardware-research.html"}]}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="business-header"><div class="business-wrap"><a class="business-brand" href="/">PIXIE <span>Holdings</span></a><nav aria-label="Research navigation"><a href="/">Holdings</a><a href="/sitemap.html">Sitemap</a><a href="/concept.html">Concept</a></nav></div></header>
+<main id="main" class="business-wrap">
+<section class="business-entry" aria-labelledby="title">
+<div class="business-copy"><p class="business-eyebrow">RESEARCH MAP · SOURCES · VALIDATION</p><h1 id="title">Hardware research bibliography</h1>
+<p class="business-lead">Legacy platform source code is a map—not a shortcut around permission, safety, or evidence. This bibliography supports a staged investigation from public source to a verified PIXIE hardware adapter.</p>
+<p><a href="https://github.com/ibloud/pixie-holdings/blob/main/docs/HARDWARE-RESEARCH.md">Read the full research protocol ↗</a></p>
+</div></section>
+<section class="business-evidence"><h2>Reference sources</h2>
+<ol class="review-steps">
+<li><strong>CyanogenMod GitHub organization</strong><p>Archived Android source repositories, device trees, frameworks and historical project materials. Select a specific model/repository before treating code as relevant to hardware.</p><a href="https://github.com/cyanogenmod">github.com/cyanogenmod ↗</a> · <a href="https://github.com/orgs/CyanogenMod/repositories">Repository index ↗</a></li>
+<li><strong>CyanogenMod Android manifest / source map</strong><p>Historical source entry point; branch and build instructions must be checked for the target version.</p><a href="https://github.com/CyanogenMod/android">CyanogenMod/android ↗</a></li>
+<li><strong>Android Open Source Project</strong><p>Official Android source, platform architecture and build documentation. Use the exact release and device configuration.</p><a href="https://source.android.com/">source.android.com ↗</a> · <a href="https://source.android.com/docs/setup/build">Build Android ↗</a></li>
+<li><strong>LineageOS</strong><p>Community successor with maintained device-specific documentation and source. Support varies by device and release.</p><a href="https://lineageos.org/">Project site ↗</a> · <a href="https://wiki.lineageos.org/">Device documentation ↗</a> · <a href="https://github.com/LineageOS">GitHub ↗</a></li>
+<li><strong>The Apple Wiki — Open Source Jailbreaking Tools</strong><p>Historical index of open-source jailbreak tools and research. Use for provenance and architecture context; it is not an official Apple registry or an endorsement of tools.</p><a href="https://theapplewiki.com/wiki/Open_Source_Jailbreaking_Tools">Research index ↗</a></li>
+<li><strong>Apple Platform Security</strong><p>Official security architecture and platform boundary documentation for Apple systems.</p><a href="https://support.apple.com/guide/security/welcome/web">Apple Platform Security ↗</a></li>
+<li><strong>USB Implementers Forum</strong><p>Official USB specifications and resources for understanding standard device enumeration and interfaces.</p><a href="https://www.usb.org/">usb.org ↗</a></li>
+<li><strong>iFixit Device Safety</strong><p>General repair safety reference. Model-specific risks and qualified supervision remain necessary.</p><a href="https://www.ifixit.com/Info/Device_Safety">Safety guide ↗</a></li>
+<li><strong>iFixit component identification</strong><p>Introductory component-identification material for reading hardware diagrams—not a repair authorization or complete safety procedure.</p><a href="https://www.ifixit.com/Guide/Identifying+Major+Electronic+Components/27244">Guide ↗</a></li>
+</ol></section>
+<section class="business-evidence"><h2>AT Protocol community review resources</h2>
+<p>PIXIE is seeking focused technical feedback on interoperability boundaries, portable records, discovery, provenance, consent and app/service directory design. These are open developer spaces—not endorsement requests.</p>
+<ol class="review-steps">
+<li><strong>Atmosphere Community — Share your project</strong><p>Best place for a concise project introduction with a concrete review question and links to the existing implementation and open issue.</p><a href="https://discourse.atmosphere.community/c/share-your-project/3">Share your project ↗</a></li>
+<li><strong>Atmosphere Community — Discussion</strong><p>For broader questions about user-controlled discovery, public versus private records, and ecosystem interoperability.</p><a href="https://discourse.atmosphere.community/c/discussion/1">Discussion ↗</a></li>
+<li><strong>Lexicon Community</strong><p>Relevant if a concrete schema question emerges. Their shared namespace includes app listings and declared lexicon support; propose a Lexicon only after identifying a real interoperability need and existing schemas.</p><a href="https://lexicon.community/">Lexicon Community ↗</a> · <a href="https://discourse.atmosphere.community/c/lexicon-community/8">Lexicon discussions ↗</a></li>
+<li><strong>ATProto core GitHub Discussions</strong><p>Protocol questions, RFCs, developer debugging, and interoperability discussions. Ask a focused question; do not create an issue merely for product promotion.</p><a href="https://github.com/bluesky-social/atproto/discussions">Discussions ↗</a></li>
+<li><strong>ATProto core open issues</strong><p>Track existing engineering work before proposing changes. PIXIE should reference a relevant issue only when we can reproduce or contribute a concrete implementation/test—not imply our project is affected by unrelated bugs.</p><a href="https://github.com/bluesky-social/atproto/issues">Open issues ↗</a></li>
+<li><strong>Official Lexicon guide</strong><p>Review the existing schema model before suggesting portable creator, app, provenance, preference or discovery records.</p><a href="https://atproto.com/guides/lexicon">Lexicon guide ↗</a></li>
+</ol>
+<p><strong>PIXIE's existing review entry point:</strong> <a href="https://github.com/ibloud/pixie-creator-os/issues/15">Creator OS issue #15 — ATProto community workspace</a>. Companion prototype verification: <a href="https://github.com/ibloud/50-ways-to-leave-another/issues/39">50 Ways issue #39</a>.</p>
+</section>
+<section class="business-evidence"><h2>Research protocol &amp; evidence</h2><p>Identify the exact device, collect public source, map interfaces, determine the least-privileged access required, build reproducibly, validate read-only first, and preserve evidence. A source listing or exploit history does not establish a PIXIE capability.</p><ul class="trust-list"><li>Permission and ownership must be established before testing.</li><li>Root, bootloader unlock and flashing are not default requirements.</li><li>Privileged or destructive tests require a separate safety/recovery review and explicit approval.</li><li>Every capability carries source, device/version, test date, result, limitations and confidence.</li><li>Unknown or untested capability remains marked unverified.</li></ul><p><a href="/sitemap.html">← Return to sitemap</a> · <a href="https://github.com/ibloud/pixie-holdings">Repository and implementation evidence ↗</a></p></section>
+<footer class="business-wrap">PIXIE Holdings · Loptr Lab · Research sources checked for relevance; current status and exact revisions must be independently verified before use.</footer>
+</main></body></html>
